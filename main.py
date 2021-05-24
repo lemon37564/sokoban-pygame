@@ -19,7 +19,8 @@ class GameState(enum.Enum):
     PLAYING = 0
     PAUSE = 1
     VICTORY = 2
-    LOSS = 3
+    LOSING = 3
+    LOSS = 4
 
 
 class Game():
@@ -37,6 +38,7 @@ class Game():
         self.key_cooldown = time.time()
         self.game_pause = frame.pause.Pause() # pause frame
         self.game_victory = frame.victory.Victory()
+        self.game_loss = frame.loss.Loss() # 死亡後的選單
         self.state = GameState.PLAYING
 
         self.display_font = pygame.font.SysFont("default", 32)
@@ -60,28 +62,14 @@ class Game():
                 self.key_handle()
                 self.draw_world()
             elif self.state == GameState.PAUSE:
-                # 背景色
-                self.screen.fill(self.background)
-                selection = self.game_pause.update(self.screen)
-                if selection == frame.pause.RESUME:
-                    self.state = GameState.PLAYING
-                elif selection == frame.pause.RESTART:
-                    self.restart()
-                    self.state = GameState.PLAYING
-                elif selection == frame.pause.EXIT:
-                    self.in_game = False
+                self.pause()
             elif self.state == GameState.VICTORY:
-                self.screen.fill(self.background)
-                selection = self.game_victory.update(self.screen)
-                if selection == frame.victory.NEXTLEVEL:
-                    self.level += 1
-                    self.build_world()
-                    self.state = GameState.PLAYING
-                elif selection == frame.victory.RESTART:
-                    self.restart()
-                    self.state = GameState.PLAYING
-                elif selection == frame.victory.EXIT:
-                    self.in_game = False
+                self.victory()
+            elif self.state == GameState.LOSING:
+                self.gameOver()
+                self.draw_world()
+            elif self.state == GameState.LOSS:
+                self.loss()
 
             # debug用資訊
             text = " fps: {:.1f}".format(self.ticker.get_fps())
@@ -104,6 +92,31 @@ class Game():
 
         pygame.quit()
 
+    def pause(self):
+        # 背景色
+        self.screen.fill(self.background)
+        selection = self.game_pause.update(self.screen)
+        if selection == frame.pause.RESUME:
+            self.state = GameState.PLAYING
+        elif selection == frame.pause.RESTART:
+            self.restart()
+            self.state = GameState.PLAYING
+        elif selection == frame.pause.EXIT:
+            self.in_game = False
+
+    def victory(self):
+        self.screen.fill(self.background)
+        selection = self.game_victory.update(self.screen)
+        if selection == frame.victory.NEXTLEVEL:
+            self.level += 1
+            self.build_world()
+            self.state = GameState.PLAYING
+        elif selection == frame.victory.RESTART:
+            self.restart()
+            self.state = GameState.PLAYING
+        elif selection == frame.victory.EXIT:
+            self.in_game = False
+
     def gameOver(self):
         '''
         gameOverFont = pygame.font.SysFont('arial.ttf',54) #遊戲結束字體和大小
@@ -115,7 +128,17 @@ class Game():
         time.sleep(5) #休眠五秒鐘自動退出介面
         pygame.quit()
         '''
-        self.player.DeadAnime()
+        if self.player.DeadAnime():
+            self.state = GameState.LOSS
+
+    def loss(self):
+        self.screen.fill(self.background)
+        selection = self.game_loss.update(self.screen)
+        if selection == frame.loss.RETRY:
+            self.build_world()
+            self.state = GameState.PLAYING
+        elif selection == frame.loss.EXIT:
+            self.in_game = False
         
     # 按鍵輸入處理
     def key_handle(self):
@@ -192,8 +215,8 @@ class Game():
             self.mask.update(self.player)
 
         #玩家死亡
-        if self.player.isdead() == True:
-            self.gameOver()
+        if self.player.isdead():
+            self.state = GameState.LOSING
 
         if self.player.is_won(self.all_objects):
             self.state = GameState.VICTORY

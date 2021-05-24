@@ -113,15 +113,17 @@ class Player(Object):
     def ammos(self) -> int:
         return self.__ammo
 
-    def DeadAnime(self):
+    def DeadAnime(self) -> bool:
+        # 如果放完則回傳true
         self.__deadframe += 1
         if self.__deadframe >= parameter.DEAD_DELAY:
             self.__deadframe = 0
             self.__dead_img_index += 1
             if self.__dead_img_index >= len(dead_imgs):
-                quit()
+                return True
             super().set_img(dead_imgs[self.__dead_img_index])
-        
+        return False
+
     def draw(self, screen):
         screen.blit(self.img(), self.rect)
 
