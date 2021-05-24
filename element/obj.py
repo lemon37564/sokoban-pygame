@@ -1,5 +1,6 @@
 # 物件原形，其他物件繼承此物件
-class Object:
+from pygame import sprite
+class Object(sprite.Sprite):
     def __init__(self, x, y):
         self.__x, self.__y = x, y
     

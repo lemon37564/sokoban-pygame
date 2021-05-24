@@ -2,9 +2,10 @@ from element.obj import Object
 from element.box import Box
 from element.guard import Guard
 from element.goal import Goal
-from pygame import image, transform
+from pygame import image, transform,quit
 from element import direction
 import parameter
+
 
 import time
 
@@ -13,6 +14,7 @@ up_imgs = []
 down_imgs = []
 left_imgs = []
 right_imgs = []
+dead_imgs = []
 
 for i in range(3):
     img = image.load(f"imgs/player/up_{i}.png").convert_alpha()
@@ -24,12 +26,20 @@ for i in range(3):
     img = transform.flip(img, True, False)
     left_imgs.append(img)
 
+for i in range(11):
+    img = image.load(f"imgs/explosion/1/{i}.png").convert_alpha()
+    dead_imgs.append(img)
+
 imgs = [up_imgs, down_imgs, left_imgs, right_imgs]
 
 
 class Player(Object):
     def __init__(self, x, y, skin: int):
         super().__init__(x, y)
+        self.__deadframe = 0
+        self.__dead_img_index = 0
+        self.set_img(dead_imgs[self.__dead_img_index])
+
         self.__ammo = 3
         self.__isdead = False
         self.__skin = skin
@@ -65,6 +75,18 @@ class Player(Object):
     # 當前擁有子彈數
     def ammos(self) -> int:
         return self.__ammo
+
+    def DeadAnime(self):
+        self.__deadframe += 1
+        if self.__deadframe >= parameter.DEAD_DELAY:
+            self.__deadframe = 0
+            self.__dead_img_index += 1
+            if self.__dead_img_index >= len(dead_imgs):
+                quit()
+            super().set_img(dead_imgs[self.__dead_img_index])
+        
+
+        
 
     def move(self, delta_x, delta_y, world: list):
         super().move(delta_x, delta_y)

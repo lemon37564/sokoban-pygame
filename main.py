@@ -1,4 +1,3 @@
-from typing import Tuple
 import pygame
 import time
 
@@ -20,6 +19,7 @@ class Game():
     mask 是用來增加遊戲難度的物件，mask_enabled決定mask是否啟用，
     debug時不啟用mask
     """
+    
     def __init__(self, level, mask_enabled=True):
         self.screen = screen
         self.ticker = pygame.time.Clock()
@@ -80,8 +80,22 @@ class Game():
 
         pygame.quit()
 
-    def gameover(self):
-        print("game over")
+
+    def gameOver(self):
+        '''
+        gameOverFont = pygame.font.SysFont('arial.ttf',54) #遊戲結束字體和大小
+        gameOverSurf = gameOverFont.render('Game Over!', True, (255, 255, 255)) #遊戲結束內容顯示
+        gameOverRect = gameOverSurf.get_rect()
+        gameOverRect.midtop = (300, 10) #顯示位置
+        playSurface.blit(gameOverSurf, gameOverRect)
+        pygame.display.flip() #刷新顯示介
+        time.sleep(5) #休眠五秒鐘自動退出介面
+        pygame.quit()
+        '''
+        self.player.DeadAnime()
+        
+        
+
         
     # 按鍵輸入處理
     def key_handle(self):
@@ -139,6 +153,7 @@ class Game():
                 self.world.append(self.player)
             x += 40
         
+        
 
     # 遊戲邏輯處理，更新遊戲狀態
     def update_world(self):
@@ -151,7 +166,7 @@ class Game():
                 item.update(self.world)
         #玩家死亡
         if self.player.isdead() == True:
-            self.gameover()
+            self.gameOver()
 
 
 
@@ -171,5 +186,5 @@ class Game():
 
 if __name__ == "__main__":
     # debugging now, mask_enabled should be True
-    game = Game(level=9, mask_enabled=False)
+    game = Game(level=9, mask_enabled=1)
     game.run_game()
