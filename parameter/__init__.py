@@ -29,3 +29,6 @@ GUARD_SLEEP = 20 # 警衛變換方向時留在原地的時間（單位:frame）
 BULLET_COOLDOWN = 0.2  # sec
 KEY_COOLDOWN = 0.5
 PAUSE_KEY_COOLDOWN = 0.1
+
+# 死亡Frame
+DEAD_DELAY = 5

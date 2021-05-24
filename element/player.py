@@ -6,6 +6,7 @@ from element.obj import Object, ObjectID
 from element import direction
 import parameter
 
+
 import time
 
 # 初始化圖片
@@ -13,6 +14,7 @@ up_imgs = []
 down_imgs = []
 left_imgs = []
 right_imgs = []
+dead_imgs = []
 
 for i in range(3):
     img = pygame.image.load(f"imgs/player/up_{i}.webp").convert_alpha()
@@ -24,12 +26,19 @@ for i in range(3):
     img = pygame.transform.flip(img, True, False)
     left_imgs.append(img)
 
+for i in range(11):
+    img = image.load(f"imgs/explosion/1/{i}.png").convert_alpha()
+    dead_imgs.append(img)
+
 imgs = [up_imgs, down_imgs, left_imgs, right_imgs]
 
 
 class Player(Object):
     def __init__(self, x, y, skin: int):
-        super().__init__()
+        super().__init__(x, y)
+        self.__deadframe = 0
+        self.__dead_img_index = 0
+        self.set_img(dead_imgs[self.__dead_img_index])
         self.__ammo = parameter.INIT_BULLET_NUM
         self.__isdead = False
         self.__skin = skin
@@ -84,6 +93,15 @@ class Player(Object):
     def ammos(self) -> int:
         return self.__ammo
 
+    def DeadAnime(self):
+        self.__deadframe += 1
+        if self.__deadframe >= parameter.DEAD_DELAY:
+            self.__deadframe = 0
+            self.__dead_img_index += 1
+            if self.__dead_img_index >= len(dead_imgs):
+                quit()
+            super().set_img(dead_imgs[self.__dead_img_index])
+        
     def draw(self, screen):
         screen.blit(self.img(), self.rect)
 

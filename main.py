@@ -28,6 +28,7 @@ class Game():
     mask 是用來增加遊戲難度的物件，mask_enabled決定mask是否啟用，
     debug時不啟用mask
     """
+    
     def __init__(self, level, mask_enabled=True):
         self.screen = screen
         self.ticker = pygame.time.Clock()
@@ -104,8 +105,22 @@ class Game():
 
         pygame.quit()
 
-    def gameover(self):
-        print("game over")
+
+    def gameOver(self):
+        '''
+        gameOverFont = pygame.font.SysFont('arial.ttf',54) #遊戲結束字體和大小
+        gameOverSurf = gameOverFont.render('Game Over!', True, (255, 255, 255)) #遊戲結束內容顯示
+        gameOverRect = gameOverSurf.get_rect()
+        gameOverRect.midtop = (300, 10) #顯示位置
+        playSurface.blit(gameOverSurf, gameOverRect)
+        pygame.display.flip() #刷新顯示介
+        time.sleep(5) #休眠五秒鐘自動退出介面
+        pygame.quit()
+        '''
+        self.player.DeadAnime()
+        
+        
+
         
     # 按鍵輸入處理
     def key_handle(self):
@@ -175,7 +190,7 @@ class Game():
             else:
                 raise maps.UnknowIdentifierError(f"unknow idetifier {v} in map {self.level}")
             x += 40
-
+            
         # dict
         self.all_objects = {
             element.ObjectID.BORDER: self.borders,
@@ -199,7 +214,7 @@ class Game():
 
         #玩家死亡
         if self.player.isdead() == True:
-            self.gameover()
+            self.gameOver()
 
         if self.player.is_won(self.all_objects):
             self.state = GameState.VICTORY
