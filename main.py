@@ -28,7 +28,6 @@ class Game():
     mask 是用來增加遊戲難度的物件，mask_enabled決定mask是否啟用，
     debug時不啟用mask
     """
-    
     def __init__(self, level, mask_enabled=True):
         self.screen = screen
         self.ticker = pygame.time.Clock()
@@ -105,7 +104,6 @@ class Game():
 
         pygame.quit()
 
-
     def gameOver(self):
         '''
         gameOverFont = pygame.font.SysFont('arial.ttf',54) #遊戲結束字體和大小
@@ -119,11 +117,11 @@ class Game():
         '''
         self.player.DeadAnime()
         
-        
-
-        
     # 按鍵輸入處理
     def key_handle(self):
+        if self.player.isdead():
+            return
+
         keys = pygame.key.get_pressed()
 
         # player movement
@@ -244,5 +242,5 @@ class Game():
 
 if __name__ == "__main__":
     # debugging now, mask_enabled should be True
-    game = Game(level=0, mask_enabled=False)
+    game = Game(level=1, mask_enabled=False)
     game.run_game()
