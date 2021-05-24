@@ -27,7 +27,7 @@ for i in range(3):
     left_imgs.append(img)
 
 for i in range(11):
-    img = image.load(f"imgs/explosion/1/{i}.png").convert_alpha()
+    img = pygame.image.load(f"imgs/explosion/1/{i}.png").convert_alpha()
     dead_imgs.append(img)
 
 imgs = [up_imgs, down_imgs, left_imgs, right_imgs]
@@ -35,7 +35,7 @@ imgs = [up_imgs, down_imgs, left_imgs, right_imgs]
 
 class Player(Object):
     def __init__(self, x, y, skin: int):
-        super().__init__(x, y)
+        super().__init__()
         self.__deadframe = 0
         self.__dead_img_index = 0
         self.set_img(dead_imgs[self.__dead_img_index])
