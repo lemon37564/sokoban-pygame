@@ -123,27 +123,8 @@ class Game():
             return
 
         keys = pygame.key.get_pressed()
-
-        # player movement
-        if keys[pygame.K_UP]:
-            self.player.move(0, -parameter.PLAYER_VELOCITY, self.all_objects)
-            self.player.set_dir(element.direction.UP)
-        elif keys[pygame.K_DOWN]:
-            self.player.move(0, parameter.PLAYER_VELOCITY, self.all_objects)
-            self.player.set_dir(element.direction.DOWN)
-        elif keys[pygame.K_LEFT]:
-            self.player.move(-parameter.PLAYER_VELOCITY, 0, self.all_objects)
-            self.player.set_dir(element.direction.LEFT)
-        elif keys[pygame.K_RIGHT]:
-            self.player.move(parameter.PLAYER_VELOCITY, 0, self.all_objects)
-            self.player.set_dir(element.direction.RIGHT)
-
-        # player attack
-        if keys[pygame.K_SPACE]:
-            if self.player.shoot():
-                player_x, player_y = self.player.pos()
-                player_dir = self.player.direction()
-                self.bullets.add(element.Bullet(player_x, player_y, player_dir))
+        # 玩家輸入
+        self.player.handle_keys(keys, self.all_objects)
 
         # game pause
         if keys[pygame.K_ESCAPE]:
@@ -186,7 +167,7 @@ class Game():
             elif v == " ":
                 pass
             else:
-                raise maps.UnknowIdentifierError(f"unknow idetifier {v} in map {self.level}")
+                print(f"unknow idetifier {v} in map {self.level}, ignored.")
             x += 40
             
         # dict

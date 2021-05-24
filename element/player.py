@@ -4,8 +4,8 @@ import pygame.sprite
 
 from element.obj import Object, ObjectID
 from element import direction
+import element.bullet
 import parameter
-
 
 import time
 
@@ -38,7 +38,6 @@ class Player(Object):
         super().__init__()
         self.__deadframe = 0
         self.__dead_img_index = 0
-        self.set_img(dead_imgs[self.__dead_img_index])
         self.__ammo = parameter.INIT_BULLET_NUM
         self.__isdead = False
         self.__skin = skin
@@ -55,6 +54,27 @@ class Player(Object):
 
     def direction(self):
         return self.__dir
+
+    def handle_keys(self, keys, all_objects: dict) -> None:
+        # movement
+        if keys[pygame.K_UP]:
+            self.move(0, -parameter.PLAYER_VELOCITY, all_objects)
+            self.set_dir(direction.UP)
+        elif keys[pygame.K_DOWN]:
+            self.move(0, parameter.PLAYER_VELOCITY, all_objects)
+            self.set_dir(direction.DOWN)
+        elif keys[pygame.K_LEFT]:
+            self.move(-parameter.PLAYER_VELOCITY, 0, all_objects)
+            self.set_dir(direction.LEFT)
+        elif keys[pygame.K_RIGHT]:
+            self.move(parameter.PLAYER_VELOCITY, 0, all_objects)
+            self.set_dir(direction.RIGHT)
+
+        # attack
+        if keys[pygame.K_SPACE]:
+            if self.shoot():
+                player_x, player_y = self.rect.center
+                all_objects[ObjectID.BULLET].add(element.bullet.Bullet(player_x, player_y, self.__dir))
 
     def isdead(self):
         return self.__isdead
