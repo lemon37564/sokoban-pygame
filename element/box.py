@@ -1,38 +1,50 @@
-from element.obj import Object
-from element.goal import Goal
-import parameter
-from pygame import image, rect
 import random
 
+import pygame.image
+import pygame.rect
+import pygame.sprite
+
+from element.obj import Object, ObjectID
+import parameter
+
 # 初始化所有圖片
-img = image.load("imgs/boxes.webp").convert_alpha()
+img = pygame.image.load("imgs/boxes.webp").convert_alpha()
 imgs = [_ for _ in range(10)]
 for i, _ in enumerate(imgs):
     offset = parameter.BOX_SIZE * i
-    rect_ = rect.Rect(offset, 0, parameter.BOX_SIZE, parameter.BOX_SIZE)
+    rect_ = pygame.rect.Rect(offset, 0, parameter.BOX_SIZE, parameter.BOX_SIZE)
     imgs[i] = img.subsurface(rect_)
 
 
 class Box(Object):
     def __init__(self, x, y):
-        super().__init__(x + parameter.BOX_OFFSET, y + parameter.BOX_OFFSET)
-        self.__img = random.choice(imgs)
-        super().set_img(self.__img)
+        super().__init__()
+        __img = random.choice(imgs)
+        self.set_img(__img)
+        self.rect = self.image.get_rect()
+        self.rect.center = (x, y)
 
-    def move(self, delta_x, delta_y, world):
+    def move(self, delta_x: int, delta_y: int, all_objects: dict) -> bool:
+        """回傳bool表示是否有移動"""
         super().move(delta_x, delta_y)
-        if self.__is_collide(world):
+        if self.__is_collide(all_objects):
             super().move(-delta_x, -delta_y)
+            return False
+        return True
 
-    def __is_collide(self, world):
-        box_x, box_y = super().pos()
-        for item in world:
-            # 比對到自己則跳過（比對到終點也跳過）
-            if item is self or isinstance(item, Goal):
-                continue
-            item_x, item_y = item.pos()
-            if abs(item_x - box_x) < parameter.BOX_GAP and abs(item_y - box_y) < parameter.BOX_GAP:
-                return True
+    def __is_collide(self, all_objects: dict) -> bool:
+        collided = pygame.sprite.spritecollide(self, all_objects[ObjectID.WALL], dokill=False)
+        if collided:
+            return True
+        collided = pygame.sprite.spritecollide(self, all_objects[ObjectID.BORDER], dokill=False)
+        if collided:
+            return True
+        collided = pygame.sprite.spritecollide(self, all_objects[ObjectID.GUARD], dokill=False)
+        if collided:
+            return True
+        collided = pygame.sprite.spritecollide(self, all_objects[ObjectID.BOX], dokill=False)
+        if len(collided) > 1:  # 要扣掉自己與自己的碰撞
+            return True
         return False
 
 

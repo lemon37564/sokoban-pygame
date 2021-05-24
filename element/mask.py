@@ -1,30 +1,28 @@
-from pygame import image
+import pygame.image
+import pygame.sprite
 import parameter
 
-img = image.load("imgs/mask.webp").convert_alpha()
+img = pygame.image.load("imgs/mask.webp").convert_alpha()
 
 
-class Mask:
+class Mask(pygame.sprite.Sprite):
     """
     增加遊戲難度用的物件
     用來限制視野
     """
     def __init__(self, x, y):
-        self.__x, self.__y = x, y
+        pygame.sprite.Sprite.__init__(self)
+
         self.__img = img
-        self.img_size = (3840, 2160)
-        self.offset_x = (3840-parameter.IMG_SIZE) // 2
-        self.offset_y = (2160-parameter.IMG_SIZE) // 2
+        self.rect = self.__img.get_rect()
+        self.rect.center = (x, y)
 
-    def set_pos(self, x, y):
-        self.__x, self.__y = x, y
+    def draw(self, screen):
+        screen.blit(self.__img, self.rect)
 
-    def pos(self):
-        return self.__x, self.__y
-
-    def img(self):
-        return self.__img
-
+    def update(self, player):
+        player_x, player_y = player.pos()
+        self.rect.center = (player_x, player_y)
 
 if __name__ == "__main__":
     pass

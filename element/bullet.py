@@ -1,18 +1,20 @@
-from element.obj import Object
-from element.player import Player
-from element.guard import Guard
-from element.goal import Goal
+import pygame.image
+import pygame.sprite
+
+from element.obj import Object, ObjectID
 from element import direction
 import parameter
-from pygame import image
 
-img = image.load("imgs/bullet.png").convert_alpha()
+img = pygame.image.load("imgs/bullet.webp").convert_alpha()
 
 
 class Bullet(Object):
     def __init__(self, x, y, bullet_dir):
-        super().__init__(x, y)
-        super().set_img(img)
+        super().__init__()
+        self.set_img(img)
+        self.rect = self.image.get_rect()
+        self.rect.center = (x, y)
+
         self.__velocity = parameter.BULLET_VELOCITY
         self.__direction = bullet_dir
 
@@ -25,23 +27,24 @@ class Bullet(Object):
         elif self.__direction == direction.RIGHT:
             self.__movement = (self.__velocity, 0)
 
-    def update(self, world: list):
+    def update(self, all_ojects: dict):
         delta_x, delta_y = self.__movement
         super().move(delta_x, delta_y)
-        self.__check_collide(world)
+        self.__check_collide(all_ojects)
 
-    def __check_collide(self, world: list):
-        bullet_x, bullet_y = self.pos()
-        for item in world:
-            # 不跟自己比較
-            if item is self or isinstance(item, Player) or isinstance(item, Goal):
-                continue
-            item_x, item_y = item.pos()
-            if abs(item_x - bullet_x) < parameter.GAP and abs(item_y - bullet_y) < parameter.GAP:
-                world.remove(self)
-                if isinstance(item, Guard):
-                    world.remove(item)
-                return
+    def __check_collide(self, all_objects: dict):
+        collided = pygame.sprite.spritecollide(self, all_objects[ObjectID.GUARD], dokill=True)
+        if collided:
+            all_objects[ObjectID.BULLET].remove(self)
+        collided = pygame.sprite.spritecollide(self, all_objects[ObjectID.WALL], dokill=False)
+        if collided:
+            all_objects[ObjectID.BULLET].remove(self)
+        collided = pygame.sprite.spritecollide(self, all_objects[ObjectID.BORDER], dokill=False)
+        if collided:
+            all_objects[ObjectID.BULLET].remove(self)
+        collided = pygame.sprite.spritecollide(self, all_objects[ObjectID.BOX], dokill=False)
+        if collided:
+            all_objects[ObjectID.BULLET].remove(self)
 
 
 if __name__ == "__main__":

@@ -1,5 +1,6 @@
 import pygame
 import time
+import enum
 
 pygame.init()  # 初始化pygame
 pygame.font.init()
@@ -8,9 +9,17 @@ import parameter
 
 # 設定視窗大小
 screen = pygame.display.set_mode((parameter.WIN_WIDTH, parameter.WIN_HEIGHT))
+
 import element
 import maps
 import frame
+
+
+class GameState(enum.Enum):
+    PLAYING = 0
+    PAUSE = 1
+    VICTORY = 2
+    LOSS = 3
 
 
 class Game():
@@ -25,11 +34,11 @@ class Game():
         self.ticker = pygame.time.Clock()
         self.background = (230, 230, 200)  # 背景顏色
         self.level = level
-        self.map_ = maps.get_map(level)
         self.build_world()
         self.key_cooldown = time.time()
         self.game_pause = frame.pause.Pause() # pause frame
-        self.STW = False # stop the world (pause)
+        self.game_victory = frame.victory.Victory()
+        self.state = GameState.PLAYING
 
         self.display_font = pygame.font.SysFont("default", 32)
 
@@ -39,31 +48,41 @@ class Game():
             self.mask = element.Mask(player_x, player_y)
 
     def run_game(self):
-        in_game = True
-        while in_game:
+        self.in_game = True
+        while self.in_game:
             # 基礎事件
             events = pygame.event.get()
             for event in events:
                 if event.type == pygame.QUIT:
-                    in_game = False
-
-            # 背景色
-            self.screen.fill(self.background)
+                    self.in_game = False
             
-            if self.STW:
-                selection = self.game_pause.update(self.screen)
-                if selection == frame.pause.RESUME:
-                    self.STW = False
-                elif selection == frame.pause.RESTART:
-                    self.restart()
-                    self.STW = False
-                elif selection == frame.pause.EXIT:
-                    in_game = False
-            else:
+            if self.state == GameState.PLAYING:
                 self.update_world()
                 self.key_handle()
                 self.draw_world()
-                self.screen.blit(self.player.img(), self.player.pos())
+            elif self.state == GameState.PAUSE:
+                # 背景色
+                self.screen.fill(self.background)
+                selection = self.game_pause.update(self.screen)
+                if selection == frame.pause.RESUME:
+                    self.state = GameState.PLAYING
+                elif selection == frame.pause.RESTART:
+                    self.restart()
+                    self.state = GameState.PLAYING
+                elif selection == frame.pause.EXIT:
+                    self.in_game = False
+            elif self.state == GameState.VICTORY:
+                self.screen.fill(self.background)
+                selection = self.game_victory.update(self.screen)
+                if selection == frame.victory.NEXTLEVEL:
+                    self.level += 1
+                    self.build_world()
+                    self.state = GameState.PLAYING
+                elif selection == frame.victory.RESTART:
+                    self.restart()
+                    self.state = GameState.PLAYING
+                elif selection == frame.victory.EXIT:
+                    self.in_game = False
 
             # debug用資訊
             text = " fps: {:.1f}".format(self.ticker.get_fps())
@@ -71,7 +90,13 @@ class Game():
             self.screen.blit(text, (1440, 740))
 
             # debug用資訊
-            text = " objects: {}".format(len(self.world))
+            objects = 0
+            for _, v in self.all_objects.items():
+                try:
+                    objects += len(v)
+                except Exception:
+                    pass
+            text = " objects: {}".format(objects)
             text = self.display_font.render(text, False, (0, 0, 0))
             self.screen.blit(text, (1440, 770))
 
@@ -103,16 +128,16 @@ class Game():
 
         # player movement
         if keys[pygame.K_UP]:
-            self.player.move(0, -parameter.PLAYER_VELOCITY, self.world)
+            self.player.move(0, -parameter.PLAYER_VELOCITY, self.all_objects)
             self.player.set_dir(element.direction.UP)
         elif keys[pygame.K_DOWN]:
-            self.player.move(0, parameter.PLAYER_VELOCITY, self.world)
+            self.player.move(0, parameter.PLAYER_VELOCITY, self.all_objects)
             self.player.set_dir(element.direction.DOWN)
         elif keys[pygame.K_LEFT]:
-            self.player.move(-parameter.PLAYER_VELOCITY, 0, self.world)
+            self.player.move(-parameter.PLAYER_VELOCITY, 0, self.all_objects)
             self.player.set_dir(element.direction.LEFT)
         elif keys[pygame.K_RIGHT]:
-            self.player.move(parameter.PLAYER_VELOCITY, 0, self.world)
+            self.player.move(parameter.PLAYER_VELOCITY, 0, self.all_objects)
             self.player.set_dir(element.direction.RIGHT)
 
         # player attack
@@ -120,65 +145,98 @@ class Game():
             if self.player.shoot():
                 player_x, player_y = self.player.pos()
                 player_dir = self.player.direction()
-                self.world.append(element.Bullet(player_x, player_y, player_dir))
+                self.bullets.add(element.Bullet(player_x, player_y, player_dir))
 
         # game pause
         if keys[pygame.K_ESCAPE]:
-            self.STW = True
+            self.state = GameState.PAUSE
 
     # 建構地圖
     def build_world(self):
-        self.world = []
+        self.borders = pygame.sprite.Group()
+        self.boxes = pygame.sprite.Group()
+        self.bullets = pygame.sprite.Group()
+        self.goals = pygame.sprite.Group()
+        self.guards = pygame.sprite.Group()
+        self.portals = pygame.sprite.Group()
+        self.walls = pygame.sprite.Group()
+
+        self.map_ = maps.get_map(self.level)
 
         x, y = 0, 0
-        for i, v in enumerate(self.map_):
+        for _, v in enumerate(self.map_):
             if v == "\n": # 換行
                 y += 40
                 x = 0
             elif v == "H": # 邊界
-                self.world.append(element.Border(x, y))
+                self.borders.add(element.Border(x, y))
             elif v == "#": # 牆
-                self.world.append(element.Wall(x, y))
+                self.walls.add(element.Wall(x, y))
             elif v == ".": # 終點
-                self.world.append(element.Goal(x, y))
+                self.goals.add(element.Goal(x, y))
             elif v == "$": # 箱子
-                self.world.append(element.Box(x, y))
+                self.boxes.add(element.Box(x, y))
             elif v == "%": # 終點上有箱子
-                self.world.append(element.Goal(x, y))
-                self.world.append(element.Box(x, y))
+                self.goals.add(element.Goal(x, y))
+                self.boxes.add(element.Box(x, y))
             elif v == "!": # 警衛
-                self.world.append(element.Guard(x, y))
+                self.guards.add(element.Guard(x, y))
+            elif v == "P":
+                self.portals.add(element.Portal(x, y))
             elif v == "@": # 玩家（初始）位置
                 self.player = element.Player(x, y, 0)
-                self.world.append(self.player)
+            elif v == " ":
+                pass
+            else:
+                raise maps.UnknowIdentifierError(f"unknow idetifier {v} in map {self.level}")
             x += 40
-        
-        
+            
+        # dict
+        self.all_objects = {
+            element.ObjectID.BORDER: self.borders,
+            element.ObjectID.BOX: self.boxes,
+            element.ObjectID.BULLET: self.bullets,
+            element.ObjectID.GOAL: self.goals,
+            element.ObjectID.GUARD: self.guards,
+            element.ObjectID.PORTAL: self.portals,
+            element.ObjectID.WALL: self.walls,
+            element.ObjectID.PLAYER: self.player,
+        }
 
     # 遊戲邏輯處理，更新遊戲狀態
     def update_world(self):
-        for item in self.world:
-            # 子彈位置更新
-            if isinstance(item, element.Bullet):
-                item.update(self.world)
-            # 警衛移動
-            elif isinstance(item, element.Guard):
-                item.update(self.world)
+        self.bullets.update(self.all_objects)
+        self.guards.update(self.all_objects)
+        self.portals.update()
+
+        if self.mask_enabled:
+            self.mask.update(self.player)
+
         #玩家死亡
         if self.player.isdead() == True:
             self.gameOver()
 
+        if self.player.is_won(self.all_objects):
+            self.state = GameState.VICTORY
 
 
     # 畫在螢幕上
     def draw_world(self):
-        for obj in self.world:
-            self.screen.blit(obj.img(), obj.pos())
+        # 背景色
+        self.screen.fill(self.background)
+        
+        self.borders.draw(self.screen)
+        self.walls.draw(self.screen)
+        self.goals.draw(self.screen)
+        self.guards.draw(self.screen)
+        self.portals.draw(self.screen)
+        self.boxes.draw(self.screen)
+        self.bullets.draw(self.screen)
+        self.player.draw(self.screen)
         
         # 如果mask啟用，畫在player身邊
         if self.mask_enabled:
-            player_x, player_y = self.player.pos()
-            self.screen.blit(self.mask.img(), (player_x-self.mask.offset_x, player_y-self.mask.offset_y))
+            self.mask.draw(self.screen)
 
     def restart(self):
         self.build_world()
@@ -186,5 +244,5 @@ class Game():
 
 if __name__ == "__main__":
     # debugging now, mask_enabled should be True
-    game = Game(level=9, mask_enabled=1)
+    game = Game(level=0, mask_enabled=False)
     game.run_game()

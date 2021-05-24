@@ -1,13 +1,15 @@
+import pygame.image
 from element.obj import Object
-from pygame import image
 
-img = image.load("imgs/border.png").convert_alpha()
+img = pygame.image.load("imgs/border.png").convert_alpha()
 
 
 class Border(Object):
     def __init__(self, x, y):
-        super().__init__(x, y)
-        super().set_img(img)
+        super().__init__()
+        self.set_img(img)
+        self.rect = self.image.get_rect()
+        self.rect.center = (x, y)
 
 
 if __name__ == "__main__":

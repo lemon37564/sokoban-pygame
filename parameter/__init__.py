@@ -11,6 +11,13 @@ BOX_SIZE = 24  # 箱子圖片大小
 BOX_GAP = 24  # 箱子碰撞偵測距離
 BOX_OFFSET = (IMG_SIZE - BOX_SIZE) // 2  # 箱子顯示的偏移量
 
+# 傳送門
+PORTAL_SIZE = 35
+PORTAL_DELAY = 4 #(frame)
+
+# 玩家
+INIT_BULLET_NUM = 10
+
 # 物體移動速度
 BULLET_VELOCITY = 10  # pixel
 PLAYER_VELOCITY = 4  # pixel
