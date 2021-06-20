@@ -23,7 +23,7 @@ class Loss():
             if self.__selection != 0 and keys[pygame.K_UP]:
                 self.__selection -= 1
                 self.__cooldown = now
-            if self.__selection != 2 and keys[pygame.K_DOWN]:
+            if self.__selection != 1 and keys[pygame.K_DOWN]:
                 self.__selection += 1
                 self.__cooldown = now
 
