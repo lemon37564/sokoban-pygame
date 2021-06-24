@@ -43,6 +43,3 @@ class Pause():
         screen.blit(text, self.__option2_pos)
         text = frame.render.render_text(self.__selection, 2, "exit")
         screen.blit(text, self.__option3_pos)
-
-        pygame.draw.rect(screen, (0,0,0), None)
-
