@@ -1,3 +1,4 @@
+#!/bin/env python3
 import pygame
 import time
 import enum
