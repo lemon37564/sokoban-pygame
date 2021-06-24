@@ -2,6 +2,7 @@ import time
 import pygame
 
 import parameter
+import frame.render
 
 RETRY = 0
 EXIT = 1
@@ -10,8 +11,6 @@ EXIT = 1
 class Loss():
     def __init__(self):
         self.__selection = 0
-        self.__normal_font = pygame.font.SysFont("default", 32)
-        self.__selected_font = pygame.font.SysFont("default", 60)
         self.__option1_pos = (parameter.WIN_WIDTH//2-100, parameter.WIN_HEIGHT//2-200)
         self.__option2_pos = (parameter.WIN_WIDTH//2-100, parameter.WIN_HEIGHT//2-100)
         self.__cooldown = time.time()
@@ -36,14 +35,7 @@ class Loss():
             return act
 
     def __draw(self, screen):
-        text = self.__render_text("retry", 0)
+        text = frame.render.render_text(self.__selection, 0, "retry")
         screen.blit(text, self.__option1_pos)
-        text = self.__render_text("exit", 1)
+        text = frame.render.render_text(self.__selection, 1, "exit")
         screen.blit(text, self.__option2_pos)
-
-    def __render_text(self, text, target_selection):
-        if self.__selection == target_selection:
-            text = self.__selected_font.render(text, False, (0, 0, 0))
-        else:
-            text = self.__normal_font.render(text, False, (0, 0, 0))
-        return text
