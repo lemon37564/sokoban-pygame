@@ -20,15 +20,12 @@ class Loss():
         keys = pygame.key.get_pressed()
         now = time.time()
         if now - self.__cooldown > parameter.PAUSE_KEY_COOLDOWN:
-            self.__cooldown = now
-            
-            if keys[pygame.K_UP]:
+            if self.__selection != 0 and keys[pygame.K_UP]:
                 self.__selection -= 1
-            elif keys[pygame.K_DOWN]:
+                self.__cooldown = now
+            if self.__selection != 1 and keys[pygame.K_DOWN]:
                 self.__selection += 1
-
-            if self.__selection < 0 or self.__selection > 1:
-                self.__selection %= 2
+                self.__cooldown = now
 
         self.__draw(screen)
 
