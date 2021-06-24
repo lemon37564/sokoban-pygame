@@ -14,7 +14,7 @@ screen = pygame.display.set_mode((parameter.WIN_WIDTH, parameter.WIN_HEIGHT))
 import element
 import maps
 import frame
-
+from pygame import time as pytime
 
 class GameState(enum.Enum):
     PLAYING = 0
@@ -42,6 +42,9 @@ class Game():
         self.game_loss = frame.loss.Loss() # 死亡後的選單
         self.state = GameState.PLAYING
 
+        self.count = pygame.USEREVENT + 1 #時間事件
+        self.counts = 0 #時間
+
         self.display_font = pygame.font.SysFont("default", 32)
 
         self.mask_enabled = mask_enabled
@@ -50,6 +53,7 @@ class Game():
             self.mask = element.Mask(player_x, player_y)
 
     def run_game(self):
+        pytime.set_timer(self.count , 1000)
         self.in_game = True
         while self.in_game:
             # 基礎事件
@@ -57,6 +61,9 @@ class Game():
             for event in events:
                 if event.type == pygame.QUIT:
                     self.in_game = False
+                elif event.type == self.count:
+                    self.counts = self.counts + 1
+
             
             if self.state == GameState.PLAYING:
                 self.update_world()
@@ -87,6 +94,10 @@ class Game():
             text = " objects: {}".format(objects)
             text = self.display_font.render(text, False, (0, 0, 0))
             self.screen.blit(text, (1440, 770))
+
+            text = "Time: " + time.strftime("%H:%M:%S", time.gmtime(self.counts))
+            text = self.display_font.render(text, False, (0, 0, 0))
+            self.screen.blit(text, (1440, 720))
 
             pygame.display.update()
             self.ticker.tick(60)  # 60 fps
@@ -163,7 +174,6 @@ class Game():
         self.guards = pygame.sprite.Group()
         self.portals = pygame.sprite.Group()
         self.walls = pygame.sprite.Group()
-
         self.map_ = maps.get_map(self.level)
 
         x, y = 0, 0
