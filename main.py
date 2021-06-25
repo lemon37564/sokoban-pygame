@@ -14,6 +14,7 @@ import element
 import maps
 import frame
 from pygame import time as pytime
+from pygame import mixer
 
 class GameState(enum.Enum):
     PLAYING = 0
@@ -38,6 +39,9 @@ class Game():
         self.game_pause = frame.pause.Pause() # pause frame
         self.game_victory = frame.victory.Victory()
         self.state = GameState.PLAYING
+        self.BGMPlayer = mixer.Sound(parameter.PATH + "\\bgm\\bgm.mp3")
+        self.ShootingPlayer = mixer.Sound(parameter.PATH + "\\bgm\\shooting.mp3")
+        self.DeadPlayer = mixer.Sound(parameter.PATH + "\\bgm\\gameover.mp3")
 
         self.count = pygame.USEREVENT + 1 #時間事件
         self.counts = 0 #時間
@@ -50,6 +54,7 @@ class Game():
             self.mask = element.Mask(player_x, player_y)
 
     def run_game(self):
+        self.BGMPlayer.play(-1)
         pytime.set_timer(self.count , 1000)
         self.in_game = True
         while self.in_game:
@@ -115,6 +120,8 @@ class Game():
 
         pygame.quit()
 
+        
+
     def gameOver(self):
         '''
         gameOverFont = pygame.font.SysFont('arial.ttf',54) #遊戲結束字體和大小
@@ -126,7 +133,11 @@ class Game():
         time.sleep(5) #休眠五秒鐘自動退出介面
         pygame.quit()
         '''
+        self.BGMPlayer.stop()
+        self.DeadPlayer.play(1)
+        pytime.delay(100)
         self.player.DeadAnime()
+        
         
     # 按鍵輸入處理
     def key_handle(self):
@@ -155,6 +166,7 @@ class Game():
                 player_x, player_y = self.player.pos()
                 player_dir = self.player.direction()
                 self.bullets.add(element.Bullet(player_x, player_y, player_dir))
+                self.ShootingPlayer.play(1)
 
         # game pause
         if keys[pygame.K_ESCAPE]:
@@ -252,5 +264,5 @@ class Game():
 
 if __name__ == "__main__":
     # debugging now, mask_enabled should be True
-    game = Game(level=1, mask_enabled=False)
+    game = Game(level=2, mask_enabled=False)
     game.run_game()
