@@ -15,6 +15,7 @@ import element
 import maps
 import frame
 from pygame import time as pytime
+from pygame import mixer
 
 class GameState(enum.Enum):
     PLAYING = 0
@@ -41,6 +42,9 @@ class Game():
         self.game_victory = frame.victory.Victory()
         self.game_loss = frame.loss.Loss() # 死亡後的選單
         self.state = GameState.PLAYING
+        self.BGMPlayer = mixer.Sound(parameter.PATH + "\\bgm\\bgm.mp3")
+        self.ShootingPlayer = mixer.Sound(parameter.PATH + "\\bgm\\shooting.mp3")
+        self.DeadPlayer = mixer.Sound(parameter.PATH + "\\bgm\\gameover.mp3")
 
         self.count = pygame.USEREVENT + 1 #時間事件
         self.counts = 0 #時間
@@ -53,6 +57,7 @@ class Game():
             self.mask = element.Mask(player_x, player_y)
 
     def run_game(self):
+        self.BGMPlayer.play(-1)
         pytime.set_timer(self.count , 1000)
         self.in_game = True
         while self.in_game:
@@ -140,6 +145,9 @@ class Game():
         time.sleep(5) #休眠五秒鐘自動退出介面
         pygame.quit()
         '''
+        self.BGMPlayer.stop()
+        self.DeadPlayer.play(1)
+        pytime.delay(100)
         if self.player.DeadAnime():
             self.state = GameState.LOSS
 
@@ -257,5 +265,5 @@ class Game():
 
 if __name__ == "__main__":
     # debugging now, mask_enabled should be True
-    game = Game(level=1, mask_enabled=False)
+    game = Game(level=2, mask_enabled=False)
     game.run_game()
