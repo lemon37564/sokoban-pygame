@@ -1,4 +1,4 @@
-
+import pathlib
 # 畫面
 WIN_WIDTH, WIN_HEIGHT = 1600, 800
 
@@ -32,3 +32,6 @@ PAUSE_KEY_COOLDOWN = 0.1
 
 # 死亡Frame
 DEAD_DELAY = 5
+
+#絕對路徑
+PATH = str(pathlib.Path().absolute()) 
