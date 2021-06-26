@@ -20,7 +20,8 @@ class GameState(enum.Enum):
     PLAYING = 0
     PAUSE = 1
     VICTORY = 2
-    LOSS = 3
+    LOSING = 3
+    LOSS = 4
 
 
 class Game():
@@ -38,6 +39,7 @@ class Game():
         self.key_cooldown = time.time()
         self.game_pause = frame.pause.Pause() # pause frame
         self.game_victory = frame.victory.Victory()
+        self.game_loss = frame.loss.Loss() # 死亡後的選單
         self.state = GameState.PLAYING
         self.BGMPlayer = mixer.Sound(parameter.PATH + "\\bgm\\bgm.mp3")
         self.ShootingPlayer = mixer.Sound(parameter.PATH + "\\bgm\\shooting.mp3")
@@ -72,28 +74,14 @@ class Game():
                 self.key_handle()
                 self.draw_world()
             elif self.state == GameState.PAUSE:
-                # 背景色
-                self.screen.fill(self.background)
-                selection = self.game_pause.update(self.screen)
-                if selection == frame.pause.RESUME:
-                    self.state = GameState.PLAYING
-                elif selection == frame.pause.RESTART:
-                    self.restart()
-                    self.state = GameState.PLAYING
-                elif selection == frame.pause.EXIT:
-                    self.in_game = False
+                self.pause()
             elif self.state == GameState.VICTORY:
-                self.screen.fill(self.background)
-                selection = self.game_victory.update(self.screen)
-                if selection == frame.victory.NEXTLEVEL:
-                    self.level += 1
-                    self.build_world()
-                    self.state = GameState.PLAYING
-                elif selection == frame.victory.RESTART:
-                    self.restart()
-                    self.state = GameState.PLAYING
-                elif selection == frame.victory.EXIT:
-                    self.in_game = False
+                self.victory()
+            elif self.state == GameState.LOSING:
+                self.gameOver()
+                self.draw_world()
+            elif self.state == GameState.LOSS:
+                self.loss()
 
             # debug用資訊
             text = " fps: {:.1f}".format(self.ticker.get_fps())
@@ -120,7 +108,30 @@ class Game():
 
         pygame.quit()
 
-        
+    def pause(self):
+        # 背景色
+        self.screen.fill(self.background)
+        selection = self.game_pause.update(self.screen)
+        if selection == frame.pause.RESUME:
+            self.state = GameState.PLAYING
+        elif selection == frame.pause.RESTART:
+            self.restart()
+            self.state = GameState.PLAYING
+        elif selection == frame.pause.EXIT:
+            self.in_game = False
+
+    def victory(self):
+        self.screen.fill(self.background)
+        selection = self.game_victory.update(self.screen)
+        if selection == frame.victory.NEXTLEVEL:
+            self.level += 1
+            self.build_world()
+            self.state = GameState.PLAYING
+        elif selection == frame.victory.RESTART:
+            self.restart()
+            self.state = GameState.PLAYING
+        elif selection == frame.victory.EXIT:
+            self.in_game = False
 
     def gameOver(self):
         '''
@@ -136,8 +147,17 @@ class Game():
         self.BGMPlayer.stop()
         self.DeadPlayer.play(1)
         pytime.delay(100)
-        self.player.DeadAnime()
-        
+        if self.player.DeadAnime():
+            self.state = GameState.LOSS
+
+    def loss(self):
+        self.screen.fill(self.background)
+        selection = self.game_loss.update(self.screen)
+        if selection == frame.loss.RETRY:
+            self.build_world()
+            self.state = GameState.PLAYING
+        elif selection == frame.loss.EXIT:
+            self.in_game = False
         
     # 按鍵輸入處理
     def key_handle(self):
@@ -145,28 +165,8 @@ class Game():
             return
 
         keys = pygame.key.get_pressed()
-
-        # player movement
-        if keys[pygame.K_UP]:
-            self.player.move(0, -parameter.PLAYER_VELOCITY, self.all_objects)
-            self.player.set_dir(element.direction.UP)
-        elif keys[pygame.K_DOWN]:
-            self.player.move(0, parameter.PLAYER_VELOCITY, self.all_objects)
-            self.player.set_dir(element.direction.DOWN)
-        elif keys[pygame.K_LEFT]:
-            self.player.move(-parameter.PLAYER_VELOCITY, 0, self.all_objects)
-            self.player.set_dir(element.direction.LEFT)
-        elif keys[pygame.K_RIGHT]:
-            self.player.move(parameter.PLAYER_VELOCITY, 0, self.all_objects)
-            self.player.set_dir(element.direction.RIGHT)
-
-        # player attack
-        if keys[pygame.K_SPACE]:
-            if self.player.shoot():
-                player_x, player_y = self.player.pos()
-                player_dir = self.player.direction()
-                self.bullets.add(element.Bullet(player_x, player_y, player_dir))
-                self.ShootingPlayer.play(1)
+        # 玩家輸入
+        self.player.handle_keys(keys, self.all_objects)
 
         # game pause
         if keys[pygame.K_ESCAPE]:
@@ -208,7 +208,7 @@ class Game():
             elif v == " ":
                 pass
             else:
-                raise maps.UnknowIdentifierError(f"unknow idetifier {v} in map {self.level}")
+                print(f"unknow idetifier {v} in map {self.level}, ignored.")
             x += 40
             
         # dict
@@ -233,8 +233,8 @@ class Game():
             self.mask.update(self.player)
 
         #玩家死亡
-        if self.player.isdead() == True:
-            self.gameOver()
+        if self.player.isdead():
+            self.state = GameState.LOSING
 
         if self.player.is_won(self.all_objects):
             self.state = GameState.VICTORY

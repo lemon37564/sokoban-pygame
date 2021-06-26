@@ -2,30 +2,16 @@
 an unusual sokoban made with pygame 2.0
 
 # Requirements
-python 3.7+
+python 3.7+  
 pygame 2.0+
 
 # How To Play
-按空白鍵 => 攻擊  
-按ESC => 暫停  
+方向鍵 => 移動 (arrow key => move)  
+空白鍵 => 攻擊 (space key => attack)  
+ESC => 暫停 (ESC => pause)  
 
 # TODO
-- [X] 遊戲破關偵測  
-- [X] 玩家死亡判斷  
-- [ ] 遊戲主畫面UI  
-- [X] 警衛行動模式  
-- [ ] 玩家技能  
-- [X] 暫停畫面  
-- [ ] 破關畫面  
-- [X] 傳送門物件  
-- [X] 死亡動畫  
-- [ ] 遊戲存檔  
-- [ ] 支援多種螢幕解析度  
-- [ ] 提示玩家所在位置  
-- [ ] 計時、計分系統  
-- [ ] 新手教學  
-- [ ] 新增關卡  
-- [ ] 音效
+https://github.com/lemon37564/sokoban-pygame/projects/1
 
 # Version
 | 版本 | 更改紀錄 |

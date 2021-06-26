@@ -1,5 +1,3 @@
-class UnknowIdentifierError(Exception):
-    pass
 
 __maps = [
 # map 0 (exception, debugging)
@@ -27,15 +25,15 @@ HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH
 """
 HHHHHHHHHHHHHHHHHHHHHHHHHH
 H########################H
-H#.########  !     $.####H
-H# ########$  ###### ####H
-H# ########  $######!####H
-H# ######  $ $ ##### ####H
-H#$###### # ## ##### ####H
-H# ####   # ## #####  ..#H
-H# ####    $      $   ..#H
-H# ########!### #@##  ..#H
-H#!             #### ####H
+H#. @ .$ ##        $.   #H
+H#       ##$   ##### ## #H
+H#  $   ###  $######!## #H
+H#     ##  $  ######    #H
+H# ###### # ######## ##$#H
+H# #! ##  # ########  ..#H
+H# #  ##   $      $   ..#H
+H# #  #####!### # ##  ..#H
+H#             !#### ####H
 H########################H
 HHHHHHHHHHHHHHHHHHHHHHHHHH
 """,
@@ -192,7 +190,8 @@ HHHHHHHHHHHHHHHHHHHHHHHH
 """
 ]
 
-__count = len(__maps)
+# 扣掉第0關
+__count = len(__maps)-1
 
 # 取得第index關
 def get_map(index: int) -> str:
