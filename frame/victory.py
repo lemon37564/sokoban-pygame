@@ -2,6 +2,7 @@ import time
 import pygame
 
 import parameter
+import frame.render
 
 NEXTLEVEL = 0
 RESTART = 1
@@ -11,8 +12,6 @@ EXIT = 2
 class Victory():
     def __init__(self):
         self.__selection = 0
-        self.__normal_font = pygame.font.SysFont("default", 32)
-        self.__selected_font = pygame.font.SysFont("default", 60)
         self.__option1_pos = (parameter.WIN_WIDTH//2-100, parameter.WIN_HEIGHT//2-200)
         self.__option2_pos = (parameter.WIN_WIDTH//2-100, parameter.WIN_HEIGHT//2-100)
         self.__option3_pos = (parameter.WIN_WIDTH//2-100, parameter.WIN_HEIGHT//2)
@@ -38,16 +37,9 @@ class Victory():
             return act
 
     def __draw(self, screen):
-        text = self.__render_text("next level", 0)
+        text = frame.render.render_text(self.__selection, 0, "next level")
         screen.blit(text, self.__option1_pos)
-        text = self.__render_text("restart", 1)
+        text = frame.render.render_text(self.__selection, 1, "restart")
         screen.blit(text, self.__option2_pos)
-        text = self.__render_text("exit", 2)
+        text = frame.render.render_text(self.__selection, 2, "exit")
         screen.blit(text, self.__option3_pos)
-
-    def __render_text(self, text, target_selection):
-        if self.__selection == target_selection:
-            text = self.__selected_font.render(text, False, (0, 0, 0))
-        else:
-            text = self.__normal_font.render(text, False, (0, 0, 0))
-        return text

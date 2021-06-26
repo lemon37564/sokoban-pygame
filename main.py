@@ -1,3 +1,4 @@
+#!/bin/env python3
 import pygame
 import time
 import enum
@@ -85,7 +86,7 @@ class Game():
 
             # debug用資訊
             text = " fps: {:.1f}".format(self.ticker.get_fps())
-            text = self.display_font.render(text, False, (0, 0, 0))
+            text = self.display_font.render(text, True, (0, 0, 0))
             self.screen.blit(text, (1440, 740))
 
             # debug用資訊
@@ -96,11 +97,11 @@ class Game():
                 except Exception:
                     pass
             text = " objects: {}".format(objects)
-            text = self.display_font.render(text, False, (0, 0, 0))
+            text = self.display_font.render(text, True, (0, 0, 0))
             self.screen.blit(text, (1440, 770))
 
             text = "Time: " + time.strftime("%H:%M:%S", time.gmtime(self.counts))
-            text = self.display_font.render(text, False, (0, 0, 0))
+            text = self.display_font.render(text, True, (0, 0, 0))
             self.screen.blit(text, (1440, 720))
 
             pygame.display.update()
