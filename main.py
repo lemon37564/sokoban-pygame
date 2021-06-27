@@ -42,8 +42,6 @@ class Game():
         self.game_loss = frame.loss.Loss() # 死亡後的選單
         self.state = GameState.PLAYING
         self.BGMPlayer = mixer.Sound(parameter.PATH + "\\bgm\\bgm.mp3")
-        self.ShootingPlayer = mixer.Sound(parameter.PATH + "\\bgm\\shooting.mp3")
-        self.DeadPlayer = mixer.Sound(parameter.PATH + "\\bgm\\gameover.mp3")
 
         self.count = pygame.USEREVENT + 1 #時間事件
         self.counts = 0 #時間
@@ -78,6 +76,7 @@ class Game():
             elif self.state == GameState.VICTORY:
                 self.victory()
             elif self.state == GameState.LOSING:
+                self.BGMPlayer.stop()
                 self.gameOver()
                 self.draw_world()
             elif self.state == GameState.LOSS:
@@ -144,9 +143,6 @@ class Game():
         time.sleep(5) #休眠五秒鐘自動退出介面
         pygame.quit()
         '''
-        self.BGMPlayer.stop()
-        self.DeadPlayer.play(1)
-        pytime.delay(100)
         if self.player.DeadAnime():
             self.state = GameState.LOSS
 

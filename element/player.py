@@ -1,6 +1,8 @@
 import pygame.image
+from pygame.time import delay
 import pygame.transform
 import pygame.sprite
+from pygame import mixer
 
 from element.obj import Object, ObjectID
 from element import direction
@@ -39,6 +41,8 @@ class Player(Object):
         self.__deadframe = 0
         self.__dead_img_index = 0
         self.__ammo = parameter.INIT_BULLET_NUM
+        self.__shootingplayer = mixer.Sound(parameter.PATH + "\\bgm\\shooting.mp3")
+        self.__deadplayer = mixer.Sound(parameter.PATH + "\\bgm\\gameover.mp3")
         self.__isdead = False
         self.__skin = skin
         self.__cooldown = time.time()
@@ -73,6 +77,7 @@ class Player(Object):
         # attack
         if keys[pygame.K_SPACE]:
             if self.shoot():
+                self.__shootingplayer.play(1)
                 player_x, player_y = self.rect.center
                 all_objects[ObjectID.BULLET].add(element.bullet.Bullet(player_x, player_y, self.__dir))
 
@@ -115,6 +120,8 @@ class Player(Object):
 
     def DeadAnime(self) -> bool:
         # 如果放完則回傳true
+        delay(50)
+        self.__deadplayer.play(1)
         self.__deadframe += 1
         if self.__deadframe >= parameter.DEAD_DELAY:
             self.__deadframe = 0
