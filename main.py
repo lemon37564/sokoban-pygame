@@ -1,5 +1,6 @@
 #!/bin/env python3
 import pygame
+import pygame.time
 import time
 import enum
 
@@ -11,11 +12,10 @@ import parameter
 # 設定視窗大小
 screen = pygame.display.set_mode((parameter.WIN_WIDTH, parameter.WIN_HEIGHT))
 
+import sounds
 import element
 import maps
 import frame
-from pygame import time as pytime
-from pygame import mixer
 
 class GameState(enum.Enum):
     PLAYING = 0
@@ -42,7 +42,6 @@ class Game():
         self.game_victory = frame.victory.Victory()
         self.game_loss = frame.loss.Loss() # 死亡後的選單
         self.state = GameState.PLAYING
-        self.BGMPlayer = mixer.Sound(parameter.PATH + "\\bgm\\bgm.mp3")
 
         self.count = pygame.USEREVENT + 1 #時間事件
         self.counts = 0 #時間
@@ -55,8 +54,8 @@ class Game():
             self.mask = element.Mask(player_x, player_y)
 
     def run_game(self):
-        self.BGMPlayer.play(-1)
-        pytime.set_timer(self.count , 1000)
+        sounds.bgm.play(sounds.LOOP_FOREVER)
+        pygame.time.set_timer(self.count, 1000)
         self.in_game = True
         while self.in_game:
             # 基礎事件
@@ -66,8 +65,7 @@ class Game():
                     self.in_game = False
                 elif event.type == self.count:
                     self.counts = self.counts + 1
-
-            
+                    
             if self.state == GameState.PLAYING:
                 self.update_world()
                 self.key_handle()
@@ -77,7 +75,6 @@ class Game():
             elif self.state == GameState.VICTORY:
                 self.victory()
             elif self.state == GameState.LOSING:
-                self.BGMPlayer.stop()
                 self.gameOver()
                 self.draw_world()
             elif self.state == GameState.LOSS:
@@ -144,6 +141,7 @@ class Game():
         time.sleep(5) #休眠五秒鐘自動退出介面
         pygame.quit()
         '''
+        sounds.bgm.stop()
         if self.player.DeadAnime():
             self.state = GameState.LOSS
 
@@ -257,6 +255,7 @@ class Game():
 
     def restart(self):
         self.build_world()
+        sounds.bgm.play(sounds.LOOP_FOREVER)
 
 
 if __name__ == "__main__":
