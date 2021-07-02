@@ -81,6 +81,9 @@ class Guard(Object):
         collided = pygame.sprite.spritecollide(self, all_objects[ObjectID.BOX], dokill=False)
         if collided:
             return True
+        collided = pygame.sprite.spritecollide(self, all_objects[ObjectID.PORTAL], dokill=False)
+        if collided:
+            return True
         collided = pygame.sprite.spritecollide(self, all_objects[ObjectID.GUARD], dokill=False)
         if len(collided) > 1:  # 扣掉自己
             return True
