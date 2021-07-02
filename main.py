@@ -176,6 +176,7 @@ class Game():
         self.guards = pygame.sprite.Group()
         self.portals = pygame.sprite.Group()
         self.walls = pygame.sprite.Group()
+        self.portals = pygame.sprite.Group()
         self.map_ = maps.get_map(self.level)
 
         x, y = 0, 0
@@ -216,6 +217,7 @@ class Game():
             element.ObjectID.PORTAL: self.portals,
             element.ObjectID.WALL: self.walls,
             element.ObjectID.PLAYER: self.player,
+            element.ObjectID.PORTAL: self.portals,
         }
 
     # 遊戲邏輯處理，更新遊戲狀態
@@ -255,10 +257,9 @@ class Game():
 
     def restart(self):
         self.build_world()
-        sounds.bgm.play(sounds.LOOP_FOREVER)
 
 
 if __name__ == "__main__":
     # debugging now, mask_enabled should be True
-    game = Game(level=2, mask_enabled=False)
+    game = Game(level=9, mask_enabled=False)
     game.run_game()

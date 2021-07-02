@@ -10,6 +10,7 @@ import parameter
 import sounds
 
 import time
+import random
 
 # 初始化圖片
 up_imgs = []
@@ -44,6 +45,7 @@ class Player(Object):
         self.__isdead = False
         self.__skin = skin
         self.__cooldown = time.time()
+        self.__dont_port = False # 避免傳送門重複觸發
         self.set_dir(direction.DOWN)
 
         self.set_img(self.__img())
@@ -140,6 +142,18 @@ class Player(Object):
         return True
 
     def __is_collide(self, delta_x: int, delta_y: int, all_objects: dict) -> bool:
+        collided_portal = pygame.sprite.spritecollide(self, all_objects[ObjectID.PORTAL], dokill=False)
+        if collided_portal and (not self.__dont_port):
+            current_index = 0
+            for i, p in enumerate(all_objects[ObjectID.PORTAL]):
+                if p is collided_portal[0]:
+                    current_index = i
+            port_index = (current_index+1) % len(all_objects[ObjectID.PORTAL].sprites())
+            portal_pos_x, portal_pos_y = all_objects[ObjectID.PORTAL].sprites()[port_index].pos()
+            self.set_pos(portal_pos_x, portal_pos_y)
+            self.__dont_port = True
+        if not collided_portal:
+            self.__dont_port = False
         collided_boxes = pygame.sprite.spritecollide(self, all_objects[ObjectID.BOX], dokill=False)
         for box in collided_boxes:
             box_moved = box.move(delta_x, delta_y, all_objects)
