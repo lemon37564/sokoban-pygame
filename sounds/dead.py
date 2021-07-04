@@ -7,3 +7,4 @@ def play(loop):
 
 def stop():
     __deadplayer.stop()
+    

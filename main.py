@@ -149,7 +149,9 @@ class Game():
         self.screen.fill(self.background)
         selection = self.game_loss.update(self.screen)
         if selection == frame.loss.RETRY:
-            self.build_world()
+            self.restart()
+            sounds.dead.stop()
+            sounds.bgm.play(sounds.LOOP_FOREVER)
             self.state = GameState.PLAYING
         elif selection == frame.loss.EXIT:
             self.in_game = False
