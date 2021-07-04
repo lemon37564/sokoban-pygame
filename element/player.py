@@ -10,7 +10,6 @@ import parameter
 import sounds
 
 import time
-import random
 
 # 初始化圖片
 up_imgs = []
