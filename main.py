@@ -261,5 +261,5 @@ class Game():
 
 if __name__ == "__main__":
     # debugging now, mask_enabled should be True
-    game = Game(level=9, mask_enabled=False)
+    game = Game(level=1, mask_enabled=False)
     game.run_game()
