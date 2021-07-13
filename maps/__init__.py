@@ -1,7 +1,7 @@
 
 __maps = [
-# map 0 (exception, debugging)
-"""
+    # map 0 (exception, debugging)
+    """
 HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH
 HPPPPPP!!!!!!!!!!!!!!!!!!!!!!!!!!!!!H
 HPPPPPP!!!!!!!!!!!!!!!!!!!!!!!!!!!!!H
@@ -21,8 +21,8 @@ HPPPPPP!!!!!!!!!!!!!!!!!!!!!!!!!!!!!H
 HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH
 """,
 
-# map 1
-"""
+    # map 1
+    """
 HHHHHHHHHHHHHHHHHHHHHHHHHH
 H########################H
 H#. @ .$ ##        $.   #H
@@ -38,27 +38,27 @@ H########################H
 HHHHHHHHHHHHHHHHHHHHHHHHHH
 """,
 
-# map 2
-"""
-HHHHHHHHHHHHHHHHHHHHH 
-H          !#!      H 
-H $   ##########    H 
-H# ## #       ####  H 
-H# ##   $#$#@  #    H 
-H  ##  !   $ #   $ #H 
-H   #%#  ######## ##H 
-H   ##! .....   # ##H 
-H## ##  .....   # ##H 
-H  $#########  ##$  H 
-H   #  !#   #   #   H 
-H   $   #  !#   $   H 
-H!  #       $   #   H 
-H   #   #   #   #  !H 
-HHHHHHHHHHHHHHHHHHHHH 
+    # map 2
+    """
+HHHHHHHHHHHHHHHHHHHHH
+H          !#!      H
+H $   ##########    H
+H# ## #       ####  H
+H# ##   $#$#@  #    H
+H  ##  !   $ #   $ #H
+H   #%#  ######## ##H
+H   ##! .....   # ##H
+H## ##  .....   # ##H
+H  $#########  ##$  H
+H   #  !#   #   #   H
+H   $   #  !#   $   H
+H!  #       $   #   H
+H   #   #   #   #  !H
+HHHHHHHHHHHHHHHHHHHHH
 """,
 
-# map 3
-"""
+    # map 3
+    """
 HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH
 H##################################H
 H#####           !     .......... #H
@@ -76,8 +76,8 @@ H##################################H
 HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH
 """,
 
-# map 4
-"""
+    # map 4
+    """
 HHHHHHHHHHHHHHHHHHHHHHHHH
 H #####  #  ####.$     .H
 H !#    $   # ! #  !   $H
@@ -93,8 +93,8 @@ H!     !   #   !   #  ! H
 HHHHHHHHHHHHHHHHHHHHHHHHH
 """,
 
-# map 5
-"""
+    # map 5
+    """
 HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH
 H@     ##   #      #    # # # #     H
 H# $# #  !     ##    ##         ### H
@@ -110,8 +110,8 @@ H      #      #     #      #   #.   H
 HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH
 """,
 
-# map 6
-"""
+    # map 6
+    """
 HHHHHHHHHHHHHHHHHHHHHHHHH
 H! ##  #! ##  !        !H
 H      #  #      ###### H
@@ -129,8 +129,8 @@ H    !      ##         !H
 HHHHHHHHHHHHHHHHHHHHHHHHH
 """,
 
-# map 7
-"""
+    # map 7
+    """
 HHHHHHHHHHHHHHHHHHHHHHH
 H.... #@###    # !   %H
 H....        #$$  #   H
@@ -149,8 +149,8 @@ H!         #!     #!  H
 HHHHHHHHHHHHHHHHHHHHHHH
 """,
 
-# map 8
-"""
+    # map 8
+    """
 HHHHHHHHHHHHHHHHHHHHHHH
 H!            !     !#H
 H  ###   #    #   ...#H
@@ -168,8 +168,8 @@ H##########  !   #   @H
 HHHHHHHHHHHHHHHHHHHHHHH
 """,
 
-# map 9
-"""
+    # map 9
+    """
 HHHHHHHHHHHHHHHHHHHHHHHH
 H###...########  ######H
 H###.       $ # $    .#H
@@ -191,9 +191,11 @@ HHHHHHHHHHHHHHHHHHHHHHHH
 ]
 
 # 扣掉第0關
-__count = len(__maps)-1
+__count = len(__maps) - 1
 
 # 取得第index關
+
+
 def get_map(index: int) -> str:
     if index < 0 or index > __count:
         print("map index out of range")
@@ -201,5 +203,7 @@ def get_map(index: int) -> str:
     return __maps[index]
 
 # 關卡總數
+
+
 def level_count() -> int:
     return __count

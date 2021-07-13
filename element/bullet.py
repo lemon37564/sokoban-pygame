@@ -33,16 +33,20 @@ class Bullet(Object):
         self.__check_collide(all_ojects)
 
     def __check_collide(self, all_objects: dict):
-        collided = pygame.sprite.spritecollide(self, all_objects[ObjectID.GUARD], dokill=True)
+        collided = pygame.sprite.spritecollide(
+            self, all_objects[ObjectID.GUARD], dokill=True)
         if collided:
             all_objects[ObjectID.BULLET].remove(self)
-        collided = pygame.sprite.spritecollide(self, all_objects[ObjectID.WALL], dokill=False)
+        collided = pygame.sprite.spritecollide(
+            self, all_objects[ObjectID.WALL], dokill=False)
         if collided:
             all_objects[ObjectID.BULLET].remove(self)
-        collided = pygame.sprite.spritecollide(self, all_objects[ObjectID.BORDER], dokill=False)
+        collided = pygame.sprite.spritecollide(
+            self, all_objects[ObjectID.BORDER], dokill=False)
         if collided:
             all_objects[ObjectID.BULLET].remove(self)
-        collided = pygame.sprite.spritecollide(self, all_objects[ObjectID.BOX], dokill=False)
+        collided = pygame.sprite.spritecollide(
+            self, all_objects[ObjectID.BOX], dokill=False)
         if collided:
             all_objects[ObjectID.BULLET].remove(self)
 

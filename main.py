@@ -12,11 +12,12 @@ import parameter
 # 設定視窗大小
 screen = pygame.display.set_mode((parameter.WIN_WIDTH, parameter.WIN_HEIGHT))
 
-import sounds
-import element
-import maps
-import frame
 import record
+import frame
+import maps
+import element
+import sounds
+
 
 class GameState(enum.Enum):
     PLAYING = 0
@@ -32,6 +33,7 @@ class Game():
     mask 是用來增加遊戲難度的物件，mask_enabled決定mask是否啟用，
     debug時不啟用mask
     """
+
     def __init__(self, level, mask_enabled=True):
         self.screen = screen
         self.ticker = pygame.time.Clock()
@@ -39,13 +41,13 @@ class Game():
         self.level = level
         self.build_world()
         self.key_cooldown = time.time()
-        self.game_pause = frame.pause.Pause() # pause frame
+        self.game_pause = frame.pause.Pause()  # pause frame
         self.game_victory = frame.victory.Victory()
-        self.game_loss = frame.loss.Loss() # 死亡後的選單
+        self.game_loss = frame.loss.Loss()  # 死亡後的選單
         self.state = GameState.PLAYING
 
-        self.count = pygame.USEREVENT + 1 #時間事件
-        self.counts = 0 #時間
+        self.count = pygame.USEREVENT + 1  # 時間事件
+        self.counts = 0  # 時間
 
         self.display_font = pygame.font.SysFont("default", 32)
 
@@ -66,7 +68,7 @@ class Game():
                     self.in_game = False
                 elif event.type == self.count:
                     self.counts = self.counts + 1
-                    
+
             if self.state == GameState.PLAYING:
                 self.update_world()
                 self.key_handle()
@@ -112,7 +114,7 @@ class Game():
         elif selection == frame.victory.EXIT:
             self.in_game = False
 
-        record.save(level=self.level+1)
+        record.save(level=self.level + 1)
 
     def gameOver(self):
         '''
@@ -139,7 +141,7 @@ class Game():
             self.state = GameState.PLAYING
         elif selection == frame.loss.EXIT:
             self.in_game = False
-        
+
     # 按鍵輸入處理
     def key_handle(self):
         if self.player.isdead():
@@ -167,32 +169,32 @@ class Game():
 
         x, y = 0, 0
         for _, v in enumerate(self.map_):
-            if v == "\n": # 換行
+            if v == "\n":  # 換行
                 y += 40
                 x = 0
-            elif v == "H": # 邊界
+            elif v == "H":  # 邊界
                 self.borders.add(element.Border(x, y))
-            elif v == "#": # 牆
+            elif v == "#":  # 牆
                 self.walls.add(element.Wall(x, y))
-            elif v == ".": # 終點
+            elif v == ".":  # 終點
                 self.goals.add(element.Goal(x, y))
-            elif v == "$": # 箱子
+            elif v == "$":  # 箱子
                 self.boxes.add(element.Box(x, y))
-            elif v == "%": # 終點上有箱子
+            elif v == "%":  # 終點上有箱子
                 self.goals.add(element.Goal(x, y))
                 self.boxes.add(element.Box(x, y))
-            elif v == "!": # 警衛
+            elif v == "!":  # 警衛
                 self.guards.add(element.Guard(x, y))
             elif v == "P":
                 self.portals.add(element.Portal(x, y))
-            elif v == "@": # 玩家（初始）位置
+            elif v == "@":  # 玩家（初始）位置
                 self.player = element.Player(x, y, 0)
             elif v == " ":
                 pass
             else:
                 print(f"unknow idetifier {v} in map {self.level}, ignored.")
             x += 40
-            
+
         # dict
         self.all_objects = {
             element.ObjectID.BORDER: self.borders,
@@ -215,19 +217,19 @@ class Game():
         if self.mask_enabled:
             self.mask.update(self.player)
 
-        #玩家死亡
+        # 玩家死亡
         if self.player.isdead():
             self.state = GameState.LOSING
 
         if self.player.is_won(self.all_objects):
             self.state = GameState.VICTORY
 
-
     # 畫在螢幕上
+
     def draw_world(self):
         # 背景色
         self.screen.fill(self.background)
-        
+
         self.borders.draw(self.screen)
         self.walls.draw(self.screen)
         self.goals.draw(self.screen)
@@ -236,7 +238,7 @@ class Game():
         self.boxes.draw(self.screen)
         self.bullets.draw(self.screen)
         self.player.draw(self.screen)
-        
+
         # 如果mask啟用，畫在player身邊
         if self.mask_enabled:
             self.mask.draw(self.screen)

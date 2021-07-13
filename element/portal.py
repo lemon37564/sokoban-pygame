@@ -9,7 +9,11 @@ img = pygame.image.load("data/img/portal.webp").convert_alpha()
 imgs = [_ for _ in range(16)]
 for i, _ in enumerate(imgs):
     offset = parameter.PORTAL_SIZE * i
-    rect_ = pygame.rect.Rect(offset, 0, parameter.PORTAL_SIZE, parameter.PORTAL_SIZE)
+    rect_ = pygame.rect.Rect(
+        offset,
+        0,
+        parameter.PORTAL_SIZE,
+        parameter.PORTAL_SIZE)
     imgs[i] = img.subsurface(rect_)
 
 
@@ -17,7 +21,7 @@ class Portal(Object):
     def __init__(self, x, y):
         super().__init__()
         self.__img_index = 0
-        self.__frame = 0 # 播放的幀數
+        self.__frame = 0  # 播放的幀數
         self.set_img(imgs[self.__img_index])
         self.rect = self.image.get_rect()
         self.rect.center = (x, y)
@@ -31,6 +35,7 @@ class Portal(Object):
             if self.__img_index >= len(imgs):
                 self.__img_index = 0
             super().set_img(imgs[self.__img_index])
+
 
 if __name__ == "__main__":
     pass
