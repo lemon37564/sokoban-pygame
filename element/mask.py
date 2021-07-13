@@ -1,7 +1,7 @@
 import pygame.image
 import pygame.sprite
 
-img = pygame.image.load("imgs/mask.webp").convert_alpha()
+img = pygame.image.load("data/img/mask.webp").convert_alpha()
 
 
 class Mask(pygame.sprite.Sprite):

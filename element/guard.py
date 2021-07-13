@@ -9,11 +9,11 @@ import parameter
 # 初始化圖片
 imgs = [_ for _ in range(4)]
 
-img = pygame.image.load("imgs/guard/up.webp").convert_alpha()
+img = pygame.image.load("data/img/guard/up.webp").convert_alpha()
 imgs[direction.UP] = img
-img = pygame.image.load("imgs/guard/down.webp").convert_alpha()
+img = pygame.image.load("data/img/guard/down.webp").convert_alpha()
 imgs[direction.DOWN] = img
-img = pygame.image.load("imgs/guard/right.webp").convert_alpha()
+img = pygame.image.load("data/img/guard/right.webp").convert_alpha()
 imgs[direction.RIGHT] = img
 img = pygame.transform.flip(img, True, False)
 imgs[direction.LEFT] = img

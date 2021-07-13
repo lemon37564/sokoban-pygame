@@ -1,7 +1,7 @@
 import pygame.image
 from element.obj import Object
 
-img = pygame.image.load("imgs/border.png").convert_alpha()
+img = pygame.image.load("data/img/border.png").convert_alpha()
 
 
 class Border(Object):

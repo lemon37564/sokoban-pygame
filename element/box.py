@@ -8,7 +8,7 @@ from element.obj import Object, ObjectID
 import parameter
 
 # 初始化所有圖片
-img = pygame.image.load("imgs/boxes.webp").convert_alpha()
+img = pygame.image.load("data/img/boxes.webp").convert_alpha()
 imgs = [_ for _ in range(10)]
 for i, _ in enumerate(imgs):
     offset = parameter.BOX_SIZE * i
