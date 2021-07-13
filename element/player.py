@@ -19,17 +19,17 @@ right_imgs = []
 dead_imgs = []
 
 for i in range(3):
-    img = pygame.image.load(f"imgs/player/up_{i}.webp").convert_alpha()
+    img = pygame.image.load(f"data/img/player/up_{i}.webp").convert_alpha()
     up_imgs.append(img)
-    img = pygame.image.load(f"imgs/player/down_{i}.webp").convert_alpha()
+    img = pygame.image.load(f"data/img/player/down_{i}.webp").convert_alpha()
     down_imgs.append(img)
-    img = pygame.image.load(f"imgs/player/right_{i}.webp").convert_alpha()
+    img = pygame.image.load(f"data/img/player/right_{i}.webp").convert_alpha()
     right_imgs.append(img)
     img = pygame.transform.flip(img, True, False)
     left_imgs.append(img)
 
 for i in range(11):
-    img = pygame.image.load(f"imgs/explosion/1/{i}.png").convert_alpha()
+    img = pygame.image.load(f"data/img/explosion/1/{i}.png").convert_alpha()
     dead_imgs.append(img)
 
 imgs = [up_imgs, down_imgs, left_imgs, right_imgs]

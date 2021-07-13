@@ -5,7 +5,7 @@ from element.obj import Object
 import parameter
 
 # 初始化所有圖片
-img = pygame.image.load("imgs/portal.webp").convert_alpha()
+img = pygame.image.load("data/img/portal.webp").convert_alpha()
 imgs = [_ for _ in range(16)]
 for i, _ in enumerate(imgs):
     offset = parameter.PORTAL_SIZE * i

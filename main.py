@@ -16,6 +16,7 @@ import sounds
 import element
 import maps
 import frame
+import record
 
 class GameState(enum.Enum):
     PLAYING = 0
@@ -110,6 +111,8 @@ class Game():
             self.state = GameState.PLAYING
         elif selection == frame.victory.EXIT:
             self.in_game = False
+
+        record.save(level=self.level+1)
 
     def gameOver(self):
         '''
