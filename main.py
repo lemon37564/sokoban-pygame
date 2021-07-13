@@ -80,26 +80,7 @@ class Game():
             elif self.state == GameState.LOSS:
                 self.loss()
 
-            # debug用資訊
-            text = "<debug>fps: {:.1f}".format(self.ticker.get_fps())
-            text = self.display_font.render(text, True, (0, 0, 0))
-            self.screen.blit(text, (1360, 740))
-
-            # debug用資訊
-            objects = 0
-            for _, v in self.all_objects.items():
-                try:
-                    objects += len(v)
-                except Exception:
-                    pass
-            text = "<debug>objects: {}".format(objects)
-            text = self.display_font.render(text, True, (0, 0, 0))
-            self.screen.blit(text, (1360, 770))
-
-            text = "Time: " + time.strftime("%H:%M:%S", time.gmtime(self.counts))
-            text = self.display_font.render(text, True, (0, 0, 0))
-            self.screen.blit(text, (1440, 720))
-
+            self.info_show()
             pygame.display.update()
             self.ticker.tick(60)  # 60 fps
 
@@ -256,6 +237,32 @@ class Game():
         # 如果mask啟用，畫在player身邊
         if self.mask_enabled:
             self.mask.draw(self.screen)
+
+    # 在螢幕畫出需要顯示的資訊
+    def info_show(self):
+        text = f"ammos: {self.player.ammos()}"
+        text = self.display_font.render(text, True, (0, 0, 0))
+        self.screen.blit(text, (1440, 670))
+
+        text = "Time: " + time.strftime("%H:%M:%S", time.gmtime(self.counts))
+        text = self.display_font.render(text, True, (0, 0, 0))
+        self.screen.blit(text, (1440, 700))
+
+        # debug用資訊
+        text = "<debug>fps: {:.1f}".format(self.ticker.get_fps())
+        text = self.display_font.render(text, True, (0, 0, 0))
+        self.screen.blit(text, (1360, 740))
+
+        # debug用資訊
+        objects = 0
+        for _, v in self.all_objects.items():
+            try:
+                objects += len(v)
+            except Exception:
+                pass
+        text = "<debug>objects: {}".format(objects)
+        text = self.display_font.render(text, True, (0, 0, 0))
+        self.screen.blit(text, (1360, 770))
 
     def restart(self):
         self.build_world()
