@@ -12,3 +12,4 @@ def render_text(selection, target_selection, text):
     else:
         text = normal_font.render(text, True, color_black)
     return text
+    

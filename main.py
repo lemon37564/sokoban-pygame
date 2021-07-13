@@ -81,9 +81,9 @@ class Game():
                 self.loss()
 
             # debug用資訊
-            text = " fps: {:.1f}".format(self.ticker.get_fps())
+            text = "<debug>fps: {:.1f}".format(self.ticker.get_fps())
             text = self.display_font.render(text, True, (0, 0, 0))
-            self.screen.blit(text, (1440, 740))
+            self.screen.blit(text, (1360, 740))
 
             # debug用資訊
             objects = 0
@@ -92,9 +92,9 @@ class Game():
                     objects += len(v)
                 except Exception:
                     pass
-            text = " objects: {}".format(objects)
+            text = "<debug>objects: {}".format(objects)
             text = self.display_font.render(text, True, (0, 0, 0))
-            self.screen.blit(text, (1440, 770))
+            self.screen.blit(text, (1360, 770))
 
             text = "Time: " + time.strftime("%H:%M:%S", time.gmtime(self.counts))
             text = self.display_font.render(text, True, (0, 0, 0))
@@ -149,7 +149,9 @@ class Game():
         self.screen.fill(self.background)
         selection = self.game_loss.update(self.screen)
         if selection == frame.loss.RETRY:
-            self.build_world()
+            self.restart()
+            sounds.dead.stop()
+            sounds.bgm.play(sounds.LOOP_FOREVER)
             self.state = GameState.PLAYING
         elif selection == frame.loss.EXIT:
             self.in_game = False
