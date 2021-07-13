@@ -11,8 +11,12 @@ EXIT = 1
 class Loss():
     def __init__(self):
         self.__selection = 0
-        self.__option1_pos = (parameter.WIN_WIDTH//2-100, parameter.WIN_HEIGHT//2-200)
-        self.__option2_pos = (parameter.WIN_WIDTH//2-100, parameter.WIN_HEIGHT//2-100)
+        self.__option1_pos = (
+            parameter.WIN_WIDTH // 2 - 100,
+            parameter.WIN_HEIGHT // 2 - 200)
+        self.__option2_pos = (
+            parameter.WIN_WIDTH // 2 - 100,
+            parameter.WIN_HEIGHT // 2 - 100)
         self.__cooldown = time.time()
 
     def update(self, screen):

@@ -33,16 +33,20 @@ class Box(Object):
         return True
 
     def __is_collide(self, all_objects: dict) -> bool:
-        collided = pygame.sprite.spritecollide(self, all_objects[ObjectID.WALL], dokill=False)
+        collided = pygame.sprite.spritecollide(
+            self, all_objects[ObjectID.WALL], dokill=False)
         if collided:
             return True
-        collided = pygame.sprite.spritecollide(self, all_objects[ObjectID.BORDER], dokill=False)
+        collided = pygame.sprite.spritecollide(
+            self, all_objects[ObjectID.BORDER], dokill=False)
         if collided:
             return True
-        collided = pygame.sprite.spritecollide(self, all_objects[ObjectID.GUARD], dokill=False)
+        collided = pygame.sprite.spritecollide(
+            self, all_objects[ObjectID.GUARD], dokill=False)
         if collided:
             return True
-        collided = pygame.sprite.spritecollide(self, all_objects[ObjectID.BOX], dokill=False)
+        collided = pygame.sprite.spritecollide(
+            self, all_objects[ObjectID.BOX], dokill=False)
         if len(collided) > 1:  # 要扣掉自己與自己的碰撞
             return True
         return False

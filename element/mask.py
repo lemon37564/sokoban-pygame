@@ -9,6 +9,7 @@ class Mask(pygame.sprite.Sprite):
     增加遊戲難度用的物件
     用來限制視野
     """
+
     def __init__(self, x, y):
         pygame.sprite.Sprite.__init__(self)
 
@@ -22,6 +23,7 @@ class Mask(pygame.sprite.Sprite):
     def update(self, player):
         player_x, player_y = player.pos()
         self.rect.center = (player_x, player_y)
+
 
 if __name__ == "__main__":
     pass
