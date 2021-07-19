@@ -1,279 +1,132 @@
-#!/bin/env python3
-import pygame
-import pygame.time
-import time
-import enum
+import pygame 
+import sys
 
-pygame.init()  # 初始化pygame
+pygame.init() 
 pygame.font.init()
 
+from game import Game
 import parameter
+# initializing the constructor 
 
-# 設定視窗大小
+  
+# screen resolution 
+#res = (720,720) 
+  
+# opens up a window 
 screen = pygame.display.set_mode((parameter.WIN_WIDTH, parameter.WIN_HEIGHT))
+  
+# white color 
+color = (255,255,255) 
+  
+# light shade of the button 
+color_light = (170,170,170) 
+  
+# dark shade of the button 
+color_dark = (100,100,100) 
+  
+# stores the width of the 
+# screen into a variable 
+width = screen.get_width() 
+  
+# stores the height of the 
+# screen into a variable 
+height = screen.get_height() 
+  
+# defining a font 
+smallfont = pygame.font.SysFont('Corbel',35) 
+  
+# rendering a text written in 
+# this font 
+text_quit = smallfont.render('quit' , True , color) 
+text_start=smallfont.render('start game' , True , color) 
+text_help=smallfont.render('tutorial' , True , color) 
 
-import record
-import frame
-import maps
-import element
-import sounds
-
-
-class GameState(enum.Enum):
-    PLAYING = 0
-    PAUSE = 1
-    VICTORY = 2
-    LOSING = 3
-    LOSS = 4
-
-
-class Game():
-    """
-    level 表示第幾關
-    mask 是用來增加遊戲難度的物件，mask_enabled決定mask是否啟用，
-    debug時不啟用mask
-    """
-
-    def __init__(self, level, mask_enabled=True):
-        self.screen = screen
-        self.ticker = pygame.time.Clock()
-        self.background = (230, 230, 200)  # 背景顏色
-        self.level = level
-        self.build_world()
-        self.key_cooldown = time.time()
-        self.game_pause = frame.pause.Pause()  # pause frame
-        self.game_victory = frame.victory.Victory()
-        self.game_loss = frame.loss.Loss()  # 死亡後的選單
-        self.state = GameState.PLAYING
-
-        self.count = pygame.USEREVENT + 1  # 時間事件
-        self.counts = 0  # 時間
-
-        self.display_font = pygame.font.SysFont("default", 32)
-
-        self.mask_enabled = mask_enabled
-        if self.mask_enabled:
-            player_x, player_y = self.player.pos()
-            self.mask = element.Mask(player_x, player_y)
-
-    def run_game(self):
-        sounds.bgm.play(sounds.LOOP_FOREVER)
-        pygame.time.set_timer(self.count, 1000)
-        self.in_game = True
-        while self.in_game:
-            # 基礎事件
-            events = pygame.event.get()
-            for event in events:
-                if event.type == pygame.QUIT:
-                    self.in_game = False
-                elif event.type == self.count:
-                    self.counts = self.counts + 1
-
-            if self.state == GameState.PLAYING:
-                self.update_world()
-                self.key_handle()
-                self.draw_world()
-            elif self.state == GameState.PAUSE:
-                self.pause()
-            elif self.state == GameState.VICTORY:
-                self.victory()
-            elif self.state == GameState.LOSING:
-                self.gameOver()
-                self.draw_world()
-            elif self.state == GameState.LOSS:
-                self.loss()
-
-            self.info_show()
-            pygame.display.update()
-            self.ticker.tick(60)  # 60 fps
-
-        pygame.quit()
-
-    def pause(self):
-        # 背景色
-        self.screen.fill(self.background)
-        selection = self.game_pause.update(self.screen)
-        if selection == frame.pause.RESUME:
-            self.state = GameState.PLAYING
-        elif selection == frame.pause.RESTART:
-            self.restart()
-            self.state = GameState.PLAYING
-        elif selection == frame.pause.EXIT:
-            self.in_game = False
-
-    def victory(self):
-        self.screen.fill(self.background)
-        selection = self.game_victory.update(self.screen)
-        if selection == frame.victory.NEXTLEVEL:
-            self.level += 1
-            self.build_world()
-            self.state = GameState.PLAYING
-        elif selection == frame.victory.RESTART:
-            self.restart()
-            self.state = GameState.PLAYING
-        elif selection == frame.victory.EXIT:
-            self.in_game = False
-
-        record.save(level=self.level + 1)
-
-    def gameOver(self):
-        '''
-        gameOverFont = pygame.font.SysFont('arial.ttf',54) #遊戲結束字體和大小
-        gameOverSurf = gameOverFont.render('Game Over!', True, (255, 255, 255)) #遊戲結束內容顯示
-        gameOverRect = gameOverSurf.get_rect()
-        gameOverRect.midtop = (300, 10) #顯示位置
-        playSurface.blit(gameOverSurf, gameOverRect)
-        pygame.display.flip() #刷新顯示介
-        time.sleep(5) #休眠五秒鐘自動退出介面
-        pygame.quit()
-        '''
-        sounds.bgm.stop()
-        if self.player.DeadAnime():
-            self.state = GameState.LOSS
-
-    def loss(self):
-        self.screen.fill(self.background)
-        selection = self.game_loss.update(self.screen)
-        if selection == frame.loss.RETRY:
-            self.restart()
-            sounds.dead.stop()
-            sounds.bgm.play(sounds.LOOP_FOREVER)
-            self.state = GameState.PLAYING
-        elif selection == frame.loss.EXIT:
-            self.in_game = False
-
-    # 按鍵輸入處理
-    def key_handle(self):
-        if self.player.isdead():
-            return
-
-        keys = pygame.key.get_pressed()
-        # 玩家輸入
-        self.player.handle_keys(keys, self.all_objects)
-
-        # game pause
-        if keys[pygame.K_ESCAPE]:
-            self.state = GameState.PAUSE
-
-    # 建構地圖
-    def build_world(self):
-        self.borders = pygame.sprite.Group()
-        self.boxes = pygame.sprite.Group()
-        self.bullets = pygame.sprite.Group()
-        self.goals = pygame.sprite.Group()
-        self.guards = pygame.sprite.Group()
-        self.portals = pygame.sprite.Group()
-        self.walls = pygame.sprite.Group()
-        self.portals = pygame.sprite.Group()
-        self.map_ = maps.get_map(self.level)
-
-        x, y = 0, 0
-        for _, v in enumerate(self.map_):
-            if v == "\n":  # 換行
-                y += 40
-                x = 0
-            elif v == "H":  # 邊界
-                self.borders.add(element.Border(x, y))
-            elif v == "#":  # 牆
-                self.walls.add(element.Wall(x, y))
-            elif v == ".":  # 終點
-                self.goals.add(element.Goal(x, y))
-            elif v == "$":  # 箱子
-                self.boxes.add(element.Box(x, y))
-            elif v == "%":  # 終點上有箱子
-                self.goals.add(element.Goal(x, y))
-                self.boxes.add(element.Box(x, y))
-            elif v == "!":  # 警衛
-                self.guards.add(element.Guard(x, y))
-            elif v == "P":
-                self.portals.add(element.Portal(x, y))
-            elif v == "@":  # 玩家（初始）位置
-                self.player = element.Player(x, y, 0)
-            elif v == " ":
-                pass
-            else:
-                print(f"unknow idetifier {v} in map {self.level}, ignored.")
-            x += 40
-
-        # dict
-        self.all_objects = {
-            element.ObjectID.BORDER: self.borders,
-            element.ObjectID.BOX: self.boxes,
-            element.ObjectID.BULLET: self.bullets,
-            element.ObjectID.GOAL: self.goals,
-            element.ObjectID.GUARD: self.guards,
-            element.ObjectID.PORTAL: self.portals,
-            element.ObjectID.WALL: self.walls,
-            element.ObjectID.PLAYER: self.player,
-            element.ObjectID.PORTAL: self.portals,
-        }
-
-    # 遊戲邏輯處理，更新遊戲狀態
-    def update_world(self):
-        self.bullets.update(self.all_objects)
-        self.guards.update(self.all_objects)
-        self.portals.update()
-
-        if self.mask_enabled:
-            self.mask.update(self.player)
-
-        # 玩家死亡
-        if self.player.isdead():
-            self.state = GameState.LOSING
-
-        if self.player.is_won(self.all_objects):
-            self.state = GameState.VICTORY
-
-    # 畫在螢幕上
-
-    def draw_world(self):
-        # 背景色
-        self.screen.fill(self.background)
-
-        self.borders.draw(self.screen)
-        self.walls.draw(self.screen)
-        self.goals.draw(self.screen)
-        self.guards.draw(self.screen)
-        self.portals.draw(self.screen)
-        self.boxes.draw(self.screen)
-        self.bullets.draw(self.screen)
-        self.player.draw(self.screen)
-
-        # 如果mask啟用，畫在player身邊
-        if self.mask_enabled:
-            self.mask.draw(self.screen)
-
-    # 在螢幕畫出需要顯示的資訊
-    def info_show(self):
-        text = f"ammos: {self.player.ammos()}"
-        text = self.display_font.render(text, True, (0, 0, 0))
-        self.screen.blit(text, (1440, 670))
-
-        text = "Time: " + time.strftime("%H:%M:%S", time.gmtime(self.counts))
-        text = self.display_font.render(text, True, (0, 0, 0))
-        self.screen.blit(text, (1440, 700))
-
-        # debug用資訊
-        text = "<debug>fps: {:.1f}".format(self.ticker.get_fps())
-        text = self.display_font.render(text, True, (0, 0, 0))
-        self.screen.blit(text, (1360, 740))
-
-        # debug用資訊
-        objects = 0
-        for _, v in self.all_objects.items():
-            try:
-                objects += len(v)
-            except Exception:
-                pass
-        text = "<debug>objects: {}".format(objects)
-        text = self.display_font.render(text, True, (0, 0, 0))
-        self.screen.blit(text, (1360, 770))
-
-    def restart(self):
-        self.build_world()
+#where btns at
+x_start_btn=  width/2-80
+x_quit_btn=  width/2-80
+x_tut_btn=  width/2-80
+y_start_btn=height/3
+y_tut_btn=  height/3+50
+y_quit_btn= height/3+100
 
 
-if __name__ == "__main__":
-    # debugging now, mask_enabled should be True
-    game = Game(level=1, mask_enabled=False)
+width_start_btn=200
+width_quit_btn=140
+width_tut_btn=180
+
+
+height_start_btn=40
+height_quit_btn=40
+height_tut_btn=40
+
+#game settings
+level_selected=1
+start_game=False
+game_mask=False
+
+while True: 
+    breakflag=False
+    for ev in pygame.event.get(): 
+          
+        if ev.type == pygame.QUIT: 
+            pygame.quit() 
+              
+        #checks if a mouse is clicked 
+        if ev.type == pygame.MOUSEBUTTONDOWN: 
+              
+            #if the mouse is clicked on the 
+            # button the game is terminated 
+            if x_quit_btn<= mouse[0] <= x_quit_btn+ width_quit_btn and y_quit_btn <= mouse[1] <= y_quit_btn+height_quit_btn: 
+                pygame.quit() 
+                breakflag=True
+                break
+            elif x_start_btn <= mouse[0] <= x_start_btn+width_start_btn and y_start_btn <= mouse[1] <= y_start_btn+height_start_btn: 
+                start_game=True
+                breakflag=True
+                break
+            elif x_tut_btn <= mouse[0] <= x_tut_btn+width_tut_btn and y_tut_btn <= mouse[1] <= y_tut_btn+height_tut_btn: 
+                
+                breakflag=True
+                break
+    if breakflag==True:
+        break
+                  
+    # fills the screen with a color 
+    screen.fill((60,25,60)) 
+      
+    # stores the (x,y) coordinates into 
+    # the variable as a tuple 
+    mouse = pygame.mouse.get_pos() 
+      
+    # if mouse is hovered on a button it 
+    # changes to lighter shade 
+    #start btn
+    if x_start_btn <= mouse[0] <= x_start_btn+width_start_btn and y_start_btn<= mouse[1] <= y_start_btn+height_start_btn: 
+        pygame.draw.rect(screen,color_light,[x_start_btn,y_start_btn,width_start_btn,height_start_btn]) 
+    #tut_btn
+    elif x_tut_btn <= mouse[0] <= x_tut_btn+width_tut_btn and y_tut_btn<= mouse[1] <= y_tut_btn+height_tut_btn: 
+        pygame.draw.rect(screen,color_light,[x_tut_btn,y_tut_btn,width_tut_btn,height_tut_btn]) 
+    #quit_btn
+    elif x_quit_btn <= mouse[0] <= x_quit_btn+width_quit_btn and y_quit_btn<= mouse[1] <= y_quit_btn+height_quit_btn : 
+        pygame.draw.rect(screen,color_light,[x_quit_btn,y_quit_btn,width_quit_btn,height_quit_btn]) 
+    #not hovered above
+    else:
+        pygame.draw.rect(screen,color_dark,[x_start_btn,y_start_btn,width_start_btn,height_start_btn]) 
+        pygame.draw.rect(screen,color_dark,[x_tut_btn,y_tut_btn,width_tut_btn,height_tut_btn])
+        pygame.draw.rect(screen,color_dark,[x_quit_btn,y_quit_btn,width_quit_btn,height_quit_btn])
+      
+    # superimposing the text onto our button 
+    screen.blit(text_quit , (x_quit_btn+50,y_quit_btn)) 
+    screen.blit(text_start , (x_start_btn+50,y_start_btn)) 
+    screen.blit(text_help , (x_tut_btn+50,y_tut_btn)) 
+      
+    # updates the frames of the game 
+    pygame.display.update() 
+
+
+if(start_game):
+
+    game = Game(level=level_selected, mask_enabled=game_mask)
     game.run_game()
+
+pygame.quit() 
