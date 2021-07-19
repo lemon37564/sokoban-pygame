@@ -3,10 +3,9 @@ import pygame
 import pygame.time
 import time
 import enum
-import parameter
 
 # 設定視窗大小
-screen = pygame.display.set_mode((parameter.WIN_WIDTH, parameter.WIN_HEIGHT))
+screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
 
 import record
 import frame
