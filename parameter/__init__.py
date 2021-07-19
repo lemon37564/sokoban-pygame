@@ -1,5 +1,5 @@
 # 畫面
-WIN_WIDTH, WIN_HEIGHT = 1600, 800
+WIN_WIDTH, WIN_HEIGHT = 1920, 1080
 
 # 圖片
 IMG_SIZE = 40  # pixel
