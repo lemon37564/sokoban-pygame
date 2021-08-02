@@ -36,9 +36,9 @@ class Game():
         self.level = level
         self.build_world()
         self.key_cooldown = time.time()
-        self.game_pause = frame.pause.Pause()  # pause frame
-        self.game_victory = frame.victory.Victory()
-        self.game_loss = frame.loss.Loss()  # 死亡後的選單
+        self.game_pause = frame.Pause()  # pause frame
+        self.game_victory = frame.Victory()
+        self.game_loss = frame.Loss()  # 死亡後的選單
         self.state = GameState.PLAYING
 
         self.count = pygame.USEREVENT + 1  # 時間事件
@@ -88,25 +88,25 @@ class Game():
         # 背景色
         self.screen.fill(self.background)
         selection = self.game_pause.update(self.screen)
-        if selection == frame.pause.RESUME:
+        if selection == frame.Option.RESUME:
             self.state = GameState.PLAYING
-        elif selection == frame.pause.RESTART:
+        elif selection == frame.Option.RESTART:
             self.restart()
             self.state = GameState.PLAYING
-        elif selection == frame.pause.EXIT:
+        elif selection == frame.Option.EXIT:
             self.in_game = False
 
     def victory(self):
         self.screen.fill(self.background)
         selection = self.game_victory.update(self.screen)
-        if selection == frame.victory.NEXTLEVEL:
+        if selection == frame.Option.NEXTLEVEL:
             self.level += 1
             self.build_world()
             self.state = GameState.PLAYING
-        elif selection == frame.victory.RESTART:
+        elif selection == frame.Option.RESTART:
             self.restart()
             self.state = GameState.PLAYING
-        elif selection == frame.victory.EXIT:
+        elif selection == frame.Option.EXIT:
             self.in_game = False
 
         record.save(level=self.level + 1)
@@ -129,12 +129,12 @@ class Game():
     def loss(self):
         self.screen.fill(self.background)
         selection = self.game_loss.update(self.screen)
-        if selection == frame.loss.RETRY:
+        if selection == frame.Option.RESTART:
             self.restart()
             sounds.dead.stop()
             sounds.bgm.play(sounds.LOOP_FOREVER)
             self.state = GameState.PLAYING
-        elif selection == frame.loss.EXIT:
+        elif selection == frame.Option.EXIT:
             self.in_game = False
 
     # 按鍵輸入處理
