@@ -242,16 +242,16 @@ class Game():
     def info_show(self):
         text = f"ammos: {self.player.ammos()}"
         text = self.display_font.render(text, True, (0, 0, 0))
-        self.screen.blit(text, (1440, 670))
+        self.screen.blit(text, (1750, 900))
 
         text = "Time: " + time.strftime("%H:%M:%S", time.gmtime(self.counts))
         text = self.display_font.render(text, True, (0, 0, 0))
-        self.screen.blit(text, (1440, 700))
+        self.screen.blit(text, (1720, 940))
 
         # debug用資訊
         text = "<debug>fps: {:.1f}".format(self.ticker.get_fps())
         text = self.display_font.render(text, True, (0, 0, 0))
-        self.screen.blit(text, (1360, 740))
+        self.screen.blit(text, (1650, 980))
 
         # debug用資訊
         objects = 0
@@ -262,7 +262,7 @@ class Game():
                 pass
         text = "<debug>objects: {}".format(objects)
         text = self.display_font.render(text, True, (0, 0, 0))
-        self.screen.blit(text, (1360, 770))
+        self.screen.blit(text, (1650, 1020))
 
     def restart(self):
         self.build_world()
