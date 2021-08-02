@@ -1,6 +1,7 @@
 import sounds.shoot
 import sounds.dead
 import sounds.bgm
+import sounds.se
 import pygame.mixer
 
 pygame.mixer.init()
