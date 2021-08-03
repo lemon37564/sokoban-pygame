@@ -33,3 +33,6 @@ PAUSE_KEY_COOLDOWN = 0.1
 
 # 死亡Frame
 DEAD_DELAY = 5
+
+# 字體
+FONT = "data/font/jf-openhuninn-1.0.ttf"

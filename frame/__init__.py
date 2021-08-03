@@ -13,24 +13,28 @@ class Option(enum.Enum):
     NEXTLEVEL = 3
 
 
-button_font = pygame.font.SysFont("", 48)
+title_font = pygame.font.Font(parameter.FONT, 200)
+button_font = pygame.font.Font(parameter.FONT, 48)
 
 color_black = (0, 0, 0)
 color_gray = (50, 50, 50)
-color_red = (255, 0, 0)
-color_btn = (140, 255, 0) # 按鈕背景顏色
+
+color_btn = (187, 167, 0) # 按鈕背景顏色
+color_btn_selected = (255, 255, 0) # 選中的按鈕的顏色
 
 BTN_WIDTH = 250
 BTN_HEIGHT = 64
 
 MIDDLE_X = parameter.WIN_WIDTH // 2
-TOP_Y = parameter.WIN_HEIGHT // 2 - 150 # 第一個選項出現的Y位置
+TOP_Y = parameter.WIN_HEIGHT // 2 - 100 # 第一個選項出現的Y位置
+TITLE_Y = parameter.WIN_HEIGHT // 2 - 300
 GAP = 100 # 每個選項間的間隔
 
 
 class Frame():
-    def __init__(self, options: list, meaning: list):
+    def __init__(self, title: str, options: list, meaning: list):
         self.__selection = 0
+        self.__title = title
         self.__options = options # 選項: string[]
         self.__meaning = meaning # 目前__selection實際代表的意義
         self.__cooldown = time.time()
@@ -53,7 +57,8 @@ class Frame():
         elif self.__selection >= len(self.__options):
             self.__selection = len(self.__options) - 1
 
-        self.__draw(screen)
+        self.__draw_title(screen)
+        self.__draw_btn(screen)
 
         # press enter
         if keys[pygame.K_RETURN]:
@@ -61,11 +66,19 @@ class Frame():
             self.__selection = 0
             return act
 
-    def __draw(self, screen):
+    def __draw_title(self, screen):
+        text = title_font.render(self.__title, True, color_gray) # shadow
+        text_rect = text.get_rect(center=(MIDDLE_X + 5, TITLE_Y + 5))
+        screen.blit(text, text_rect)
+        text = title_font.render(self.__title, True, color_black)
+        text_rect = text.get_rect(center=(MIDDLE_X, TITLE_Y))
+        screen.blit(text, text_rect)
+
+    def __draw_btn(self, screen):
         for i, text in enumerate(self.__options):
             if i == self.__selection: # 是選中的情況
                 bias = 6
-                clr = color_red
+                clr = color_btn_selected
                 shadow = pygame.Rect(0, 0, BTN_WIDTH, BTN_HEIGHT) # draw shadow 營造立體感
                 shadow.center = (MIDDLE_X, TOP_Y + i*GAP)
                 pygame.draw.rect(screen, color_gray, shadow, border_radius=10)
@@ -91,6 +104,7 @@ class Frame():
 class Loss(Frame):
     def __init__(self):
         super().__init__(
+            "Failed",
             ["Retry", "Exit"],
             [Option.RESTART, Option.EXIT],
         )
@@ -99,6 +113,7 @@ class Loss(Frame):
 class Pause(Frame):
     def __init__(self):
         super().__init__(
+            "Pause",
             ["Resume", "Restart", "Exit"],
             [Option.RESUME, Option.RESTART, Option.EXIT],
         )
@@ -107,6 +122,7 @@ class Pause(Frame):
 class Victory(Frame):
     def __init__(self):
         super().__init__(
+            "Victory",
             ["Next  Level", "Restart", "Exit"],
             [Option.NEXTLEVEL, Option.RESTART, Option.EXIT],
         )

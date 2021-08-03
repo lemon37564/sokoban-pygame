@@ -47,7 +47,7 @@ class Game():
         self.count = pygame.USEREVENT + 1  # 時間事件
         self.counts = 0  # 時間
 
-        self.display_font = pygame.font.SysFont("default", 32)
+        self.display_font = pygame.font.Font(parameter.FONT, 24)
 
         self.mask_enabled = mask_enabled
         if self.mask_enabled:
