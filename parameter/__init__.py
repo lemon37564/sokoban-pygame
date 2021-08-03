@@ -1,5 +1,7 @@
+import pygame
+
 # 畫面
-WIN_WIDTH, WIN_HEIGHT = 1920, 1080
+WIN_WIDTH, WIN_HEIGHT = pygame.display.Info().current_w, pygame.display.Info().current_h
 
 # 圖片
 IMG_SIZE = 40  # pixel
