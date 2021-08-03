@@ -12,6 +12,9 @@ import frame
 import maps
 import element
 import sounds
+import parameter
+
+WIN_WIDTH, WIN_HEIGHT = parameter.WIN_WIDTH, parameter.WIN_HEIGHT
 
 
 class GameState(enum.Enum):
@@ -242,16 +245,16 @@ class Game():
     def info_show(self):
         text = f"ammos: {self.player.ammos()}"
         text = self.display_font.render(text, True, (0, 0, 0))
-        self.screen.blit(text, (1750, 900))
+        self.screen.blit(text, (WIN_WIDTH - 180, WIN_HEIGHT - 200))
 
         text = "Time: " + time.strftime("%H:%M:%S", time.gmtime(self.counts))
         text = self.display_font.render(text, True, (0, 0, 0))
-        self.screen.blit(text, (1720, 940))
+        self.screen.blit(text, (WIN_WIDTH - 200, WIN_HEIGHT - 150))
 
         # debug用資訊
         text = "<debug>fps: {:.1f}".format(self.ticker.get_fps())
         text = self.display_font.render(text, True, (0, 0, 0))
-        self.screen.blit(text, (1650, 980))
+        self.screen.blit(text, (WIN_WIDTH - 250, WIN_HEIGHT - 100))
 
         # debug用資訊
         objects = 0
@@ -262,7 +265,7 @@ class Game():
                 pass
         text = "<debug>objects: {}".format(objects)
         text = self.display_font.render(text, True, (0, 0, 0))
-        self.screen.blit(text, (1650, 1020))
+        self.screen.blit(text, (WIN_WIDTH - 250, WIN_HEIGHT - 50))
 
     def restart(self):
         self.build_world()
