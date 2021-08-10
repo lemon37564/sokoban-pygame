@@ -19,8 +19,8 @@ button_font = pygame.font.Font(parameter.FONT, 48)
 color_black = (0, 0, 0)
 color_gray = (50, 50, 50)
 
-color_btn = (187, 167, 0) # 按鈕背景顏色
-color_btn_selected = (255, 255, 0) # 選中的按鈕的顏色
+color_btn = (167, 147, 0) # 按鈕背景顏色
+color_btn_selected = (255, 255, 20) # 選中的按鈕的顏色
 
 BTN_WIDTH = 250
 BTN_HEIGHT = 64
@@ -43,19 +43,14 @@ class Frame():
         keys = pygame.key.get_pressed()
         now = time.time()
         if now - self.__cooldown > parameter.PAUSE_KEY_COOLDOWN:
-            if keys[pygame.K_UP]:
+            if keys[pygame.K_UP] and self.__selection-1 >= 0:
                 self.__selection -= 1
                 self.__cooldown = now
                 sounds.se.play(sounds.LOOP_ONCE)
-            if keys[pygame.K_DOWN]:
+            if keys[pygame.K_DOWN] and self.__selection+1 < len(self.__options):
                 self.__selection += 1
                 self.__cooldown = now
                 sounds.se.play(sounds.LOOP_ONCE)
-
-        if self.__selection < 0:
-            self.__selection = 0
-        elif self.__selection >= len(self.__options):
-            self.__selection = len(self.__options) - 1
 
         self.__draw_title(screen)
         self.__draw_btn(screen)
