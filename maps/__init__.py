@@ -188,6 +188,26 @@ H#### $.###  $$$    ...H
 H####   .## $       ...H
 HHHHHHHHHHHHHHHHHHHHHHHH
 """
+,# map 10 TUTORIAL
+    """
+HHHHHHHHHHHHHHHHHHHHHHHH
+HHHHHHHHHHHHHHHHHHHHHHHH
+HHHHHHHHHHHHHHHHHHHHHHHH
+HHHHHHHHHHHHHHHHHHHHHHHH
+HHHHHHHHHHHHHHHHHHHHHHHH
+HHHHHHHHHHHHHHHHHHHHHHHH
+H                      H
+H @               # ! PH
+HHHHHHHHHHHHHHHHHHHHHHHH
+HP            #       #H
+H    ##      ##   ### #H
+H# $           .      #H
+HHHHHHHHHHHHHHHHHHHHHHHH
+                        
+                        
+                        
+                        
+"""
 ]
 
 # 扣掉第0關

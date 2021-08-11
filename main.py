@@ -30,37 +30,42 @@ width = screen.get_width()
 # screen into a variable 
 height = screen.get_height() 
   
-# defining a font 
+# defining fonts
 smallfont = pygame.font.SysFont('Corbel',35) 
+bigfont = pygame.font.SysFont('Corbel',50) 
   
 # rendering a text written in 
 # this font 
 text_quit = smallfont.render('quit' , True , color) 
 text_start=smallfont.render('start game' , True , color) 
 text_help=smallfont.render('tutorial' , True , color) 
+text_title=bigfont.render('Sokoban Stealer',True,color)
 
-#where btns at
-x_start_btn=  width/2-80
-x_quit_btn=  width/2-80
-x_tut_btn=  width/2-80
-y_start_btn=height/3
-y_tut_btn=  height/3+50
-y_quit_btn= height/3+100
-
+#where BTNs and texts at
+x_title = width/2-200
+x_start_btn=  width/2-150
+x_quit_btn=  width/2-150
+x_tut_btn=  width/2-150
+y_title=  height/3-70
+y_start_btn=height/3+20
+y_tut_btn=  height/3+70
+y_quit_btn= height/3+120
 
 width_start_btn=200
 width_quit_btn=140
 width_tut_btn=180
-
+width_title=400
 
 height_start_btn=40
 height_quit_btn=40
 height_tut_btn=40
+height_title=40
 
 #game settings
 level_selected=1
 start_game=False
 game_mask=False
+
 
 while True: 
     breakflag=False
@@ -80,17 +85,19 @@ while True:
                 break
             elif x_start_btn <= mouse[0] <= x_start_btn+width_start_btn and y_start_btn <= mouse[1] <= y_start_btn+height_start_btn: 
                 start_game=True
+                #level_selected=1
                 breakflag=True
                 break
             elif x_tut_btn <= mouse[0] <= x_tut_btn+width_tut_btn and y_tut_btn <= mouse[1] <= y_tut_btn+height_tut_btn: 
-                
+                start_game=True
+                level_selected=10
                 breakflag=True
                 break
     if breakflag==True:
         break
                   
     # fills the screen with a color 
-    screen.fill((60,25,60)) 
+    screen.fill((200,200,    0)) 
       
     # stores the (x,y) coordinates into 
     # the variable as a tuple 
@@ -112,12 +119,13 @@ while True:
         pygame.draw.rect(screen,color_dark,[x_start_btn,y_start_btn,width_start_btn,height_start_btn]) 
         pygame.draw.rect(screen,color_dark,[x_tut_btn,y_tut_btn,width_tut_btn,height_tut_btn])
         pygame.draw.rect(screen,color_dark,[x_quit_btn,y_quit_btn,width_quit_btn,height_quit_btn])
-      
+        #draw title
+        pygame.draw.rect(screen,color_dark,[x_title,y_title,width_title,height_title]) 
     # superimposing the text onto our button 
     screen.blit(text_quit , (x_quit_btn+50,y_quit_btn)) 
     screen.blit(text_start , (x_start_btn+50,y_start_btn)) 
     screen.blit(text_help , (x_tut_btn+50,y_tut_btn)) 
-      
+    screen.blit(text_title , (x_title+50,y_title)) 
     # updates the frames of the game 
     pygame.display.update() 
 

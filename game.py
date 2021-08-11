@@ -240,6 +240,8 @@ class Game():
         # 如果mask啟用，畫在player身邊
         if self.mask_enabled:
             self.mask.draw(self.screen)
+       
+
 
     # 在螢幕畫出需要顯示的資訊
     def info_show(self):
@@ -255,7 +257,23 @@ class Game():
         text = "<debug>fps: {:.1f}".format(self.ticker.get_fps())
         text = self.display_font.render(text, True, (0, 0, 0))
         self.screen.blit(text, (WIN_WIDTH - 250, WIN_HEIGHT - 100))
-
+        #tutorial 
+        if self.level==10:
+            tutorial_text_0="                   <遊戲教學>"
+            tutorial_text_1="1.方向鍵移動，按下space可以開槍射擊，若擊中警衛可將其清除。"
+            tutorial_text_2="2.靠近傳送門可以使用空間跳躍。"
+            tutorial_text_3="3.把箱子推到框框內就獲勝囉"
+            tutorial_text_4="4.Good luck:D"
+            tutorial_text_0=self.display_font.render(tutorial_text_0,True,(0,0,0))
+            self.screen.blit(tutorial_text_0, (WIN_WIDTH /2-500, WIN_HEIGHT/3+360))
+            tutorial_text_1=self.display_font.render(tutorial_text_1,True,(0,0,0))
+            self.screen.blit(tutorial_text_1, (WIN_WIDTH /2-500, WIN_HEIGHT/3+400))
+            tutorial_text_2=self.display_font.render(tutorial_text_2,True,(0,0,0))
+            self.screen.blit(tutorial_text_2, (WIN_WIDTH /2-500, WIN_HEIGHT/3+430))
+            tutorial_text_3=self.display_font.render(tutorial_text_3,True,(0,0,0))
+            self.screen.blit(tutorial_text_3, (WIN_WIDTH /2-500, WIN_HEIGHT/3+460))
+            tutorial_text_4=self.display_font.render(tutorial_text_4,True,(0,0,0))
+            self.screen.blit(tutorial_text_4, (WIN_WIDTH /2-500, WIN_HEIGHT/3+490))
         # debug用資訊
         objects = 0
         for _, v in self.all_objects.items():
