@@ -43,7 +43,7 @@ class Game():
         self.game_victory = frame.Victory()
         self.game_loss = frame.Loss()  # 死亡後的選單
         self.state = GameState.PLAYING
-
+        self.tutorial_level=10
         self.count = pygame.USEREVENT + 1  # 時間事件
         self.counts = 0  # 時間
 
@@ -258,7 +258,7 @@ class Game():
         text = self.display_font.render(text, True, (0, 0, 0))
         self.screen.blit(text, (WIN_WIDTH - 250, WIN_HEIGHT - 100))
         #tutorial 
-        if self.level==10:
+        if self.tutorial_level==self.level:
             tutorial_text_0="                   <遊戲教學>"
             tutorial_text_1="1.方向鍵移動，按下space可以開槍射擊，若擊中警衛可將其清除。"
             tutorial_text_2="2.靠近傳送門可以使用空間跳躍。"

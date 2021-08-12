@@ -199,11 +199,11 @@ HHHHHHHHHHHHHHHHHHHHHHHH
 H                      H
 H @               # ! PH
 HHHHHHHHHHHHHHHHHHHHHHHH
-HP            #       #H
-H    ##      ##   ### #H
-H# $           .      #H
-HHHHHHHHHHHHHHHHHHHHHHHH
-                        
+HP            #      .#H
+H    ##  $   ##   ### #H
+HHHHH                  H
+H##################    H
+HHHHHHHHHHHHHHHHHHHHHHHH                        
                         
                         
                         
