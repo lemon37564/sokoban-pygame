@@ -22,7 +22,7 @@ color_gray = (50, 50, 50)
 color_btn = (167, 147, 0) # 按鈕背景顏色
 color_btn_selected = (255, 255, 20) # 選中的按鈕的顏色
 
-BTN_WIDTH = 250
+BTN_WIDTH = 280
 BTN_HEIGHT = 64
 
 MIDDLE_X = parameter.WIN_WIDTH // 2
