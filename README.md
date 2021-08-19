@@ -11,7 +11,8 @@ pygame 2.0+
 ESC => 暫停 (ESC => pause)  
 
 # TODO
-https://github.com/lemon37564/sokoban-pygame/milestone/1
+https://github.com/lemon37564/sokoban-pygame/milestone/1  
+https://github.com/lemon37564/sokoban-pygame/milestone/2
 
 # Version
 | 版本 | 更改紀錄 |
