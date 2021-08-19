@@ -75,7 +75,7 @@ class Frame():
                 bias = 6
                 clr = color_btn_selected
                 shadow = pygame.Rect(0, 0, BTN_WIDTH, BTN_HEIGHT) # draw shadow 營造立體感
-                shadow.center = (MIDDLE_X, TOP_Y + i*GAP)
+                shadow.center = (MIDDLE_X, TOP_Y + i * GAP)
                 pygame.draw.rect(screen, color_gray, shadow, border_radius=10)
             else: # 其他未被選中的選項
                 bias = 0

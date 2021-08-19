@@ -143,39 +143,31 @@ class Player(Object):
             return False
         return True
 
-    def __is_collide(self, delta_x: int, delta_y: int,
-                     all_objects: dict) -> bool:
-        collided_portal = pygame.sprite.spritecollide(
-            self, all_objects[ObjectID.PORTAL], dokill=False)
+    def __is_collide(self, delta_x: int, delta_y: int, all_objects: dict) -> bool:
+        collided_portal = pygame.sprite.spritecollide(self, all_objects[ObjectID.PORTAL], dokill=False)
         if collided_portal and (not self.__dont_port):
             current_index = 0
             for i, p in enumerate(all_objects[ObjectID.PORTAL]):
                 if p is collided_portal[0]:
                     current_index = i
-            port_index = (current_index +
-                          1) % len(all_objects[ObjectID.PORTAL].sprites())
-            portal_pos_x, portal_pos_y = all_objects[ObjectID.PORTAL].sprites()[
-                port_index].pos()
+            port_index = (current_index + 1) % len(all_objects[ObjectID.PORTAL].sprites())
+            portal_pos_x, portal_pos_y = all_objects[ObjectID.PORTAL].sprites()[port_index].pos()
             self.set_pos(portal_pos_x, portal_pos_y)
             self.__dont_port = True
         if not collided_portal:
             self.__dont_port = False
-        collided_boxes = pygame.sprite.spritecollide(
-            self, all_objects[ObjectID.BOX], dokill=False)
+        collided_boxes = pygame.sprite.spritecollide(self, all_objects[ObjectID.BOX], dokill=False)
         for box in collided_boxes:
             box_moved = box.move(delta_x, delta_y, all_objects)
             if not box_moved:
                 return True
-        collided = pygame.sprite.spritecollide(
-            self, all_objects[ObjectID.WALL], dokill=False)
+        collided = pygame.sprite.spritecollide(self, all_objects[ObjectID.WALL], dokill=False)
         if collided:
             return True
-        collided = pygame.sprite.spritecollide(
-            self, all_objects[ObjectID.BORDER], dokill=False)
+        collided = pygame.sprite.spritecollide(self, all_objects[ObjectID.BORDER], dokill=False)
         if collided:
             return True
-        collided = pygame.sprite.spritecollide(
-            self, all_objects[ObjectID.GUARD], dokill=False)
+        collided = pygame.sprite.spritecollide(self, all_objects[ObjectID.GUARD], dokill=False)
         if collided:
             self.Set_Dead()
             return True
