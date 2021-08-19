@@ -28,12 +28,11 @@ class GameState(enum.Enum):
 class Game():
     """
     level 表示第幾關
-    mask 是用來增加遊戲難度的物件，mask_enabled決定mask是否啟用，
+    mask 是用來增加遊戲難度的物件
     debug時不啟用mask
     """
 
-    def __init__(self, level, mask_enabled=True):
-        self.screen = screen
+    def __init__(self, level, debug=False):
         self.ticker = pygame.time.Clock()
         self.background = (230, 230, 200)  # 背景顏色
         self.level = level
@@ -43,14 +42,13 @@ class Game():
         self.game_victory = frame.Victory()
         self.game_loss = frame.Loss()  # 死亡後的選單
         self.state = GameState.PLAYING
-        self.tutorial_level=10
         self.count = pygame.USEREVENT + 1  # 時間事件
         self.counts = 0  # 時間
 
         self.display_font = pygame.font.Font(parameter.FONT, 24)
 
-        self.mask_enabled = mask_enabled
-        if self.mask_enabled:
+        self.debug = debug
+        if not self.debug:
             player_x, player_y = self.player.pos()
             self.mask = element.Mask(player_x, player_y)
 
@@ -89,8 +87,8 @@ class Game():
 
     def pause(self):
         # 背景色
-        self.screen.fill(self.background)
-        selection = self.game_pause.update(self.screen)
+        screen.fill(self.background)
+        selection = self.game_pause.update(screen)
         if selection == frame.Option.RESUME:
             self.state = GameState.PLAYING
         elif selection == frame.Option.RESTART:
@@ -100,8 +98,8 @@ class Game():
             self.in_game = False
 
     def victory(self):
-        self.screen.fill(self.background)
-        selection = self.game_victory.update(self.screen)
+        screen.fill(self.background)
+        selection = self.game_victory.update(screen)
         if selection == frame.Option.NEXTLEVEL:
             self.level += 1
             self.build_world()
@@ -130,8 +128,8 @@ class Game():
             self.state = GameState.LOSS
 
     def loss(self):
-        self.screen.fill(self.background)
-        selection = self.game_loss.update(self.screen)
+        screen.fill(self.background)
+        selection = self.game_loss.update(screen)
         if selection == frame.Option.RESTART:
             self.restart()
             sounds.dead.stop()
@@ -166,31 +164,31 @@ class Game():
         self.map_ = maps.get_map(self.level)
 
         x, y = 0, 0
-        for _, v in enumerate(self.map_):
-            if v == "\n":  # 換行
+        for char in self.map_:
+            if char == "\n":  # 換行
                 y += 40
                 x = 0
-            elif v == "H":  # 邊界
+            elif char == "H":  # 邊界
                 self.borders.add(element.Border(x, y))
-            elif v == "#":  # 牆
+            elif char == "#":  # 牆
                 self.walls.add(element.Wall(x, y))
-            elif v == ".":  # 終點
+            elif char == ".":  # 終點
                 self.goals.add(element.Goal(x, y))
-            elif v == "$":  # 箱子
+            elif char == "$":  # 箱子
                 self.boxes.add(element.Box(x, y))
-            elif v == "%":  # 終點上有箱子
+            elif char == "%":  # 終點上有箱子
                 self.goals.add(element.Goal(x, y))
                 self.boxes.add(element.Box(x, y))
-            elif v == "!":  # 警衛
+            elif char == "!":  # 警衛
                 self.guards.add(element.Guard(x, y))
-            elif v == "P":
+            elif char == "P":
                 self.portals.add(element.Portal(x, y))
-            elif v == "@":  # 玩家（初始）位置
+            elif char == "@":  # 玩家（初始）位置
                 self.player = element.Player(x, y, 0)
-            elif v == " ":
+            elif char == " ":
                 pass
             else:
-                print(f"unknow idetifier {v} in map {self.level}, ignored.")
+                print(f"unknow idetifier {char} in map {self.level}, ignored.")
             x += 40
 
         # dict
@@ -212,7 +210,7 @@ class Game():
         self.guards.update(self.all_objects)
         self.portals.update()
 
-        if self.mask_enabled:
+        if not self.debug:
             self.mask.update(self.player)
 
         # 玩家死亡
@@ -223,73 +221,71 @@ class Game():
             self.state = GameState.VICTORY
 
     # 畫在螢幕上
-
     def draw_world(self):
         # 背景色
-        self.screen.fill(self.background)
+        screen.fill(self.background)
 
-        self.borders.draw(self.screen)
-        self.walls.draw(self.screen)
-        self.goals.draw(self.screen)
-        self.guards.draw(self.screen)
-        self.portals.draw(self.screen)
-        self.boxes.draw(self.screen)
-        self.bullets.draw(self.screen)
-        self.player.draw(self.screen)
+        self.borders.draw(screen)
+        self.walls.draw(screen)
+        self.goals.draw(screen)
+        self.guards.draw(screen)
+        self.portals.draw(screen)
+        self.boxes.draw(screen)
+        self.bullets.draw(screen)
+        self.player.draw(screen)
 
-        # 如果mask啟用，畫在player身邊
-        if self.mask_enabled:
-            self.mask.draw(self.screen)
-       
-
+        # 如果mask啟用(非debug模式)，畫在player身邊
+        if not self.debug:
+            self.mask.draw(screen)       
 
     # 在螢幕畫出需要顯示的資訊
     def info_show(self):
         text = f"ammos: {self.player.ammos()}"
         text = self.display_font.render(text, True, (0, 0, 0))
-        self.screen.blit(text, (WIN_WIDTH - 180, WIN_HEIGHT - 200))
+        screen.blit(text, (WIN_WIDTH - 180, WIN_HEIGHT - 200))
 
         text = "Time: " + time.strftime("%H:%M:%S", time.gmtime(self.counts))
         text = self.display_font.render(text, True, (0, 0, 0))
-        self.screen.blit(text, (WIN_WIDTH - 200, WIN_HEIGHT - 150))
+        screen.blit(text, (WIN_WIDTH - 200, WIN_HEIGHT - 150))
 
         # debug用資訊
-        text = "<debug>fps: {:.1f}".format(self.ticker.get_fps())
-        text = self.display_font.render(text, True, (0, 0, 0))
-        self.screen.blit(text, (WIN_WIDTH - 250, WIN_HEIGHT - 100))
-        #tutorial 
-        if self.tutorial_level==self.level:
-            tutorial_text_0="                   <遊戲教學>"
-            tutorial_text_1="1.方向鍵移動，按下space可以開槍射擊，若擊中警衛可將其清除。"
-            tutorial_text_2="2.靠近傳送門可以使用空間跳躍。"
-            tutorial_text_3="3.把箱子推到框框內就獲勝囉"
-            tutorial_text_4="4.Good luck:D"
-            tutorial_text_0=self.display_font.render(tutorial_text_0,True,(0,0,0))
-            self.screen.blit(tutorial_text_0, (WIN_WIDTH /2-500, WIN_HEIGHT/3+360))
-            tutorial_text_1=self.display_font.render(tutorial_text_1,True,(0,0,0))
-            self.screen.blit(tutorial_text_1, (WIN_WIDTH /2-500, WIN_HEIGHT/3+400))
-            tutorial_text_2=self.display_font.render(tutorial_text_2,True,(0,0,0))
-            self.screen.blit(tutorial_text_2, (WIN_WIDTH /2-500, WIN_HEIGHT/3+430))
-            tutorial_text_3=self.display_font.render(tutorial_text_3,True,(0,0,0))
-            self.screen.blit(tutorial_text_3, (WIN_WIDTH /2-500, WIN_HEIGHT/3+460))
-            tutorial_text_4=self.display_font.render(tutorial_text_4,True,(0,0,0))
-            self.screen.blit(tutorial_text_4, (WIN_WIDTH /2-500, WIN_HEIGHT/3+490))
-        # debug用資訊
-        objects = 0
-        for _, v in self.all_objects.items():
-            try:
-                objects += len(v)
-            except Exception:
-                pass
-        text = "<debug>objects: {}".format(objects)
-        text = self.display_font.render(text, True, (0, 0, 0))
-        self.screen.blit(text, (WIN_WIDTH - 250, WIN_HEIGHT - 50))
+        if self.debug:
+            text = "<debug>fps: {:.1f}".format(self.ticker.get_fps())
+            text = self.display_font.render(text, True, (0, 0, 0))
+            screen.blit(text, (WIN_WIDTH - 250, WIN_HEIGHT - 100))
+
+            objects = 0
+            for _, v in self.all_objects.items():
+                try:
+                    objects += len(v)
+                except Exception:
+                    pass
+            text = "<debug>objects: {}".format(objects)
+            text = self.display_font.render(text, True, (0, 0, 0))
+            screen.blit(text, (WIN_WIDTH - 250, WIN_HEIGHT - 50))
+
+        # tutorial 
+        if self.level == maps.TUTORIAL:
+            tutorial_text_0 = "                   <遊戲教學>"
+            tutorial_text_1 = "1.方向鍵移動，按下space可以開槍射擊，若擊中警衛可將其清除。"
+            tutorial_text_2 = "2.靠近傳送門可以使用空間跳躍。"
+            tutorial_text_3 = "3.把箱子推到框框內就獲勝囉"
+            tutorial_text_4 = "4.Good luck:D"
+            tutorial_text_0 = self.display_font.render(tutorial_text_0, True, (0, 0, 0))
+            screen.blit(tutorial_text_0, (WIN_WIDTH/2 - 500, WIN_HEIGHT/3 + 360))
+            tutorial_text_1 = self.display_font.render(tutorial_text_1, True, (0, 0, 0))
+            screen.blit(tutorial_text_1, (WIN_WIDTH/2 - 500, WIN_HEIGHT/3 + 400))
+            tutorial_text_2 = self.display_font.render(tutorial_text_2, True, (0, 0, 0))
+            screen.blit(tutorial_text_2, (WIN_WIDTH/2 - 500, WIN_HEIGHT/3 + 430))
+            tutorial_text_3 = self.display_font.render(tutorial_text_3, True, (0, 0, 0))
+            screen.blit(tutorial_text_3, (WIN_WIDTH/2 - 500, WIN_HEIGHT/3 + 460))
+            tutorial_text_4 = self.display_font.render(tutorial_text_4, True, (0, 0, 0))
+            screen.blit(tutorial_text_4, (WIN_WIDTH/2 - 500, WIN_HEIGHT/3 + 490))
 
     def restart(self):
         self.build_world()
 
 
 if __name__ == "__main__":
-    # debugging now, mask_enabled should be True
-    game = Game(level=1, mask_enabled=False)
+    game = Game(level=1, debug=True)
     game.run_game()

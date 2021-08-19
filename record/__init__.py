@@ -1,6 +1,6 @@
 import json
 
-FILE_NAME = "data/records"
+FILE_NAME = "data/records.json"
 
 
 def save(level: int) -> None:

@@ -203,19 +203,16 @@ HP            #      .#H
 H    ##  $   ##   ### #H
 HHHHH                  H
 H##################    H
-HHHHHHHHHHHHHHHHHHHHHHHH                        
-                        
-                        
-                        
+HHHHHHHHHHHHHHHHHHHHHHHH
 """
 ]
 
 # 扣掉第0關
 __count = len(__maps) - 1
 
+TUTORIAL = 10
+
 # 取得第index關
-
-
 def get_map(index: int) -> str:
     if index < 0 or index > __count:
         print("map index out of range")
@@ -223,7 +220,5 @@ def get_map(index: int) -> str:
     return __maps[index]
 
 # 關卡總數
-
-
 def level_count() -> int:
     return __count

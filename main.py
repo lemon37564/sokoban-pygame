@@ -132,7 +132,7 @@ while True:
 
 if(start_game):
 
-    game = Game(level=level_selected, mask_enabled=game_mask)
+    game = Game(level=level_selected, debug=True)
     game.run_game()
 
 pygame.quit() 
