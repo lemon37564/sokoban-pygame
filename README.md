@@ -1,4 +1,4 @@
-# sokoban-pygame 0.2
+# sokoban-pygame v0.2
 an unusual sokoban made with pygame 2.0
 
 # Requirements
