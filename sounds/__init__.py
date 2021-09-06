@@ -8,5 +8,5 @@ import sounds.bgm
 import sounds.se
 
 
-LOOP_FOREVER = -1
-LOOP_ONCE = 0
+LOOP_FOREVER = -1 # 循環播放
+LOOP_ONCE = 0 # 播放一次

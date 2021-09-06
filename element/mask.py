@@ -23,7 +23,3 @@ class Mask(pygame.sprite.Sprite):
     def update(self, player):
         player_x, player_y = player.pos()
         self.rect.center = (player_x, player_y)
-
-
-if __name__ == "__main__":
-    pass

@@ -27,11 +27,13 @@ class Bullet(Object):
         elif self.__direction == direction.RIGHT:
             self.__movement = (self.__velocity, 0)
 
+    # 依據移動速度向目前的方向移動
     def update(self, all_ojects: dict):
         delta_x, delta_y = self.__movement
         super().move(delta_x, delta_y)
         self.__check_collide(all_ojects)
 
+    # 檢查碰撞，若碰撞警衛則殺死警衛。碰撞其他物件則刪除自身
     def __check_collide(self, all_objects: dict):
         collided = pygame.sprite.spritecollide(
             self, all_objects[ObjectID.GUARD], dokill=True)

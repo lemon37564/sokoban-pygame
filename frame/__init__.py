@@ -28,7 +28,7 @@ BTN_HEIGHT = 64
 MIDDLE_X = parameter.WIN_WIDTH // 2
 TOP_Y = parameter.WIN_HEIGHT // 2 - 100 # 第一個選項出現的Y位置
 TITLE_Y = parameter.WIN_HEIGHT // 2 - 300
-GAP = 100 # 每個選項間的間隔
+BTN_GAP = 100 # 每個選項間的間隔
 
 
 class Frame():
@@ -43,10 +43,12 @@ class Frame():
         keys = pygame.key.get_pressed()
         now = time.time()
         if now - self.__cooldown > parameter.PAUSE_KEY_COOLDOWN:
+            # 往上一個選項
             if keys[pygame.K_UP] and self.__selection-1 >= 0:
                 self.__selection -= 1
                 self.__cooldown = now
                 sounds.se.play(sounds.LOOP_ONCE)
+            # 往下一個選項
             if keys[pygame.K_DOWN] and self.__selection+1 < len(self.__options):
                 self.__selection += 1
                 self.__cooldown = now
@@ -65,7 +67,7 @@ class Frame():
         text = title_font.render(self.__title, True, color_gray) # shadow
         text_rect = text.get_rect(center=(MIDDLE_X + 5, TITLE_Y + 5))
         screen.blit(text, text_rect)
-        text = title_font.render(self.__title, True, color_black)
+        text = title_font.render(self.__title, True, color_black) # 本體
         text_rect = text.get_rect(center=(MIDDLE_X, TITLE_Y))
         screen.blit(text, text_rect)
 
@@ -75,13 +77,13 @@ class Frame():
                 bias = 6
                 clr = color_btn_selected
                 shadow = pygame.Rect(0, 0, BTN_WIDTH, BTN_HEIGHT) # draw shadow 營造立體感
-                shadow.center = (MIDDLE_X, TOP_Y + i * GAP)
+                shadow.center = (MIDDLE_X, TOP_Y + i * BTN_GAP)
                 pygame.draw.rect(screen, color_gray, shadow, border_radius=10)
             else: # 其他未被選中的選項
                 bias = 0
                 clr = color_btn
 
-            center = (MIDDLE_X - bias, TOP_Y + i*GAP - bias) # 按鈕的位置。往左上移動bias，模擬懸浮效果
+            center = (MIDDLE_X - bias, TOP_Y + i*BTN_GAP - bias) # 按鈕的位置。往左上移動bias，模擬懸浮效果
 
             btn = pygame.Rect(0, 0, BTN_WIDTH, BTN_HEIGHT) # 按鈕的背景
             btn.center = center
@@ -97,6 +99,7 @@ class Frame():
 
 
 class Loss(Frame):
+    """失敗(死亡)的選單"""
     def __init__(self):
         super().__init__(
             "Failed",
@@ -107,6 +110,7 @@ class Loss(Frame):
 
 class Pause(Frame):
     def __init__(self):
+        """暫停的選單"""
         super().__init__(
             "Pause",
             ["Resume", "Restart", "Exit"],
@@ -116,6 +120,7 @@ class Pause(Frame):
 
 class Victory(Frame):
     def __init__(self):
+        """獲勝的選單"""
         super().__init__(
             "Victory",
             ["Next  Level", "Restart", "Exit"],
