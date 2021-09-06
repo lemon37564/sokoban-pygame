@@ -34,4 +34,9 @@ PAUSE_KEY_COOLDOWN = 0.1
 DEAD_DELAY = 5
 
 # 字體
-FONT = "data/font/jf-openhuninn-1.0.ttf"
+# open source font, see https://github.com/fontworks-fonts/Klee
+FONT = "data/font/KleeOne-Regular.ttf"
+# open source font, see https://github.com/justfont/open-huninn-font
+BTN_FONT = "data/font/jf-openhuninn-1.0.ttf"
+# open source font, see https://github.com/fontworks-fonts/Rampart
+TITLE_FONT = "data/font/RampartOne-Regular.ttf"

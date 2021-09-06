@@ -13,8 +13,8 @@ class Option(enum.Enum):
     NEXTLEVEL = 3
 
 
-title_font = pygame.font.Font(parameter.FONT, 200)
-button_font = pygame.font.Font(parameter.FONT, 48)
+title_font = pygame.font.Font(parameter.TITLE_FONT, 200)
+button_font = pygame.font.Font(parameter.BTN_FONT, 48)
 
 color_black = (0, 0, 0)
 color_gray = (50, 50, 50)
@@ -64,9 +64,6 @@ class Frame():
             return act
 
     def __draw_title(self, screen):
-        text = title_font.render(self.__title, True, color_gray) # shadow
-        text_rect = text.get_rect(center=(MIDDLE_X + 5, TITLE_Y + 5))
-        screen.blit(text, text_rect)
         text = title_font.render(self.__title, True, color_black) # 本體
         text_rect = text.get_rect(center=(MIDDLE_X, TITLE_Y))
         screen.blit(text, text_rect)
