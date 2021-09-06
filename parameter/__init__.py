@@ -1,11 +1,10 @@
 import pygame
 
-# 畫面
+# 畫面長寬
 WIN_WIDTH, WIN_HEIGHT = pygame.display.Info().current_w, pygame.display.Info().current_h
 
 # 圖片
 IMG_SIZE = 40  # pixel
-GAP = IMG_SIZE - 4  # pixel
 
 # 箱子
 BOX_SIZE = 24  # 箱子圖片大小

@@ -18,6 +18,10 @@ WIN_WIDTH, WIN_HEIGHT = parameter.WIN_WIDTH, parameter.WIN_HEIGHT
 
 
 class GameState(enum.Enum):
+    """
+    用來表示當前遊戲的狀況
+    畫面依據目前狀況進行不同的更新
+    """
     PLAYING = 0
     PAUSE = 1
     VICTORY = 2
@@ -33,17 +37,19 @@ class Game():
     """
 
     def __init__(self, level, debug=False):
-        self.ticker = pygame.time.Clock()
+        self.ticker = pygame.time.Clock()  # 控制fps的物件
         self.background = (230, 230, 200)  # 背景顏色
         self.level = level
         self.build_world()
         self.key_cooldown = time.time()
+        self.state = GameState.PLAYING # 初始狀態為playing
+        self.count = pygame.USEREVENT + 1  # 時間事件
+        self.counts = 0  # 時間
+
+        # 各種frames的初始化
         self.game_pause = frame.Pause()  # pause frame
         self.game_victory = frame.Victory()
         self.game_loss = frame.Loss()  # 死亡後的選單
-        self.state = GameState.PLAYING
-        self.count = pygame.USEREVENT + 1  # 時間事件
-        self.counts = 0  # 時間
 
         self.display_font = pygame.font.Font(parameter.FONT, 24)
 
@@ -65,6 +71,7 @@ class Game():
                 elif event.type == self.count:
                     self.counts = self.counts + 1
 
+            # 依據目前遊戲的狀態選擇更新模式
             if self.state == GameState.PLAYING:
                 self.update_world()
                 self.key_handle()
@@ -79,7 +86,7 @@ class Game():
             elif self.state == GameState.LOSS:
                 self.loss()
 
-            self.info_show()
+            self.info_show() # 印出畫面資訊
             pygame.display.update()
             self.ticker.tick(60)  # 60 fps
 
@@ -89,6 +96,8 @@ class Game():
         # 背景色
         screen.fill(self.background)
         selection = self.game_pause.update(screen)
+
+        # 根據不同選項，對遊戲狀態進行更新
         if selection == frame.Option.RESUME:
             self.state = GameState.PLAYING
         elif selection == frame.Option.RESTART:
@@ -98,8 +107,11 @@ class Game():
             self.in_game = False
 
     def victory(self):
+        # 背景色
         screen.fill(self.background)
         selection = self.game_victory.update(screen)
+
+        # 根據不同選項，對遊戲狀態進行更新
         if selection == frame.Option.NEXTLEVEL:
             self.level += 1
             self.build_world()
@@ -111,6 +123,20 @@ class Game():
             self.in_game = False
 
         record.save(level=self.level + 1)
+
+    def loss(self):
+        # 背景色
+        screen.fill(self.background)
+        selection = self.game_loss.update(screen)
+
+        # 根據不同選項，對遊戲狀態進行更新
+        if selection == frame.Option.RESTART:
+            self.restart()
+            sounds.dead.stop()
+            sounds.bgm.play(sounds.LOOP_FOREVER)
+            self.state = GameState.PLAYING
+        elif selection == frame.Option.EXIT:
+            self.in_game = False
 
     def gameOver(self):
         '''
@@ -127,17 +153,6 @@ class Game():
         if self.player.DeadAnime():
             self.state = GameState.LOSS
 
-    def loss(self):
-        screen.fill(self.background)
-        selection = self.game_loss.update(screen)
-        if selection == frame.Option.RESTART:
-            self.restart()
-            sounds.dead.stop()
-            sounds.bgm.play(sounds.LOOP_FOREVER)
-            self.state = GameState.PLAYING
-        elif selection == frame.Option.EXIT:
-            self.in_game = False
-
     # 按鍵輸入處理
     def key_handle(self):
         if self.player.isdead():
@@ -147,7 +162,7 @@ class Game():
         # 玩家輸入
         self.player.handle_keys(keys, self.all_objects)
 
-        # game pause
+        # game pause，設定遊戲狀態為pause
         if keys[pygame.K_ESCAPE]:
             self.state = GameState.PAUSE
 
@@ -213,10 +228,9 @@ class Game():
         if not self.debug:
             self.mask.update(self.player)
 
-        # 玩家死亡
+        # 根據玩家狀態決定遊戲狀態
         if self.player.isdead():
             self.state = GameState.LOSING
-
         if self.player.is_won(self.all_objects):
             self.state = GameState.VICTORY
 

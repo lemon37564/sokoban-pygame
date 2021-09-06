@@ -187,8 +187,9 @@ H#. $    ##     $     #H
 H#### $.###  $$$    ...H
 H####   .## $       ...H
 HHHHHHHHHHHHHHHHHHHHHHHH
-"""
-,# map 10 TUTORIAL
+""",
+
+# map 10 TUTORIAL
     """
 HHHHHHHHHHHHHHHHHHHHHHHH
 HHHHHHHHHHHHHHHHHHHHHHHH
@@ -212,7 +213,7 @@ __count = len(__maps) - 1
 
 TUTORIAL = 10
 
-# 取得第index關
+# 取得第index關，超出範圍或<0則回傳第零關
 def get_map(index: int) -> str:
     if index < 0 or index > __count:
         print("map index out of range")

@@ -17,19 +17,19 @@ class Object(pygame.sprite.Sprite):
     def set_pos(self, x, y):
         self.rect.center = (x, y)
 
-    def pos(self):
+    def pos(self) -> tuple:
         return self.rect.center
 
-    def update(self) -> None:
+    def update(self):
         pygame.sprite.Sprite.update(self)
 
-    def img(self):
+    def img(self) -> pygame.image:
         return self.image
 
     def set_img(self, image):
         self.image = image
 
-    def name(self):
+    def name(self) -> str:
         return self.__class__
 
 

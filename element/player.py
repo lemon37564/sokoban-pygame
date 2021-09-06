@@ -25,6 +25,7 @@ for i in range(3):
     down_imgs.append(img)
     img = pygame.image.load(f"data/img/player/right_{i}.webp").convert_alpha()
     right_imgs.append(img)
+    # 左面的圖片是右面的圖片的鏡射
     img = pygame.transform.flip(img, True, False)
     left_imgs.append(img)
 
@@ -110,6 +111,7 @@ class Player(Object):
         if self.__ammo <= 0:
             return False
         now = time.time()
+        # 攻擊的冷卻時間
         if now - self.__cooldown > parameter.BULLET_COOLDOWN:
             self.__cooldown = now
             self.__ammo -= 1
@@ -137,38 +139,54 @@ class Player(Object):
         screen.blit(self.img(), self.rect)
 
     def move(self, delta_x: int, delta_y: int, all_objects: dict) -> bool:
+        # 先移動，判斷若碰撞到物體才移動回到原位
         super().move(delta_x, delta_y)
         if self.__is_collide(delta_x, delta_y, all_objects):
             super().move(-delta_x, -delta_y)
             return False
         return True
 
+    # 判斷是否碰撞
     def __is_collide(self, delta_x: int, delta_y: int, all_objects: dict) -> bool:
         collided_portal = pygame.sprite.spritecollide(self, all_objects[ObjectID.PORTAL], dokill=False)
+        # 碰撞傳送門且並非重複觸發
         if collided_portal and (not self.__dont_port):
+            # 在地圖上尋找下一個傳送門的位置
             current_index = 0
             for i, p in enumerate(all_objects[ObjectID.PORTAL]):
                 if p is collided_portal[0]:
                     current_index = i
             port_index = (current_index + 1) % len(all_objects[ObjectID.PORTAL].sprites())
             portal_pos_x, portal_pos_y = all_objects[ObjectID.PORTAL].sprites()[port_index].pos()
+
+            # 設定自身位置到目標傳送門位置
             self.set_pos(portal_pos_x, portal_pos_y)
             self.__dont_port = True
+        # 已經沒有跟傳送門碰撞則將dont_port設為False，表示可以再進行傳送
         if not collided_portal:
             self.__dont_port = False
+        
+        # 與箱子的碰撞
         collided_boxes = pygame.sprite.spritecollide(self, all_objects[ObjectID.BOX], dokill=False)
         for box in collided_boxes:
             box_moved = box.move(delta_x, delta_y, all_objects)
             if not box_moved:
                 return True
+        
+        # 與牆壁的碰撞
         collided = pygame.sprite.spritecollide(self, all_objects[ObjectID.WALL], dokill=False)
         if collided:
             return True
+
+        # 與邊界的碰撞
         collided = pygame.sprite.spritecollide(self, all_objects[ObjectID.BORDER], dokill=False)
         if collided:
             return True
+
+        # 與警衛的碰撞
         collided = pygame.sprite.spritecollide(self, all_objects[ObjectID.GUARD], dokill=False)
         if collided:
+            # 與警衛碰撞則將自身狀態設為死亡
             self.Set_Dead()
             return True
         return False
