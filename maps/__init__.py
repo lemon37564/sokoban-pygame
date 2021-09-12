@@ -198,7 +198,7 @@ HHHHHHHHHHHHHHHHHHHHHHHH
 HHHHHHHHHHHHHHHHHHHHHHHH
 HHHHHHHHHHHHHHHHHHHHHHHH
 H                      H
-H @               # ! PH
+H @                 ! PH
 HHHHHHHHHHHHHHHHHHHHHHHH
 HP            #      .#H
 H    ##  $   ##   ### #H
