@@ -39,8 +39,16 @@ bigfont = pygame.font.SysFont('Corbel', 50)
 text_quit = smallfont.render('quit', True, color)
 text_start = smallfont.render('start game', True, color)
 text_help = smallfont.render('tutorial', True, color)
-text_title = bigfont.render('Sokoban Stealer', True, color)
+#text_title = bigfont.render('Sokoban Stealer', True, color)
 
+#menu images 
+img_title=pygame.image.load('.\data\img\menu\gameTitle2.png')
+img_player=pygame.image.load('.\data\img\menu\PlayerThreeRight.png')
+img_player = pygame.transform.scale(img_player, (140, 140))
+img_explosion=pygame.image.load('.\data\img\menu\Explosion2.png')
+img_explosion = pygame.transform.scale(img_explosion, (320, 320))
+img_treasure=pygame.image.load('.\data\img\menu\Treasure2.png')
+img_treasure = pygame.transform.scale(img_treasure, (160, 160))
 # where BTNs and texts at
 x_title = width/2-200
 x_start_btn = width/2-150
@@ -126,13 +134,19 @@ while True:
         pygame.draw.rect(screen, color_dark, [
                          x_quit_btn, y_quit_btn, width_quit_btn, height_quit_btn])
         # draw title
-        pygame.draw.rect(screen, color_dark, [
-                         x_title, y_title, width_title, height_title])
+        #pygame.draw.rect(screen, color_dark, [
+                   #      x_title, y_title, width_title, height_title])
     # superimposing the text onto our button
     screen.blit(text_quit, (x_quit_btn+50, y_quit_btn))
     screen.blit(text_start, (x_start_btn+50, y_start_btn))
     screen.blit(text_help, (x_tut_btn+50, y_tut_btn))
-    screen.blit(text_title, (x_title+50, y_title))
+
+    #draw images on screen
+    screen.blit(img_title, (x_title-450, y_title-80))
+    screen.blit(img_player, (x_title+260, y_title+300))
+    screen.blit(img_explosion, (x_title-200, y_title+300))
+    screen.blit(img_treasure, (x_title+400, y_title+300))
+
     # updates the frames of the game
     pygame.display.update()
 
