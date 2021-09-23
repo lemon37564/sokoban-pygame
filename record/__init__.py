@@ -1,5 +1,4 @@
 import json
-#from os import EX_PROTOCOL
 
 FILE_NAME = "data/records.json"
 
