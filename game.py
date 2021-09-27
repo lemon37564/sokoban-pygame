@@ -13,6 +13,7 @@ import maps
 import element
 import sounds
 import parameter
+import GameTimer.GameTimer
 
 WIN_WIDTH, WIN_HEIGHT = parameter.WIN_WIDTH, parameter.WIN_HEIGHT
 
@@ -43,8 +44,8 @@ class Game():
         self.build_world()
         self.key_cooldown = time.time()
         self.state = GameState.PLAYING # 初始狀態為playing
-        self.count = pygame.USEREVENT + 1  # 時間事件
-        self.counts = 0  # 時間
+        self.Timer = GameTimer.GameTimer.Timer()
+        self.score = 0 #分數
 
         # 各種frames的初始化
         self.game_pause = frame.Pause()  # pause frame
@@ -60,7 +61,7 @@ class Game():
 
     def run_game(self):
         sounds.bgm.play(sounds.LOOP_FOREVER)
-        pygame.time.set_timer(self.count, 1000)
+        self.Timer.start()
         self.in_game = True
         while self.in_game:
             # 基礎事件
@@ -68,22 +69,25 @@ class Game():
             for event in events:
                 if event.type == pygame.QUIT:
                     self.in_game = False
-                elif event.type == self.count:
-                    self.counts = self.counts + 1
 
             # 依據目前遊戲的狀態選擇更新模式
             if self.state == GameState.PLAYING:
+                self.Timer.start()
                 self.update_world()
                 self.key_handle()
                 self.draw_world()
             elif self.state == GameState.PAUSE:
+                self.Timer.pause()
                 self.pause()
             elif self.state == GameState.VICTORY:
+                self.Timer.pause()
                 self.victory()
             elif self.state == GameState.LOSING:
+                self.Timer.pause()
                 self.gameOver()
                 self.draw_world()
             elif self.state == GameState.LOSS:
+                self.Timer.pause()
                 self.loss()
 
             self.info_show() # 印出畫面資訊
@@ -232,6 +236,7 @@ class Game():
         if self.player.isdead():
             self.state = GameState.LOSING
         if self.player.is_won(self.all_objects):
+            self.score = self.score + 100 + (100 - int((self.Timer.get_elapsed() / 20)) * 10)
             self.state = GameState.VICTORY
 
     # 畫在螢幕上
@@ -258,9 +263,14 @@ class Game():
         text = self.display_font.render(text, True, (0, 0, 0))
         screen.blit(text, (WIN_WIDTH - 180, WIN_HEIGHT - 200))
 
-        text = "Time: " + time.strftime("%H:%M:%S", time.gmtime(self.counts))
+        text = "Time: " + time.strftime("%H:%M:%S", time.gmtime(self.Timer.get_elapsed()))
         text = self.display_font.render(text, True, (0, 0, 0))
         screen.blit(text, (WIN_WIDTH - 200, WIN_HEIGHT - 150))
+
+        text = f"Score: {self.score}" 
+        text = self.display_font.render(text, True, (0, 0, 0))
+        screen.blit(text, (WIN_WIDTH - 220, WIN_HEIGHT - 125))
+       
 
         # debug用資訊
         if self.debug:
@@ -297,9 +307,10 @@ class Game():
             screen.blit(tutorial_text_4, (WIN_WIDTH/2 - 500, WIN_HEIGHT/3 + 490))
 
     def restart(self):
+        self.Timer.__init__()
         self.build_world()
 
 
 if __name__ == "__main__":
-    game = Game(level=1, debug=True)
+    game = Game(level=0, debug=True)
     game.run_game()
