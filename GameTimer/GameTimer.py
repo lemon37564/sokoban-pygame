@@ -5,11 +5,6 @@ class Timer():
         self.elapsed = 0.0
         self.running = False
         self.last_start_time = None
-
-    def initialize(self):
-        self.elapsed = 0.0
-        self.running = False
-        self.last_start_time = None
         
     def start(self):
         if not self.running:
