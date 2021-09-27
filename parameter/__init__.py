@@ -31,7 +31,7 @@ KEY_COOLDOWN = 0.5
 PAUSE_KEY_COOLDOWN = 0.1
 
 # 死亡Frame
-DEAD_DELAY = 5
+DEAD_DELAY = 2
 
 # 字體
 # open source font, see https://github.com/fontworks-fonts/Klee
