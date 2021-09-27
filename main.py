@@ -16,6 +16,7 @@ import sounds
 import element
 import maps
 import frame
+import GameTimer.GameTimer
 
 class GameState(enum.Enum):
     PLAYING = 0
@@ -42,9 +43,8 @@ class Game():
         self.game_victory = frame.victory.Victory()
         self.game_loss = frame.loss.Loss() # 死亡後的選單
         self.state = GameState.PLAYING
-
-        self.count = pygame.USEREVENT + 1 #時間事件
-        self.counts = 0 #時間
+        self.Timer = GameTimer.GameTimer.Timer()
+        
 
         self.display_font = pygame.font.SysFont("default", 32)
 
@@ -55,7 +55,7 @@ class Game():
 
     def run_game(self):
         sounds.bgm.play(sounds.LOOP_FOREVER)
-        pygame.time.set_timer(self.count, 1000)
+        self.Timer.start()
         self.in_game = True
         while self.in_game:
             # 基礎事件
@@ -63,21 +63,23 @@ class Game():
             for event in events:
                 if event.type == pygame.QUIT:
                     self.in_game = False
-                elif event.type == self.count:
-                    self.counts = self.counts + 1
-                    
+
             if self.state == GameState.PLAYING:
                 self.update_world()
                 self.key_handle()
                 self.draw_world()
             elif self.state == GameState.PAUSE:
+                self.Timer.pause()
                 self.pause()
             elif self.state == GameState.VICTORY:
+                self.Timer.pause()
                 self.victory()
             elif self.state == GameState.LOSING:
+                self.Timer.pause()
                 self.gameOver()
                 self.draw_world()
             elif self.state == GameState.LOSS:
+                self.Timer.pause()
                 self.loss()
 
             # debug用資訊
@@ -96,7 +98,7 @@ class Game():
             text = self.display_font.render(text, True, (0, 0, 0))
             self.screen.blit(text, (1440, 770))
 
-            text = "Time: " + time.strftime("%H:%M:%S", time.gmtime(self.counts))
+            text = "Time: " + time.strftime("%H:%M:%S", time.gmtime(self.Timer.get_elapsed()))
             text = self.display_font.render(text, True, (0, 0, 0))
             self.screen.blit(text, (1440, 720))
 
