@@ -32,8 +32,7 @@ class Portal(Object):
         if self.__frame >= parameter.PORTAL_DELAY:
             self.__frame = 0
             self.__img_index += 1
-            # equals to index % 16
-            super().set_img(imgs[self.__img_index & 15])
+            super().set_img(imgs[self.__img_index % len(imgs)])
 
 
 if __name__ == "__main__":
