@@ -3,6 +3,7 @@ import pygame
 import pygame.time
 import time
 import enum
+import logging
 
 # 設定視窗大小
 screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
@@ -55,7 +56,9 @@ class Game():
         self.display_font = pygame.font.Font(parameter.FONT, 24)
 
         self.debug = debug
-        if not self.debug:
+        if self.debug:
+            logging.info("starting game with debug mode")
+        else:
             player_x, player_y = self.player.pos()
             self.mask = element.Mask(player_x, player_y)
 
@@ -197,7 +200,7 @@ class Game():
             elif char == " ":
                 pass
             else:
-                print(f"unknow idetifier {char} in map {self.level}, ignored.")
+                logging.warning(f"unknow idetifier {char} in map {self.level}, ignored.")
             x += 40
 
         # dict
