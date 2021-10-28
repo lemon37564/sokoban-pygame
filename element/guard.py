@@ -48,7 +48,7 @@ class Guard(Object):
             self.set_dir(current)
             self.__sleep += 1
 
-        if self.__inerita > parameter.GUARD_INERITA:
+        if self.__inerita > parameter.GUARD_INERTIA:
             self.__inerita = 0
             self.__sleep = 0
 
