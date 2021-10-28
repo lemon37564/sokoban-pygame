@@ -1,4 +1,7 @@
+import logging
 import pygame
+
+logging.basicConfig(format="%(levelname)s: %(message)s", level=logging.DEBUG)
 
 pygame.init()
 pygame.font.init()
