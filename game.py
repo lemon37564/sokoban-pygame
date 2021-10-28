@@ -143,16 +143,6 @@ class Game():
             self.in_game = False
 
     def gameOver(self):
-        '''
-        gameOverFont = pygame.font.SysFont('arial.ttf',54) #遊戲結束字體和大小
-        gameOverSurf = gameOverFont.render('Game Over!', True, (255, 255, 255)) #遊戲結束內容顯示
-        gameOverRect = gameOverSurf.get_rect()
-        gameOverRect.midtop = (300, 10) #顯示位置
-        playSurface.blit(gameOverSurf, gameOverRect)
-        pygame.display.flip() #刷新顯示介
-        time.sleep(5) #休眠五秒鐘自動退出介面
-        pygame.quit()
-        '''
         sounds.bgm.stop()
         if self.player.DeadAnime():
             self.state = GameState.LOSS
