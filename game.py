@@ -88,6 +88,7 @@ class Game():
             elif self.state == GameState.LOSING:
                 self.Timer.pause()
                 self.gameOver()
+                self.update_world()
                 self.draw_world()
             elif self.state == GameState.LOSS:
                 self.Timer.pause()
@@ -156,8 +157,6 @@ class Game():
             return
 
         keys = pygame.key.get_pressed()
-        # 玩家輸入
-        self.player.handle_keys(keys, self.all_objects)
 
         # game pause，設定遊戲狀態為pause
         if keys[pygame.K_ESCAPE]:
@@ -178,7 +177,7 @@ class Game():
         x, y = 0, 0
         for char in self.map_:
             if char == "\n":  # 換行
-                y += 40
+                y += parameter.IMG_SIZE
                 x = 0
             elif char == "H":  # 邊界
                 self.borders.add(element.Border(x, y))
@@ -196,12 +195,12 @@ class Game():
             elif char == "P":
                 self.portals.add(element.Portal(x, y))
             elif char == "@":  # 玩家（初始）位置
-                self.player = element.Player(x, y, 0)
+                self.player = element.Player(x, y)
             elif char == " ":
                 pass
             else:
                 logging.warning(f"unknow idetifier {char} in map {self.level}, ignored.")
-            x += 40
+            x += parameter.IMG_SIZE
 
         # dict
         self.all_objects = {
@@ -219,16 +218,21 @@ class Game():
     # 遊戲邏輯處理，更新遊戲狀態
     def update_world(self):
         self.bullets.update(self.all_objects)
-        self.guards.update(self.all_objects)
         self.portals.update()
+
+        if self.state != GameState.LOSING:
+            self.guards.update(self.all_objects)
 
         if not self.debug:
             self.mask.update(self.player)
 
         # 根據玩家狀態決定遊戲狀態
-        if self.player.isdead():
+        state = self.player.update(self.all_objects)
+        if state == element.PlayerState.LOSING:
             self.state = GameState.LOSING
-        if self.player.is_won(self.all_objects):
+        elif state == element.PlayerState.OVER:
+            self.state = GameState.LOSS
+        elif state == element.PlayerState.WON:
             self.score = self.score + 100 + (100 - int((self.Timer.get_elapsed() / 20)) * 10)
             self.state = GameState.VICTORY
 
