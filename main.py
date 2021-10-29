@@ -8,6 +8,8 @@ pygame.font.init()
 
 from game import Game
 from pygame import mouse
+from time import sleep
+
 
 # initializing the constructor
 
@@ -145,6 +147,8 @@ first_start_game_pressed = False
 start_game=False
 while True:
     breakflag = False
+    #sleep(0.032)
+    sleep(0.1)
     for ev in pygame.event.get():
 
         if ev.type == pygame.QUIT:
@@ -231,6 +235,8 @@ elif start_tutorial_pressed:
     
 
 while True:
+    #sleep(0.016)
+    sleep(0.1)
     if(first_quit_pressed or start_tutorial_pressed):
         break
     breakflag = False
