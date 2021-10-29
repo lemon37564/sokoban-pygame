@@ -289,15 +289,15 @@ class Game():
             tutorial_text_3 = "3.把箱子推到框框內就獲勝囉"
             tutorial_text_4 = "4.Good luck:D"
             tutorial_text_0 = self.display_font.render(tutorial_text_0, True, (0, 0, 0))
-            screen.blit(tutorial_text_0, (WIN_WIDTH/2 - 500, WIN_HEIGHT/3 + 360))
+            screen.blit(tutorial_text_0, (WIN_WIDTH/2 - 500, WIN_HEIGHT/3 -40))
             tutorial_text_1 = self.display_font.render(tutorial_text_1, True, (0, 0, 0))
-            screen.blit(tutorial_text_1, (WIN_WIDTH/2 - 500, WIN_HEIGHT/3 + 400))
+            screen.blit(tutorial_text_1, (WIN_WIDTH/2 - 500, WIN_HEIGHT/3 + 0))
             tutorial_text_2 = self.display_font.render(tutorial_text_2, True, (0, 0, 0))
-            screen.blit(tutorial_text_2, (WIN_WIDTH/2 - 500, WIN_HEIGHT/3 + 430))
+            screen.blit(tutorial_text_2, (WIN_WIDTH/2 - 500, WIN_HEIGHT/3 + 30))
             tutorial_text_3 = self.display_font.render(tutorial_text_3, True, (0, 0, 0))
-            screen.blit(tutorial_text_3, (WIN_WIDTH/2 - 500, WIN_HEIGHT/3 + 460))
+            screen.blit(tutorial_text_3, (WIN_WIDTH/2 - 500, WIN_HEIGHT/3 + 60))
             tutorial_text_4 = self.display_font.render(tutorial_text_4, True, (0, 0, 0))
-            screen.blit(tutorial_text_4, (WIN_WIDTH/2 - 500, WIN_HEIGHT/3 + 490))
+            screen.blit(tutorial_text_4, (WIN_WIDTH/2 - 500, WIN_HEIGHT/3 + 90))
 
     def restart(self):
         self.Timer.__init__()
