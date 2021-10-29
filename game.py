@@ -175,11 +175,11 @@ class Game():
         self.portals = pygame.sprite.Group()
         self.map_ = maps.get_map(self.level)
 
-        x, y = 0, 0
+        x, y = 200 , 200
         for char in self.map_:
             if char == "\n":  # 換行
                 y += 40
-                x = 0
+                x = 200
             elif char == "H":  # 邊界
                 self.borders.add(element.Border(x, y))
             elif char == "#":  # 牆
@@ -287,7 +287,7 @@ class Game():
             text = self.display_font.render(text, True, (0, 0, 0))
             screen.blit(text, (WIN_WIDTH - 250, WIN_HEIGHT - 50))
 
-        # tutorial 
+        # tutorial SS
         if self.level == maps.TUTORIAL:
             tutorial_text_0 = "                   <遊戲教學>"
             tutorial_text_1 = "1.方向鍵移動，按下space可以開槍射擊，若擊中警衛可將其清除。"
