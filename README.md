@@ -1,18 +1,21 @@
 # sokoban-pygame v0.3
 an unusual sokoban made with pygame 2.0  
 
-# Requirements
-python 3.7+  
-pygame 2.0+  
-
 # How To Play
 方向鍵 => 移動 (arrow key => move)  
 空白鍵 => 攻擊 (space key => attack)  
 ESC => 暫停 (ESC => pause)  
 
+# Architecture
+![](https://raw.githubusercontent.com/lemon37564/sokoban-pygame/main/doc/arch.webp)
+
 # TODO
 https://github.com/lemon37564/sokoban-pygame/milestone/1  
 https://github.com/lemon37564/sokoban-pygame/milestone/2  
+
+# Dependencies
+python 3.7+  
+pygame 2.0+  
 
 # Version
 | 版本 | 更改紀錄 |  

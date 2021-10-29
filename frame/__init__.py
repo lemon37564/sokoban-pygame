@@ -57,7 +57,7 @@ class Frame():
         self.__draw_title(screen)
         self.__draw_btn(screen)
 
-        # press enter
+        # press enter, return class "Option"
         if keys[pygame.K_RETURN]:
             act = self.__meaning[self.__selection]
             self.__selection = 0
@@ -106,8 +106,8 @@ class Loss(Frame):
 
 
 class Pause(Frame):
+    """暫停的選單"""
     def __init__(self):
-        """暫停的選單"""
         super().__init__(
             "Pause",
             ["Resume", "Restart", "Exit"],
@@ -116,8 +116,8 @@ class Pause(Frame):
 
 
 class Victory(Frame):
+    """獲勝的選單"""
     def __init__(self):
-        """獲勝的選單"""
         super().__init__(
             "Victory",
             ["Next  Level", "Restart", "Exit"],

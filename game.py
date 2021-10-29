@@ -3,6 +3,7 @@ import pygame
 import pygame.time
 import time
 import enum
+import logging
 
 # 設定視窗大小
 screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
@@ -55,7 +56,9 @@ class Game():
         self.display_font = pygame.font.Font(parameter.FONT, 24)
 
         self.debug = debug
-        if not self.debug:
+        if self.debug:
+            logging.info("starting game with debug mode")
+        else:
             player_x, player_y = self.player.pos()
             self.mask = element.Mask(player_x, player_y)
 
@@ -143,16 +146,6 @@ class Game():
             self.in_game = False
 
     def gameOver(self):
-        '''
-        gameOverFont = pygame.font.SysFont('arial.ttf',54) #遊戲結束字體和大小
-        gameOverSurf = gameOverFont.render('Game Over!', True, (255, 255, 255)) #遊戲結束內容顯示
-        gameOverRect = gameOverSurf.get_rect()
-        gameOverRect.midtop = (300, 10) #顯示位置
-        playSurface.blit(gameOverSurf, gameOverRect)
-        pygame.display.flip() #刷新顯示介
-        time.sleep(5) #休眠五秒鐘自動退出介面
-        pygame.quit()
-        '''
         sounds.bgm.stop()
         if self.player.DeadAnime():
             self.state = GameState.LOSS
@@ -207,7 +200,7 @@ class Game():
             elif char == " ":
                 pass
             else:
-                print(f"unknow idetifier {char} in map {self.level}, ignored.")
+                logging.warning(f"unknow idetifier {char} in map {self.level}, ignored.")
             x += 40
 
         # dict

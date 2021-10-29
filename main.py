@@ -1,4 +1,7 @@
+import logging
 import pygame
+
+logging.basicConfig(format="%(levelname)s: %(message)s", level=logging.DEBUG)
 
 pygame.init()
 pygame.font.init()
@@ -42,12 +45,12 @@ text_help = smallfont.render('tutorial', True, color)
 #text_title = bigfont.render('Sokoban Stealer', True, color)
 
 #menu images 
-img_title=pygame.image.load('.\data\img\menu\gameTitle2.png')
-img_player=pygame.image.load('.\data\img\menu\PlayerThreeRight.png')
+img_title=pygame.image.load('data/img/menu/gameTitle2.png')
+img_player=pygame.image.load('data/img/menu/PlayerThreeRight.png')
 img_player = pygame.transform.scale(img_player, (140, 140))
-img_explosion=pygame.image.load('.\data\img\menu\Explosion2.png')
+img_explosion=pygame.image.load('data/img/menu/Explosion2.png')
 img_explosion = pygame.transform.scale(img_explosion, (320, 320))
-img_treasure=pygame.image.load('.\data\img\menu\Treasure2.png')
+img_treasure=pygame.image.load('data/img/menu/Treasure2.png')
 img_treasure = pygame.transform.scale(img_treasure, (160, 160))
 # where BTNs and texts at
 x_title = width/2-200

@@ -1,3 +1,4 @@
+import logging
 
 __maps = [
     # map 0 (exception, debugging)
@@ -216,7 +217,7 @@ TUTORIAL = 10
 # 取得第index關，超出範圍或<0則回傳第零關
 def get_map(index: int) -> str:
     if index < 0 or index > __count:
-        print("map index out of range")
+        logging.warning(f"map index out of range({index}), set to default map (map 0)")
         return __maps[0]
     return __maps[index]
 

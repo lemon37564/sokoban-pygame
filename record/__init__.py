@@ -1,4 +1,5 @@
 import json
+import logging
 
 FILE_NAME = "data/records.json"
 
@@ -10,7 +11,7 @@ def save(level: int) -> Exception:
         with open(FILE_NAME, "w") as f:
             f.write(json.dumps(records))
     except Exception as err:
-        print("error: cannot save\n", err)
+        logging.error("cannot save data", err)
         return err
     return None
 
@@ -20,6 +21,6 @@ def read() -> dict:
         with open(FILE_NAME, "r") as f:
             data = f.read()
     except Exception as err:
-        print("error: cannot save\n", err)
+        logging.error("cannot read data", err)
         return dict()
     return json.loads(data)
