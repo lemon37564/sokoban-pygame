@@ -1,3 +1,4 @@
+import enum
 import pygame.image
 import pygame.time
 import pygame.transform
@@ -12,54 +13,72 @@ import sounds
 import time
 
 # 初始化圖片
-up_imgs = []
-down_imgs = []
-left_imgs = []
-right_imgs = []
-dead_imgs = []
+idle_right_imgs = list()
+idle_left_imgs = list()
+run_right_imgs = list()
+run_left_imgs = list()
+dead_right_imgs = list()
+dead_left_imgs = list()
 
-for i in range(3):
-    img = pygame.image.load(f"data/img/player/up_{i}.webp").convert_alpha()
-    up_imgs.append(img)
-    img = pygame.image.load(f"data/img/player/down_{i}.webp").convert_alpha()
-    down_imgs.append(img)
-    img = pygame.image.load(f"data/img/player/right_{i}.webp").convert_alpha()
-    right_imgs.append(img)
-    # 左面的圖片是右面的圖片的鏡射
-    img = pygame.transform.flip(img, True, False)
-    left_imgs.append(img)
+for i in range(10):
+    img = pygame.image.load(f"data/img/player/Idle__00{i}.png").convert_alpha()
+    idle_right_imgs.append(img)
+    idle_left_imgs.append(pygame.transform.flip(img, True, False)) # flip horozontal
 
-for i in range(11):
-    img = pygame.image.load(f"data/img/explosion/1/{i}.png").convert_alpha()
-    dead_imgs.append(img)
+    img = pygame.image.load(f"data/img/player/Run__00{i}.png").convert_alpha()
+    run_right_imgs.append(img)
+    run_left_imgs.append(pygame.transform.flip(img, True, False)) # flip horozontal
 
-imgs = [up_imgs, down_imgs, left_imgs, right_imgs]
+    img = pygame.image.load(f"data/img/player/Dead__00{i}.png").convert_alpha()
+    dead_right_imgs.append(img)
+    dead_left_imgs.append(pygame.transform.flip(img, True, False)) # flip horozontal
 
+
+class PlayerState(enum.Enum):
+    WON = 0
+    LOSING = 1
+    OVER = 2
+    IN_GAME = 3
 
 class Player(Object):
-    def __init__(self, x, y, skin: int):
+    def __init__(self, x, y):
         super().__init__()
-        self.__deadframe = 0
-        self.__dead_img_index = 0
         self.__ammo = parameter.INIT_BULLET_NUM
         self.__isdead = False
-        self.__skin = skin
         self.__cooldown = time.time()
         self.__dont_port = False  # 避免傳送門重複觸發
         self.__goal_box = 0
-        self.set_dir(direction.DOWN)
         
+        self.__anime_index = 0
+        self.set_img_dir(direction.LEFT)
+        self.__real_dir = direction.LEFT
 
         self.set_img(self.__img())
         self.rect = self.image.get_rect()
         self.rect.center = (x, y)
 
-    def set_dir(self, direction):
-        self.__dir = direction
+    def set_img_dir(self, direction):
+        self.__img_dir = direction
         self.set_img(self.__img())
 
     def direction(self):
-        return self.__dir
+        return self.__real_dir
+
+    def update(self, all_objects) -> PlayerState:
+        self.__anime_index += 0.25
+
+        if self.isdead():
+            if self.DeadAnime():
+                return PlayerState.OVER
+            else:
+                return PlayerState.LOSING
+        elif self.is_won(all_objects):
+            return PlayerState.WON
+
+        keys = pygame.key.get_pressed()
+        self.handle_keys(keys, all_objects)
+
+        return PlayerState.IN_GAME
 
     def Numberofbox_in_goal(self , all_objects): #檢查在終點的箱子數量
         self.__goal_box = 0
@@ -73,16 +92,25 @@ class Player(Object):
         # movement
         if keys[pygame.K_UP]:
             self.move(0, -parameter.PLAYER_VELOCITY, all_objects)
-            self.set_dir(direction.UP)
+            self.set_img(self.__img())
+            self.__real_dir = direction.UP
         elif keys[pygame.K_DOWN]:
             self.move(0, parameter.PLAYER_VELOCITY, all_objects)
-            self.set_dir(direction.DOWN)
+            self.set_img(self.__img())
+            self.__real_dir = direction.DOWN
         elif keys[pygame.K_LEFT]:
             self.move(-parameter.PLAYER_VELOCITY, 0, all_objects)
-            self.set_dir(direction.LEFT)
+            self.set_img_dir(direction.LEFT)
+            self.__real_dir = direction.LEFT
         elif keys[pygame.K_RIGHT]:
             self.move(parameter.PLAYER_VELOCITY, 0, all_objects)
-            self.set_dir(direction.RIGHT)
+            self.set_img_dir(direction.RIGHT)
+            self.__real_dir = direction.RIGHT
+        else:
+            if self.__img_dir == direction.LEFT:
+                self.set_img(idle_left_imgs[int(self.__anime_index) % 10])
+            else:
+                self.set_img(idle_right_imgs[int(self.__anime_index) % 10])
 
         # attack
         if keys[pygame.K_SPACE]:
@@ -90,13 +118,15 @@ class Player(Object):
                 sounds.shoot.play(sounds.LOOP_ONCE)
                 player_x, player_y = self.rect.center
                 all_objects[ObjectID.BULLET].add(
-                    element.bullet.Bullet(player_x, player_y, self.__dir))
+                    element.bullet.Bullet(player_x, player_y, self.__real_dir))
 
     def isdead(self):
         return self.__isdead
 
     def Set_Dead(self):
+        self.__anime_index = 0
         self.__isdead = True
+        sounds.dead.play(sounds.LOOP_ONCE)
 
     def is_won(self, all_objects: dict) -> bool:
         # 雙向檢查
@@ -133,18 +163,17 @@ class Player(Object):
     def ammos(self) -> int:
         return self.__ammo
 
+    # 如果放完則回傳true
     def DeadAnime(self) -> bool:
-        # 如果放完則回傳true
-        pygame.time.delay(50)
-        sounds.dead.play(sounds.LOOP_ONCE)
-        self.__deadframe += 1
-        if self.__deadframe >= parameter.DEAD_DELAY:
-            self.__deadframe = 0
-            self.__dead_img_index += 1
-            if self.__dead_img_index >= len(dead_imgs):
-                return True
-            super().set_img(dead_imgs[self.__dead_img_index])
-        return False
+        self.__anime_index -= 0.1 # play dead anime slower
+        img_idx = int(self.__anime_index) % 10
+
+        if self.__img_dir == direction.LEFT:
+            self.set_img(dead_left_imgs[img_idx])
+        else:
+            self.set_img(dead_right_imgs[img_idx])
+
+        return img_idx == len(dead_left_imgs) - 1
 
     def draw(self, screen):
         screen.blit(self.img(), self.rect)
@@ -203,8 +232,10 @@ class Player(Object):
         return False
 
     def __img(self):
-        return imgs[self.__dir][self.__skin]
-
+        if self.__img_dir == direction.LEFT:
+            return run_left_imgs[int(self.__anime_index) % 10]
+        else:
+            return run_right_imgs[int(self.__anime_index) % 10]
 
 if __name__ == "__main__":
     p = Player(1, 1, 2)
