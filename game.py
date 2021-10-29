@@ -18,7 +18,6 @@ import GameTimer.GameTimer
 
 WIN_WIDTH, WIN_HEIGHT = parameter.WIN_WIDTH, parameter.WIN_HEIGHT
 
-
 class GameState(enum.Enum):
     """
     用來表示當前遊戲的狀況
@@ -163,6 +162,27 @@ class Game():
             self.state = GameState.PAUSE
 
     # 建構地圖
+    def CountInitialPoint(self):
+        x , y = 0 , 0
+        for char in self.map_:
+            if char == "\n":  # 換行
+                y += parameter.IMG_SIZE
+                Map_halfwidth = x / 2
+                print(Map_halfwidth)
+                x = 0
+            elif char == "H" or "#" or "." or "$" or "%" or "!" or "P" or "@":
+                x += parameter.IMG_SIZE
+            elif char == " ":
+                pass
+            else:
+                logging.warning(f"unknow idetifier {char} in map {self.level}, ignored.")
+        Map_halfheight = y / 2
+        print(Map_halfheight)
+        initial_height = parameter.WIN_HEIGHT / 2 - Map_halfheight
+        initial_width = parameter.WIN_WIDTH / 2 - Map_halfwidth
+        print(initial_height , initial_width)
+        return [initial_width , initial_height]
+
     def build_world(self):
         self.borders = pygame.sprite.Group()
         self.boxes = pygame.sprite.Group()
@@ -174,11 +194,13 @@ class Game():
         self.portals = pygame.sprite.Group()
         self.map_ = maps.get_map(self.level)
 
-        x, y = 200 , 200
+        initialList =  self.CountInitialPoint()
+        x , y = initialList[0] , initialList[1]
+
         for char in self.map_:
             if char == "\n":  # 換行
                 y += parameter.IMG_SIZE
-                x = 0
+                x = initialList[0]
             elif char == "H":  # 邊界
                 self.borders.add(element.Border(x, y))
             elif char == "#":  # 牆
