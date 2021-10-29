@@ -7,6 +7,7 @@ pygame.init()
 pygame.font.init()
 
 from game import Game
+from pygame import mouse
 
 # initializing the constructor
 
@@ -129,19 +130,26 @@ height_level_6_btn=40
 height_level_7_btn=40
 height_level_8_btn=40
 height_level_9_btn=40
+
 # game settings
 level_selected = 1
-start_game = False
+
 game_mask = False
 
-
+#flags for menu
+tutorial_level=10
+first_quit_pressed=False
+second_quit_pressed=False
+start_tutorial_pressed=False
+first_start_game_pressed = False
+start_game=False
 while True:
     breakflag = False
     for ev in pygame.event.get():
 
         if ev.type == pygame.QUIT:
             pygame.quit()
-
+            first_quit_pressed=True
         # checks if a mouse is clicked
         if ev.type == pygame.MOUSEBUTTONDOWN:
 
@@ -149,16 +157,16 @@ while True:
             # button the game is terminated
             if x_quit_btn <= mouse[0] <= x_quit_btn + width_quit_btn and y_quit_btn <= mouse[1] <= y_quit_btn+height_quit_btn:
                 pygame.quit()
+                first_quit_pressed=True
                 breakflag = True
                 break
             elif x_start_btn <= mouse[0] <= x_start_btn+width_start_btn and y_start_btn <= mouse[1] <= y_start_btn+height_start_btn:
-                start_game = True
-                # level_selected=1
+                first_start_game_pressed=True
                 breakflag = True
                 break
             elif x_tut_btn <= mouse[0] <= x_tut_btn+width_tut_btn and y_tut_btn <= mouse[1] <= y_tut_btn+height_tut_btn:
-                start_game = True
-                level_selected = 10
+                start_tutorial_pressed=True
+                
                 breakflag = True
                 break
     if breakflag == True:
@@ -213,9 +221,18 @@ while True:
 
 
 #level select menu
-
+if(first_quit_pressed):
+    pygame.quit()
+elif start_tutorial_pressed:
+    game = Game(level=tutorial_level, debug=False)
+    game.run_game()
+    pygame.quit()
+#else continue towards level select
+    
 
 while True:
+    if(first_quit_pressed or start_tutorial_pressed):
+        break
     breakflag = False
     for ev in pygame.event.get():
 
@@ -229,50 +246,51 @@ while True:
             # button the game is terminated
             if x_quit_btn_2 <= mouse[0] <= x_quit_btn_2 + width_quit_btn_2 and y_quit_btn_2 <= mouse[1] <= y_quit_btn_2+height_quit_btn_2:
                 pygame.quit()
+                second_quit_pressed=True
                 breakflag = True
                 break
             elif x_level_1_btn <= mouse[0] <= x_level_1_btn+ width_level_1_btn and y_level_1_btn <= mouse[1] <= y_level_1_btn+height_level_1_btn:
-                
+                start_game=True
                 level_selected=1
                 breakflag = True
                 break
             elif x_level_2_btn <= mouse[0] <= x_level_2_btn+ width_level_2_btn and y_level_2_btn <= mouse[1] <= y_level_2_btn+height_level_2_btn:
-                
+                start_game=True
                 level_selected=2
                 breakflag = True
                 break
             elif x_level_3_btn <= mouse[0] <= x_level_3_btn+ width_level_3_btn and y_level_3_btn <= mouse[1] <= y_level_3_btn+height_level_3_btn:
-                
+                start_game=True
                 level_selected=3
                 breakflag = True
                 break
             elif x_level_4_btn <= mouse[0] <= x_level_4_btn+ width_level_4_btn and y_level_4_btn <= mouse[1] <= y_level_4_btn+height_level_4_btn:
-                
+                start_game=True
                 level_selected=4
                 breakflag = True
                 break
             elif x_level_5_btn <= mouse[0] <= x_level_5_btn+ width_level_5_btn and y_level_5_btn <= mouse[1] <= y_level_5_btn+height_level_5_btn:
-                
+                start_game=True
                 level_selected=5
                 breakflag = True
                 break
             elif x_level_6_btn <= mouse[0] <= x_level_6_btn+ width_level_6_btn and y_level_6_btn <= mouse[1] <= y_level_6_btn+height_level_6_btn:
-                
+                start_game=True
                 level_selected=6
                 breakflag = True
                 break
             elif x_level_7_btn <= mouse[0] <= x_level_7_btn+ width_level_7_btn and y_level_7_btn <= mouse[1] <= y_level_7_btn+height_level_7_btn:
-                
+                start_game=True
                 level_selected=7
                 breakflag = True
                 break
             elif x_level_8_btn <= mouse[0] <= x_level_8_btn+ width_level_8_btn and y_level_8_btn <= mouse[1] <= y_level_8_btn+height_level_8_btn:
-                
+                start_game=True
                 level_selected=8
                 breakflag = True
                 break
             elif x_level_9_btn <= mouse[0] <= x_level_9_btn+ width_level_9_btn and y_level_9_btn <= mouse[1] <= y_level_9_btn+height_level_9_btn:
-                
+                start_game=True
                 level_selected=9
                 breakflag = True
                 break
@@ -368,9 +386,12 @@ while True:
 
     # updates the frames of the game
     pygame.display.update()
-if(start_game):
+
+if(second_quit_pressed):
+    pygame.quit()
+elif(start_game):
 
     game = Game(level=level_selected, debug=False)
     game.run_game()
-
+    pygame.quit()
 pygame.quit()

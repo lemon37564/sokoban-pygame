@@ -21,8 +21,30 @@ HPPPPPP!!!!!!!!!!!!!!!!!!!!!!!!!!!!!H
 HPPPPPP!!!!!!!!!!!!!!!!!!!!!!!!!!!!!H
 HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH
 """,
+# map 1 TUTORIAL
+    """
+HHHHHHHHHHHHHHHHHHHHHHHHHH
+H       H         H    $.H               
+H@   H         HHHHHHHH HH          
+HHHHHHHHHHHHHHHHHH       H                     
+HHHHHHHHHHHHHHP         HH
+H           PHHHHHHHHHHHHH
+HHHHHHHHHHHHHHH
+H      P                H
+H                       H
+H                       H
+H                       H
+H           P           H
+H                       H
+HHHHHHHHHHHHHHHHHHHHHHHHH
+HP            #      .#H
+H    ##  $   ##   ### #H
+HHHHH                  H
+H##################    H
+HHHHHHHHHHHHHHHHHHHHHHHH
+""",
 
-    # map 1
+    # map 2
     """
 HHHHHHHHHHHHHHHHHHHHHHHHHH
 H########################H
@@ -39,7 +61,7 @@ H########################H
 HHHHHHHHHHHHHHHHHHHHHHHHHH
 """,
 
-    # map 2
+    # map 3
     """
 HHHHHHHHHHHHHHHHHHHHH
 H          !#!      H
@@ -58,7 +80,7 @@ H   #   #   #   #  !H
 HHHHHHHHHHHHHHHHHHHHH
 """,
 
-    # map 3
+    # map 4
     """
 HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH
 H##################################H
@@ -77,7 +99,7 @@ H##################################H
 HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH
 """,
 
-    # map 4
+    # map 5
     """
 HHHHHHHHHHHHHHHHHHHHHHHHH
 H #####  #  ####.$     .H
@@ -94,7 +116,7 @@ H!     !   #   !   #  ! H
 HHHHHHHHHHHHHHHHHHHHHHHHH
 """,
 
-    # map 5
+    # map 6
     """
 HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH
 H@     ##   #      #    # # # #     H
@@ -111,7 +133,7 @@ H      #      #     #      #   #.   H
 HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH
 """,
 
-    # map 6
+    # map 7
     """
 HHHHHHHHHHHHHHHHHHHHHHHHH
 H! ##  #! ##  !        !H
@@ -130,7 +152,7 @@ H    !      ##         !H
 HHHHHHHHHHHHHHHHHHHHHHHHH
 """,
 
-    # map 7
+    # map 8
     """
 HHHHHHHHHHHHHHHHHHHHHHH
 H.... #@###    # !   %H
@@ -150,7 +172,7 @@ H!         #!     #!  H
 HHHHHHHHHHHHHHHHHHHHHHH
 """,
 
-    # map 8
+    # map 9
     """
 HHHHHHHHHHHHHHHHHHHHHHH
 H!            !     !#H
@@ -169,7 +191,7 @@ H##########  !   #   @H
 HHHHHHHHHHHHHHHHHHHHHHH
 """,
 
-    # map 9
+    # map 10
     """
 HHHHHHHHHHHHHHHHHHHHHHHH
 H###...########  ######H
@@ -188,28 +210,8 @@ H#. $    ##     $     #H
 H#### $.###  $$$    ...H
 H####   .## $       ...H
 HHHHHHHHHHHHHHHHHHHHHHHH
-""",
-
-# map 10 TUTORIAL
-    """
-HHHHHHHHHHHHHHHHHHHHHHHH
-HHHHHHHHHHHHHHHHHHHHHHHH
-H     H                H
-H @     H           ! PH
-HHHHHHHHHHHHHHHHHHHHHHHH
-H      P                H
-H                       H
-H                       H
-H                       H
-H           P           H
-H                       H
-HHHHHHHHHHHHHHHHHHHHHHHHH
-HP            #      .#H
-H    ##  $   ##   ### #H
-HHHHH                  H
-H##################    H
-HHHHHHHHHHHHHHHHHHHHHHHH
 """
+
 ]
 
 # 扣掉第0關
