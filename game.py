@@ -313,7 +313,7 @@ class Game():
             screen.blit(tutorial_text_4, (WIN_WIDTH/2 - 500, WIN_HEIGHT/3 + 490))
 
     def restart(self):
-        self.Timer.initialize()
+        self.Timer.__init__()
         self.build_world()
 
 
