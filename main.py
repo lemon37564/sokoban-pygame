@@ -8,6 +8,8 @@ pygame.font.init()
 
 from game import Game
 from pygame import mouse
+from time import sleep
+
 
 # initializing the constructor
 
@@ -36,8 +38,8 @@ width = screen.get_width()
 height = screen.get_height()
 
 # defining fonts
-smallfont = pygame.font.SysFont('Wonton', 35)
-bigfont = pygame.font.SysFont('Wonton', 50)
+smallfont = pygame.font.SysFont('Corbel', 35)
+bigfont = pygame.font.SysFont('Corbel', 50)
 
 # rendering a text written in
 # this font
@@ -137,7 +139,7 @@ level_selected = 1
 game_mask = False
 
 #flags for menu
-tutorial_level=1
+tutorial_level=10
 first_quit_pressed=False
 second_quit_pressed=False
 start_tutorial_pressed=False
@@ -145,6 +147,8 @@ first_start_game_pressed = False
 start_game=False
 while True:
     breakflag = False
+    #sleep(0.032)
+    sleep(0.1)
     for ev in pygame.event.get():
 
         if ev.type == pygame.QUIT:
@@ -231,6 +235,8 @@ elif start_tutorial_pressed:
     
 
 while True:
+    #sleep(0.016)
+    sleep(0.1)
     if(first_quit_pressed or start_tutorial_pressed):
         break
     breakflag = False
