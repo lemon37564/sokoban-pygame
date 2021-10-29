@@ -46,7 +46,9 @@ class Player(Object):
         self.__skin = skin
         self.__cooldown = time.time()
         self.__dont_port = False  # 避免傳送門重複觸發
+        self.__goal_box = 0
         self.set_dir(direction.DOWN)
+        
 
         self.set_img(self.__img())
         self.rect = self.image.get_rect()
@@ -58,6 +60,14 @@ class Player(Object):
 
     def direction(self):
         return self.__dir
+
+    def Numberofbox_in_goal(self , all_objects): #檢查在終點的箱子數量
+        self.__goal_box = 0
+        for box in all_objects[ObjectID.BOX]:
+            if  pygame.sprite.spritecollide(
+                    box, all_objects[ObjectID.GOAL], dokill=False):
+                self.__goal_box += 1
+        return self.__goal_box
 
     def handle_keys(self, keys, all_objects: dict) -> None:
         # movement
@@ -101,6 +111,7 @@ class Player(Object):
                     goal, all_objects[ObjectID.BOX], dokill=False):
                 return False
         return True
+
 
     # 增加子彈
     def add_ammo(self, delta):

@@ -70,7 +70,7 @@ height_tut_btn = 40
 height_title = 40
 
 # game settings
-level_selected = 1
+level_selected = 3
 start_game = False
 game_mask = False
 

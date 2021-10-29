@@ -228,6 +228,7 @@ class Game():
         self.bullets.update(self.all_objects)
         self.guards.update(self.all_objects)
         self.portals.update()
+        
 
         if not self.debug:
             self.mask.update(self.player)
@@ -270,6 +271,11 @@ class Game():
         text = f"Score: {self.score}" 
         text = self.display_font.render(text, True, (0, 0, 0))
         screen.blit(text, (WIN_WIDTH - 220, WIN_HEIGHT - 125))
+
+        text = f"box_in_goal: {self.player.Numberofbox_in_goal(self.all_objects)}" 
+        text = self.display_font.render(text, True, (0, 0, 0))
+        screen.blit(text, (WIN_WIDTH - 720, WIN_HEIGHT - 125))
+
        
 
         # debug用資訊
