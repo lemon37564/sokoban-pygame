@@ -18,7 +18,6 @@ import GameTimer.GameTimer
 
 WIN_WIDTH, WIN_HEIGHT = parameter.WIN_WIDTH, parameter.WIN_HEIGHT
 
-
 class GameState(enum.Enum):
     """
     用來表示當前遊戲的狀況
@@ -163,6 +162,27 @@ class Game():
             self.state = GameState.PAUSE
 
     # 建構地圖
+    def CountInitialPoint(self):
+        x , y = 0 , 0
+        for char in self.map_:
+            if char == "\n":  # 換行
+                y += parameter.IMG_SIZE
+                Map_halfwidth = x / 2
+                print(Map_halfwidth)
+                x = 0
+            elif char == "H" or "#" or "." or "$" or "%" or "!" or "P" or "@":
+                x += parameter.IMG_SIZE
+            elif char == " ":
+                pass
+            else:
+                logging.warning(f"unknow idetifier {char} in map {self.level}, ignored.")
+        Map_halfheight = y / 2
+        print(Map_halfheight)
+        initial_height = parameter.WIN_HEIGHT / 2 - Map_halfheight
+        initial_width = parameter.WIN_WIDTH / 2 - Map_halfwidth
+        print(initial_height , initial_width)
+        return [initial_width , initial_height]
+
     def build_world(self):
         self.borders = pygame.sprite.Group()
         self.boxes = pygame.sprite.Group()
@@ -174,11 +194,13 @@ class Game():
         self.portals = pygame.sprite.Group()
         self.map_ = maps.get_map(self.level)
 
-        x, y = 0, 0
+        initialList =  self.CountInitialPoint()
+        x , y = initialList[0] , initialList[1]
+
         for char in self.map_:
             if char == "\n":  # 換行
                 y += parameter.IMG_SIZE
-                x = 0
+                x = initialList[0]
             elif char == "H":  # 邊界
                 self.borders.add(element.Border(x, y))
             elif char == "#":  # 牆
@@ -219,6 +241,7 @@ class Game():
     def update_world(self):
         self.bullets.update(self.all_objects)
         self.portals.update()
+        
 
         if self.state != GameState.LOSING:
             self.guards.update(self.all_objects)
@@ -267,6 +290,11 @@ class Game():
         text = f"Score: {self.score}" 
         text = self.display_font.render(text, True, (0, 0, 0))
         screen.blit(text, (WIN_WIDTH - 220, WIN_HEIGHT - 125))
+
+        text = f"box_in_goal: {self.player.Numberofbox_in_goal(self.all_objects)}" 
+        text = self.display_font.render(text, True, (0, 0, 0))
+        screen.blit(text, (WIN_WIDTH - 720, WIN_HEIGHT - 125))
+
        
 
         # debug用資訊
@@ -285,7 +313,7 @@ class Game():
             text = self.display_font.render(text, True, (0, 0, 0))
             screen.blit(text, (WIN_WIDTH - 250, WIN_HEIGHT - 50))
 
-        # tutorial 
+        # tutorial SS
         if self.level == maps.TUTORIAL:
             tutorial_text_0 = "                   <遊戲教學>"
             tutorial_text_1 = "1.方向鍵移動，按下space可以開槍射擊，若擊中警衛可將其清除。"
