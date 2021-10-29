@@ -24,19 +24,20 @@ HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH
 # map 1 TUTORIAL
     """
 HHHHHHHHHHHHHHHHHHHHHHHHHH
-H       H         H    $.H               
+H       H              $.H               
 H@   H         HHHHHHHH HH          
 HHHHHHHHHHHHHHHHHH       H                     
 HHHHHHHHHHHHHHP         HH
 H           PHHHHHHHHHHHHH
-HHHHHHHHHHHHHHH
-H      P                H
-H                       H
-H                       H
-H                       H
-H           P           H
-H                       H
-HHHHHHHHHHHHHHHHHHHHHHHHH
+H  HHHHHHHHHHHHHHHHHHHHHHH
+H           H            H
+H           H H          H
+H$          H H          H
+H.            H         PH
+HHHHHHHHHHHHHHHHHHHHHHHHHH
+HPH    H       H         H
+H         H            !PH
+HHHHHHHHHHHHHHHHHHHHHHHHHH
 HP            #      .#H
 H    ##  $   ##   ### #H
 HHHHH                  H
@@ -217,7 +218,7 @@ HHHHHHHHHHHHHHHHHHHHHHHH
 # 扣掉第0關
 __count = len(__maps) - 1
 
-TUTORIAL = 10
+TUTORIAL = 1
 
 # 取得第index關，超出範圍或<0則回傳第零關
 def get_map(index: int) -> str:

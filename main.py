@@ -36,8 +36,8 @@ width = screen.get_width()
 height = screen.get_height()
 
 # defining fonts
-smallfont = pygame.font.SysFont('Corbel', 35)
-bigfont = pygame.font.SysFont('Corbel', 50)
+smallfont = pygame.font.SysFont('Wonton', 35)
+bigfont = pygame.font.SysFont('Wonton', 50)
 
 # rendering a text written in
 # this font
@@ -137,7 +137,7 @@ level_selected = 1
 game_mask = False
 
 #flags for menu
-tutorial_level=10
+tutorial_level=1
 first_quit_pressed=False
 second_quit_pressed=False
 start_tutorial_pressed=False
