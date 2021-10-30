@@ -217,7 +217,7 @@ HHHHHHHHHHHHHHHHHHHHHHHH
 # 扣掉第0關
 __count = len(__maps) - 1
 
-TUTORIAL = 10
+TUTORIAL = 1
 
 # 取得第index關，超出範圍或<0則回傳第零關
 def get_map(index: int) -> str:
