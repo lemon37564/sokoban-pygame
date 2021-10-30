@@ -21,11 +21,12 @@ HPPPPPP!!!!!!!!!!!!!!!!!!!!!!!!!!!!!H
 HPPPPPP!!!!!!!!!!!!!!!!!!!!!!!!!!!!!H
 HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH
 """,
+
 # map 1 TUTORIAL
     """
 HHHHHHHHHHHHHHHHHHHHHHHHHH
 H       H              $.H               
-H@   H         HHHHHHHH HH                                     
+H@   H        HHHHHHHHH HH                                     
 HHHHHHHHHHHHHHP         HH
 H           PHHHHHHHHHHHHH
 H  HHHHHHHHHHHHHHHHHHHHHHH
@@ -40,6 +41,7 @@ HHHHHHHHHHHHHHHHHHHHHHHHHH
 HP            #      .#H
 H    ##  $   ##   ### #H
 HHHHH                  H
+HHHHHHHHHHHHHHHHHHHH  HHHH
 HHHHHHHHHHHHHHHHHHHHHHHHHH
  """,
 
