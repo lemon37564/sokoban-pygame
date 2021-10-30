@@ -24,25 +24,24 @@ HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH
 # map 1 TUTORIAL
     """
 HHHHHHHHHHHHHHHHHHHHHHHHHH
-H       H         H    $.H               
-H@   H         HHHHHHHH HH          
-HHHHHHHHHHHHHHHHHH       H                     
+H       H              $.H               
+H@   H         HHHHHHHH HH                                     
 HHHHHHHHHHHHHHP         HH
 H           PHHHHHHHHHHHHH
-HHHHHHHHHHHHHHH
-H      P                H
-H                       H
-H                       H
-H                       H
-H           P           H
-H                       H
-HHHHHHHHHHHHHHHHHHHHHHHHH
+H  HHHHHHHHHHHHHHHHHHHHHHH
+H           H            H
+H           H H          H
+H$          H H          H
+H.            H         PH
+HHHHHHHHHHHHHHHHHHHHHHHHHH
+HPH    H       H         H
+H         H            !PH
+HHHHHHHHHHHHHHHHHHHHHHHHHH
 HP            #      .#H
 H    ##  $   ##   ### #H
 HHHHH                  H
-H##################    H
-HHHHHHHHHHHHHHHHHHHHHHHH
-""",
+HHHHHHHHHHHHHHHHHHHHHHHHHH
+ """,
 
     # map 2
     """
