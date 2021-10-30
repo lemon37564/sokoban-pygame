@@ -313,8 +313,8 @@ class Game():
             text = self.display_font.render(text, True, (0, 0, 0))
             screen.blit(text, (WIN_WIDTH - 250, WIN_HEIGHT - 50))
 
-        # tutorial 
-        if self.level == maps.TUTORIAL :
+        # tutorial SS
+        if self.level == maps.TUTORIAL:
             tutorial_text_0 = "<遊戲教學>"
             tutorial_text_1 = "這是一個密室逃脫"
             tutorial_text_2 = "要逃離這個房間必須把箱子推進格子"
