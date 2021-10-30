@@ -3,7 +3,7 @@ import pygame.sprite
 import pygame.transform
 
 from element.obj import Object, ObjectID
-from element import direction
+from element import direction, exploder
 import parameter
 
 img_right = pygame.image.load("data/img/player/Kunai.png").convert_alpha()
@@ -45,6 +45,8 @@ class Bullet(Object):
         collided = pygame.sprite.spritecollide(
             self, all_objects[ObjectID.GUARD], dokill=True)
         if collided:
+            x, y = self.pos()
+            all_objects[ObjectID.GUARD].add(exploder.Exploder(x, y))
             all_objects[ObjectID.BULLET].remove(self)
         collided = pygame.sprite.spritecollide(
             self, all_objects[ObjectID.WALL], dokill=False)
