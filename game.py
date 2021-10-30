@@ -168,7 +168,6 @@ class Game():
             if char == "\n":  # 換行
                 y += parameter.IMG_SIZE
                 Map_halfwidth = x / 2
-                print(Map_halfwidth)
                 x = 0
             elif char == "H" or "#" or "." or "$" or "%" or "!" or "P" or "@":
                 x += parameter.IMG_SIZE
@@ -177,10 +176,8 @@ class Game():
             else:
                 logging.warning(f"unknow idetifier {char} in map {self.level}, ignored.")
         Map_halfheight = y / 2
-        print(Map_halfheight)
         initial_height = parameter.WIN_HEIGHT / 2 - Map_halfheight
         initial_width = parameter.WIN_WIDTH / 2 - Map_halfwidth
-        print(initial_height , initial_width)
         return [initial_width , initial_height]
 
     def build_world(self):
