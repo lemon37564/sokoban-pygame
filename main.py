@@ -134,7 +134,7 @@ height_level_8_btn=40
 height_level_9_btn=40
 
 # game settings
-level_selected = 1
+level_selected = 3
 
 game_mask = False
 
