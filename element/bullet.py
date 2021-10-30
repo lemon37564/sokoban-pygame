@@ -46,7 +46,7 @@ class Bullet(Object):
             self, all_objects[ObjectID.GUARD], dokill=True)
         if collided:
             x, y = self.pos()
-            all_objects[ObjectID.GUARD].add(exploder.Exploder(x, y))
+            all_objects[ObjectID.BULLET].add(exploder.Exploder(x, y))
             all_objects[ObjectID.BULLET].remove(self)
         collided = pygame.sprite.spritecollide(
             self, all_objects[ObjectID.WALL], dokill=False)

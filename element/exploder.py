@@ -27,7 +27,7 @@ class Exploder(Object):
             super().set_img(imgs[self.__img_index % len(imgs)])
         
         if self.__img_index == len(imgs) - 1:
-            all_objects[ObjectID.GUARD].remove(self)
+            all_objects[ObjectID.BULLET].remove(self)
 
 
 if __name__ == "__main__":
