@@ -139,7 +139,7 @@ level_selected = 1
 game_mask = False
 
 #flags for menu
-tutorial_level=10
+tutorial_level=1
 first_quit_pressed=False
 second_quit_pressed=False
 start_tutorial_pressed=False
