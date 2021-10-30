@@ -1,6 +1,6 @@
 import logging
 import pygame
-
+from pygame import image
 logging.basicConfig(format="%(levelname)s: %(message)s", level=logging.DEBUG)
 
 pygame.init()
@@ -177,7 +177,7 @@ while True:
         break
 
     # fills the screen with a color
-    screen.fill((200, 200,    0))
+    screen.fill((210, 200,    200))
 
     # stores the (x,y) coordinates into
     # the variable as a tuple
@@ -209,6 +209,7 @@ while True:
         #pygame.draw.rect(screen, color_dark, [
                    #      x_title, y_title, width_title, height_title])
     # superimposing the text onto our button
+ 
     screen.blit(text_quit, (x_quit_btn+50, y_quit_btn))
     screen.blit(text_start, (x_start_btn+50, y_start_btn))
     screen.blit(text_help, (x_tut_btn+50, y_tut_btn))
@@ -397,7 +398,7 @@ if(second_quit_pressed):
     pygame.quit()
 elif(start_game):
 
-    game = Game(level=level_selected, debug=False)
+    game = Game(level=level_selected, debug=True)
     game.run_game()
     pygame.quit()
 pygame.quit()
