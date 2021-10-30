@@ -25,8 +25,7 @@ HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH
     """
 HHHHHHHHHHHHHHHHHHHHHHHHHH
 H       H              $.H               
-H@   H         HHHHHHHH HH          
-HHHHHHHHHHHHHHHHHH       H                     
+H@   H         HHHHHHHH HH                                     
 HHHHHHHHHHHHHHP         HH
 H           PHHHHHHHHHHHHH
 H  HHHHHHHHHHHHHHHHHHHHHHH

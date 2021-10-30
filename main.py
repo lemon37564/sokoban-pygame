@@ -229,7 +229,7 @@ while True:
 if(first_quit_pressed):
     pygame.quit()
 elif start_tutorial_pressed:
-    game = Game(level=tutorial_level, debug=False)
+    game = Game(level=tutorial_level, debug=True)
     game.run_game()
     pygame.quit()
 #else continue towards level select
