@@ -9,10 +9,10 @@ pygame.font.init()
 from game import Game
 from pygame import mouse
 from time import sleep
-
+from sokoban_solver import generate
 
 # initializing the constructor
-
+generate()
 
 # screen resolution
 #res = (720,720)
@@ -229,7 +229,7 @@ while True:
 if(first_quit_pressed):
     pygame.quit()
 elif start_tutorial_pressed:
-    game = Game(level=tutorial_level, debug=True)
+    game = Game(level=tutorial_level, debug=False)
     game.run_game()
     pygame.quit()
 #else continue towards level select
