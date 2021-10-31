@@ -18,7 +18,7 @@ import parameter
 import GameTimer.GameTimer
 
 pygame.freetype.init()
-info_font = freetype.Font(parameter.INFO_FONT , 20)
+info_font = pygame.freetype.Font(parameter.INFO_FONT , 20)
 
 WIN_WIDTH, WIN_HEIGHT = parameter.WIN_WIDTH, parameter.WIN_HEIGHT
 
