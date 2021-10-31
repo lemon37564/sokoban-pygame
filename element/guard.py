@@ -6,11 +6,10 @@ from element.obj import Object, ObjectID
 from element import direction
 import parameter
 
-
-img = pygame.image.load("data/img/spike.png").convert_alpha()
-img2 = pygame.image.load("data/img/spike_2.png").convert_alpha()
-imgs = [img, img2]
-
+imgs = []
+for i in range(8):
+    img = pygame.image.load(f"data/img/spike/spike_{i}.png").convert_alpha()
+    imgs.append(img)
 
 class Guard(Object):
     def __init__(self, x, y):
