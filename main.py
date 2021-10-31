@@ -12,7 +12,6 @@ from time import sleep
 from sokoban_solver import generate
 
 # initializing the constructor
-generate()
 
 # screen resolution
 #res = (720,720)
@@ -398,7 +397,7 @@ if(second_quit_pressed):
     pygame.quit()
 elif(start_game):
 
-    game = Game(level=level_selected, debug=True)
+    game = Game(level=level_selected, debug=False)
     game.run_game()
     pygame.quit()
 pygame.quit()

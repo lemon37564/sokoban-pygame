@@ -8,6 +8,7 @@ import logging
 # 設定視窗大小
 screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
 
+
 import record
 import frame
 import maps
@@ -16,7 +17,11 @@ import sounds
 import parameter
 import GameTimer.GameTimer
 
+pygame.freetype.init()
+info_font = freetype.Font(parameter.INFO_FONT , 20)
+
 WIN_WIDTH, WIN_HEIGHT = parameter.WIN_WIDTH, parameter.WIN_HEIGHT
+
 
 class GameState(enum.Enum):
     """
@@ -276,23 +281,20 @@ class Game():
 
     # 在螢幕畫出需要顯示的資訊
     def info_show(self):
-        text = f"ammos: {self.player.ammos()}"
-        text = self.display_font.render(text, True, (0, 0, 0))
-        screen.blit(text, (WIN_WIDTH - 180, WIN_HEIGHT - 200))
+        text = f"Ammos: {self.player.ammos()}"
+        info_font.render_to(screen, (4,4) , text , (255,255,255), None , size = 30)
+        
 
         text = "Time: " + time.strftime("%H:%M:%S", time.gmtime(self.Timer.get_elapsed()))
-        text = self.display_font.render(text, True, (0, 0, 0))
-        screen.blit(text, (WIN_WIDTH - 200, WIN_HEIGHT - 150))
+        info_font.render_to(screen,(200 , 4) , text , (255,255,255) , None, size= 30)
 
         text = f"Score: {self.score}" 
-        text = self.display_font.render(text, True, (0, 0, 0))
-        screen.blit(text, (WIN_WIDTH - 220, WIN_HEIGHT - 125))
+        info_font.render_to(screen,(600 , 4) , text , (255,255,255) , None, size= 30)
 
-        text = f"box_in_goal: {self.player.Numberofbox_in_goal(self.all_objects)}" 
-        text = self.display_font.render(text, True, (0, 0, 0))
-        screen.blit(text, (WIN_WIDTH - 720, WIN_HEIGHT - 125))
+        text = f"Box_In_Goal: {self.player.Numberofbox_in_goal(self.all_objects)}" 
+        info_font.render_to(screen,(900 , 4) , text , (255,255,255) , None, size= 30)
 
-       
+        
 
         # debug用資訊
         if self.debug:
