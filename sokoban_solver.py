@@ -21,7 +21,7 @@ class PriorityQueue:
             
         except :
 
-            return False
+            return False#empty
         return item
 
     def isEmpty(self):
@@ -231,34 +231,38 @@ def uniformCostSearch(gameState,posGoals,posWalls):
                 actions.push(node_action + [action[-1]], Cost)
     
 
-def aStarSearch(gameState):
+def aStarSearch(gameState,posGoals,posWalls):
     """Implement aStarSearch approach"""
     beginBox = PosOfBoxes(gameState)
     beginPlayer = PosOfPlayer(gameState)
 
     start_state = (beginPlayer, beginBox)
     frontier = PriorityQueue()
-    frontier.push([start_state], heuristic(beginPlayer, beginBox))
+    frontier.push([start_state], heuristic(beginPlayer, beginBox,posGoals))
     exploredSet = set()
     actions = PriorityQueue()
-    actions.push([0], heuristic(beginPlayer, start_state[1]))
+    actions.push([0], heuristic(beginPlayer, start_state[1],posGoals))
     while frontier:
         node = frontier.pop()
         node_action = actions.pop()
-        if isEndState(node[-1][-1]):
+        if(type(node)==bool):
+            return 'not solvable'
+        
+        if isEndState(node[-1][-1],posGoals):
             print(','.join(node_action[1:]).replace(',',''))
+            return "solvable"
             break
         if node[-1] not in exploredSet:
             exploredSet.add(node[-1])
             Cost = cost(node_action[1:])
-            for action in legalActions(node[-1][0], node[-1][1]):
+            for action in legalActions(node[-1][0], node[-1][1],posWalls):
                 newPosPlayer, newPosBox = updateState(node[-1][0], node[-1][1], action)
-                if isFailed(newPosBox):
+                if isFailed(newPosBox,posGoals,posWalls):
                     continue
-                Heuristic = heuristic(newPosPlayer, newPosBox)
+                Heuristic = heuristic(newPosPlayer, newPosBox,posGoals)
                 frontier.push(node + [(newPosPlayer, newPosBox)], Heuristic + Cost) 
                 actions.push(node_action + [action[-1]], Heuristic + Cost)
-
+        
 
 """Read command
 def readCommand(argv):
@@ -277,10 +281,8 @@ def readCommand(argv):
     args['method'] = options.agentMethod
     return args
 """
-def generateRandomLevel():
-    
+def generateRandomLevel6X6():
     character_pos=random.sample(range(16), 9)
-  
     map_raw=[
              ' ',' ',' ',' ',
             ' ', ' ',' ',' ',
@@ -302,52 +304,111 @@ def generateRandomLevel():
     for i in range(0,4):
         map_raw_1.append(map_raw[i])
     map_raw_1.append("#")
-   
     map_raw_1.append("#")
     for i in range(0,4):
         map_raw_1.append(map_raw[i+4])
     map_raw_1.append("#")
-    
-
     map_raw_1.append("#")
     for i in range(0,4):
         map_raw_1.append(map_raw[i+8])
     map_raw_1.append("#")
-
     map_raw_1.append("#")
     for i in range(0,4):
         map_raw_1.append(map_raw[i+12])
     map_raw_1.append("#")
-
-
     map_raw_1.append("#")
     map_raw_1.append("#")
     map_raw_1.append("#")
     map_raw_1.append("#")
     map_raw_1.append("#")
     map_raw_1.append("#")
-
-  
-
-
-    
-       
-   
+    #WRITE FILE
     f = open('sokobanLevels/'+'randomlevel.txt', 'w')
     for i in range(6):
         for j in range(6):
-
             f.write(map_raw_1[i*6+j])
         if(i<5):f.write('\n')
+    f.close()
+def generateRandomLevel8X8():
+    
+    character_pos=random.sample(range(36), 17)
+  
+    map_raw=[' ',' ']
+    for i in range(0,34):
+        map_raw.append(' ')
+    map_raw[character_pos[0]] ='#'
+    map_raw[character_pos[1]]='.'
+    map_raw[character_pos[2]]=' '
+    map_raw[character_pos[3]]=' '
+    map_raw[character_pos[4]]='B'
+    map_raw[character_pos[5]]='#'
+    map_raw[character_pos[6]]='#'
+    map_raw[character_pos[7]]='#'
+    map_raw[character_pos[8]]='#'
+    map_raw[character_pos[9]] ='#'
+    map_raw[character_pos[10]]='.'
+    map_raw[character_pos[12]]='.'
+    map_raw[character_pos[13]]='B'
+    map_raw[character_pos[14]]='B'
+    map_raw[character_pos[15]]='#'
+    map_raw[character_pos[16]]='&'
+    map_raw_1=["#","#","#","#","#","#",'#','#']
+    #ROW 1
+    map_raw_1.append("#")
+    for i in range(0,6):
+        map_raw_1.append(map_raw[i])
+    map_raw_1.append("#")
+    #ROW 2
+    map_raw_1.append("#")
+    for i in range(0,6):
+        map_raw_1.append(map_raw[i+6])
+    map_raw_1.append("#")
+    
+    #ROW 3
+    map_raw_1.append("#")
+    for i in range(0,6):
+        map_raw_1.append(map_raw[i+12])
+    map_raw_1.append("#")
+
+    #ROW 4
+    map_raw_1.append("#")
+    for i in range(0,6):
+        map_raw_1.append(map_raw[i+18])
+    map_raw_1.append("#")
+    #ROW 5
+    map_raw_1.append("#")
+    for i in range(0,6):
+        map_raw_1.append(map_raw[i+24])
+    map_raw_1.append("#")
+    #ROW 6
+    map_raw_1.append("#")
+    for i in range(0,6):
+        map_raw_1.append(map_raw[i+30])
+    map_raw_1.append("#")
+
+    map_raw_1.append("#")
+    map_raw_1.append("#")
+    map_raw_1.append("#")
+    map_raw_1.append("#")
+    map_raw_1.append("#")
+    map_raw_1.append("#")
+    map_raw_1.append("#")
+    map_raw_1.append("#")
+    #WRTIE
+    f = open('sokobanLevels/'+'randomlevel.txt', 'w')
+    for i in range(8):
+        for j in range(8):
+
+            f.write(map_raw_1[i*8+j])
+        if(i<7):f.write('\n')
     
     f.close()
-
 def generate():
 
     solvable=False
-    method='ucs'
+    method='astar'
     while not solvable:
-        generateRandomLevel()
+        generateRandomLevel8X8()
         time_start = time.time()
         #layout, method = readCommand(sys.argv[1:]).values()
         #print(type(layout[0]))
@@ -361,7 +422,7 @@ def generate():
         posWalls = PosOfWalls(gameState)
         posGoals = PosOfGoals(gameState)
         if method == 'astar':
-            aStarSearch(gameState)
+            result=aStarSearch(gameState,posGoals,posWalls)
         elif method == 'dfs':
             depthFirstSearch(gameState)
         elif method == 'bfs':
