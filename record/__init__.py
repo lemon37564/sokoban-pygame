@@ -4,9 +4,12 @@ import logging
 FILE_NAME = "data/records.json"
 
 
-# 儲存遊戲紀錄，出錯則回傳錯誤。 若沒有錯誤回傳None
-def save(level: int) -> Exception:
-    records = {"level": level}
+def save(**kwargs) -> Exception:
+    '''
+    儲存遊戲紀錄，出錯則回傳錯誤。 若沒有錯誤回傳None
+    範利用法：save(level=10, saver="test", game="sokoban pygame")
+    '''
+    records = kwargs
     try:
         with open(FILE_NAME, "w") as f:
             f.write(json.dumps(records))
@@ -15,8 +18,8 @@ def save(level: int) -> Exception:
         return err
     return None
 
-# 讀取遊戲紀錄，出錯則回傳空dict
 def read() -> dict:
+    '''讀取遊戲紀錄，出錯則回傳空dict'''
     try:
         with open(FILE_NAME, "r") as f:
             data = f.read()
@@ -24,3 +27,6 @@ def read() -> dict:
         logging.error("cannot read data", err)
         return dict()
     return json.loads(data)
+
+if __name__ == "__main__":
+    save(level=10, saver="test", game="sokoban pygame")
