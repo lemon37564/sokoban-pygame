@@ -397,7 +397,7 @@ if(second_quit_pressed):
     pygame.quit()
 elif(start_game):
 
-    game = Game(level=level_selected, debug=False)
+    game = Game(level=level_selected, debug=True)
     game.run_game()
     pygame.quit()
 pygame.quit()
