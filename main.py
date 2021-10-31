@@ -9,10 +9,10 @@ pygame.font.init()
 from game import Game
 from pygame import mouse
 from time import sleep
-
+from sokoban_solver import generate
 
 # initializing the constructor
-
+generate()
 
 # screen resolution
 #res = (720,720)
