@@ -1,6 +1,6 @@
 #!/bin/env python3
 import pygame
-import pygame.time
+import pygame.time, pygame.freetype
 import time
 import enum
 import logging

@@ -1,6 +1,6 @@
 import enum
 import time
-import pygame
+import pygame, pygame.font
 
 import parameter
 import sounds
@@ -13,6 +13,7 @@ class Option(enum.Enum):
     NEXTLEVEL = 3
 
 
+pygame.font.init()
 title_font = pygame.font.Font(parameter.TITLE_FONT, 200)
 button_font = pygame.font.Font(parameter.BTN_FONT, 48)
 
