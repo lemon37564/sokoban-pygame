@@ -38,9 +38,9 @@ HHHHHHHHHHHHHHHHHHHHHHHHHH
 HPH    H       H         H
 H         H            !PH
 HHHHHHHHHHHHHHHHHHHHHHHHHH
-HP            #      .#H
-H    ##  $   ##   ### #H
-HHHHH                  H
+HP            #      .#HHH
+H    ##  $   ##   ### #HHH
+HHHHH                  HHH
 HHHHHHHHHHHHHHHHHHHH  HHHH
 HHHHHHHHHHHHHHHHHHHHHHHHHH
  """,
