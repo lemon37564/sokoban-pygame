@@ -88,7 +88,7 @@ class Button():
 
         global_listener.add(self)
 
-    def connect(self, func, *args):
+    def connect(self, func, args=()):
         '''
         connect to a function which will be execute after button is clicked \n
         you can pass argument into that function \n
@@ -190,20 +190,20 @@ if __name__ == "__main__":
         print(f"you choosed: {level}")
 
     test = Button(font, "level 1", (200, 100), (120, 60))
-    test.connect(pressed, 1)
+    test.connect(pressed, args=(1,))
 
     test2 = Button(font, "level 2", (400, 100), (120, 60))
-    test2.connect(pressed, 2)
+    test2.connect(pressed, args=(2,))
 
     test3 = Button(font, "level 3", (600, 100), (120, 60))
-    test3.connect(pressed, 3)
+    test3.connect(pressed, args=(3,))
 
-    def pressed_disable(btn):
+    def pressed_disable(btn, msg):
         btn.disable()
-        print("button disabled")
+        print("button disabled, message:", msg)
 
     if_pressed_disable = Button(font, "one time button", (200, 250), (240, 60))
-    if_pressed_disable.connect(pressed_disable, if_pressed_disable)
+    if_pressed_disable.connect(pressed_disable, args=(if_pressed_disable, "this is the second argument"))
 
     re_enable_btn = Button(font, "enable button", (600, 250), (240, 60))
     re_enable_btn.connect(if_pressed_disable.enable)
