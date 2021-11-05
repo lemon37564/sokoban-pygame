@@ -1,4 +1,4 @@
-# sokoban-pygame v0.4
+# sokoban-pygame v0.5
 an unusual sokoban made with pygame 2.0  
 
 # How To Play
@@ -23,4 +23,5 @@ pygame 2.0+
 0.1 | 實做各物件  
 0.2 | 使用pygame.sprite.Sprite重寫所有物件  
 0.3 | 更新註解  
-0.4 | 更換圖片
+0.4 | 更換圖片  
+0.5 | 實做地圖生成器

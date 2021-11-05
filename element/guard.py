@@ -6,24 +6,16 @@ from element.obj import Object, ObjectID
 from element import direction
 import parameter
 
-# 初始化圖片
-imgs = [_ for _ in range(4)]
-
-img = pygame.image.load("data/img/guard/up.webp").convert_alpha()
-imgs[direction.UP] = img
-img = pygame.image.load("data/img/guard/down.webp").convert_alpha()
-imgs[direction.DOWN] = img
-img = pygame.image.load("data/img/guard/right.webp").convert_alpha()
-imgs[direction.RIGHT] = img
-img = pygame.transform.flip(img, True, False)
-imgs[direction.LEFT] = img
-
+imgs = []
+for i in range(8):
+    img = pygame.image.load(f"data/img/spike/spike_{i}.png").convert_alpha()
+    imgs.append(img)
 
 class Guard(Object):
     def __init__(self, x, y):
         super().__init__()
+        self.__anime_index = 0
         self.set_dir(direction.DOWN)
-        self.set_img(self.__img())
         self.rect = self.image.get_rect()
         self.rect.center = (x, y)
         self.__velocity = parameter.GUARD_VELOCITY
@@ -40,6 +32,9 @@ class Guard(Object):
 
     def update(self, all_objects: dict):
         """更新"""
+        self.__anime_index = (self.__anime_index + 1) % len(imgs)
+        super().set_img(self.__img())
+
         if self.__sleep < parameter.GUARD_SLEEP:
             self.__sleep += 1
             return
@@ -100,7 +95,7 @@ class Guard(Object):
         return False
 
     def __img(self):
-        return imgs[self.__dir]
+        return imgs[self.__anime_index]
 
 
 if __name__ == "__main__":

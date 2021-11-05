@@ -12,7 +12,6 @@ from time import sleep
 from sokoban_solver import generate
 
 # initializing the constructor
-generate()
 
 # screen resolution
 #res = (720,720)
@@ -55,6 +54,7 @@ text_level_6 = smallfont.render('Level 6', True, color)
 text_level_7 = smallfont.render('Level 7', True, color)
 text_level_8 = smallfont.render('Level 8', True, color)
 text_level_9 = smallfont.render('Level 9', True, color)
+text_random_level=smallfont.render('Generate a random level and Play!', True, color)
 #text_title = bigfont.render('Sokoban Stealer', True, color)
 
 #menu images 
@@ -72,6 +72,7 @@ x_quit_btn = width/2-150
 x_quit_btn_2 = width/2-150
 x_tut_btn = width/2-150
 
+x_random_level=width/2-350
 #level select
 x_level_1_btn=width/2-350
 x_level_2_btn=width/2-350
@@ -83,12 +84,14 @@ x_level_7_btn=width/2+50
 x_level_8_btn=width/2+50
 x_level_9_btn=width/2+50
 
+
 y_title = height/3-70
 y_start_btn = height/3+20
 y_tut_btn = height/3+70
 y_quit_btn = height/3+120
-y_quit_btn_2 = height/3+160
+y_quit_btn_2 = height/3+220
 
+y_random_level=height/3+170
 #level select
 y_level_1_btn=height/3+20
 y_level_2_btn=height/3+70
@@ -105,6 +108,7 @@ width_quit_btn = 140
 width_quit_btn_2 = 140
 width_tut_btn = 180
 width_title = 400
+width_random_level=600
 
 #level select
 width_level_1_btn=200
@@ -122,6 +126,8 @@ height_quit_btn = 40
 height_quit_btn_2 = 40
 height_tut_btn = 40
 height_title = 40
+
+height_random_level = 40
 #level-select
 height_level_1_btn=40
 height_level_2_btn=40
@@ -134,7 +140,7 @@ height_level_8_btn=40
 height_level_9_btn=40
 
 # game settings
-level_selected = 1
+level_selected = 3
 
 game_mask = False
 
@@ -173,6 +179,7 @@ while True:
                 
                 breakflag = True
                 break
+            
     if breakflag == True:
         break
 
@@ -197,6 +204,7 @@ while True:
     elif x_quit_btn <= mouse[0] <= x_quit_btn+width_quit_btn and y_quit_btn <= mouse[1] <= y_quit_btn+height_quit_btn:
         pygame.draw.rect(screen, color_light, [
                          x_quit_btn, y_quit_btn, width_quit_btn, height_quit_btn])
+   
     # not hovered above
     else:
         pygame.draw.rect(screen, color_dark, [
@@ -205,6 +213,7 @@ while True:
                          x_tut_btn, y_tut_btn, width_tut_btn, height_tut_btn])
         pygame.draw.rect(screen, color_dark, [
                          x_quit_btn, y_quit_btn, width_quit_btn, height_quit_btn])
+                      
         # draw title
         #pygame.draw.rect(screen, color_dark, [
                    #      x_title, y_title, width_title, height_title])
@@ -213,7 +222,6 @@ while True:
     screen.blit(text_quit, (x_quit_btn+50, y_quit_btn))
     screen.blit(text_start, (x_start_btn+50, y_start_btn))
     screen.blit(text_help, (x_tut_btn+50, y_tut_btn))
-
     #draw images on screen
     screen.blit(img_title, (x_title-450, y_title-80))
     screen.blit(img_player, (x_title+260, y_title+300))
@@ -301,6 +309,11 @@ while True:
                 level_selected=9
                 breakflag = True
                 break
+            elif x_random_level <= mouse[0] <= x_random_level+width_random_level and y_random_level <= mouse[1] <= y_random_level+height_random_level:
+                start_game=True
+                level_selected=8
+                breakflag = True
+                break
            
     if breakflag == True:
         break
@@ -342,7 +355,11 @@ while True:
                          x_level_8_btn, y_level_8_btn, width_level_8_btn, height_level_8_btn])
     elif x_level_9_btn <= mouse[0] <= x_level_9_btn+width_level_9_btn and y_level_9_btn <= mouse[1] <= y_level_9_btn+height_level_9_btn:
         pygame.draw.rect(screen, color_light, [
-                         x_level_9_btn, y_level_9_btn, width_level_9_btn, height_level_9_btn])                     
+                         x_level_9_btn, y_level_9_btn, width_level_9_btn, height_level_9_btn])   
+     #random level
+    elif x_random_level <= mouse[0] <= x_random_level+width_random_level and y_random_level <= mouse[1] <= y_random_level+height_random_level:
+        pygame.draw.rect(screen, color_light, [
+                         x_random_level, y_random_level, width_random_level, height_random_level])                  
     # quit_btn
     elif x_quit_btn_2 <= mouse[0] <= x_quit_btn_2+width_quit_btn_2 and y_quit_btn_2 <= mouse[1] <= y_quit_btn_2+height_quit_btn_2:
         pygame.draw.rect(screen, color_light, [
@@ -369,6 +386,8 @@ while True:
                          x_level_9_btn, y_level_9_btn, width_level_9_btn, height_level_9_btn])                 
         pygame.draw.rect(screen, color_dark, [
                          x_quit_btn_2, y_quit_btn_2, width_quit_btn_2, height_quit_btn_2])
+        pygame.draw.rect(screen, color_dark, [
+                         x_random_level, y_random_level, width_random_level, height_random_level])   
         # draw title
         #pygame.draw.rect(screen, color_dark, [
                    #      x_title, y_title, width_title, height_title])
@@ -385,6 +404,8 @@ while True:
     screen.blit(text_level_7, (x_level_7_btn+50, y_level_7_btn))
     screen.blit(text_level_8, (x_level_8_btn+50, y_level_8_btn))
     screen.blit(text_level_9, (x_level_9_btn+50, y_level_9_btn))
+    
+    screen.blit(text_random_level, (x_random_level+50, y_random_level))
     #draw images on screen
     screen.blit(img_title, (x_title-450, y_title-80))
     screen.blit(img_player, (x_title+260, y_title+300))
@@ -398,7 +419,7 @@ if(second_quit_pressed):
     pygame.quit()
 elif(start_game):
 
-    game = Game(level=level_selected, debug=True)
+    game = Game(level=level_selected, debug=False)
     game.run_game()
     pygame.quit()
 pygame.quit()
