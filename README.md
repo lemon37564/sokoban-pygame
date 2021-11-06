@@ -6,7 +6,7 @@ an unusual sokoban made with pygame 2.0
 空白鍵 => 攻擊 (space key => attack)  
 ESC => 暫停 (ESC => pause)  
 
-# Architecture
+# Game flow
 ![](https://raw.githubusercontent.com/lemon37564/sokoban-pygame/main/doc/arch.webp)
 
 # TODO
