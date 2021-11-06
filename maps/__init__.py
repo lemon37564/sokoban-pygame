@@ -1,28 +1,8 @@
 import logging
 
 __maps = [
-    # map 0 (exception, debugging)
-    """
-HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH
-HPPPPPP!!!!!!!!!!!!!!!!!!!!!!!!!!!!!H
-HPPPPPP!!!!!!!!!!!!!!!!!!!!!!!!!!!!!H
-HPPPPPP#!!!!!!!!!!!!!!!!!!!!!!!!!!!!H
-HPP    ##!!!!!!!!!!!!!!!!!!!!!!!!!!!H
-HPP    ##!!!!!!!!!!!!!!!!!!!!!!!!!!!H
-HPP.$@ ##!!!!!!!!!!!!!!!!!!!!!!!!!!!H
-HPPP   ##!!!!!!!!!!!!!!!!!!!!!!!!!!!H
-HPPPPPP#!!!!!!!!!!!!!!!!!!!!!!!!!!!!H
-HPPPPPP!!!!!!!!!!!!!!!!!!!!!!!!!!!!!H
-HPPPPPP!!!!!!!!!!!!!!!!!!!!!!!!!!!!!H
-HPPPPPP!!!!!!!!!!!!!!!!!!!!!!!!!!!!!H
-HPPPPPP!!!!!!!!!!!!!!!!!!!!!!!!!!!!!H
-HPPPPPP!!!!!!!!!!!!!!!!!!!!!!!!!!!!!H
-HPPPPPP!!!!!!!!!!!!!!!!!!!!!!!!!!!!!H
-HPPPPPP!!!!!!!!!!!!!!!!!!!!!!!!!!!!!H
-HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH
-""",
-
-# map 1 TUTORIAL
+    
+# map 0 TUTORIAL
     """
 HHHHHHHHHHHHHHHHHHHHHHHHHH
 H       H              $.H               
@@ -45,7 +25,7 @@ HHHHHHHHHHHHHHHHHHHH  HHHH
 HHHHHHHHHHHHHHHHHHHHHHHHHH
  """,
 
-    # map 2
+    # map 1
     """
 HHHHHHHHHHHHHHHHHHHHHHHHHH
 H########################H
@@ -62,7 +42,7 @@ H########################H
 HHHHHHHHHHHHHHHHHHHHHHHHHH
 """,
 
-    # map 3
+    # map 2
     """
 HHHHHHHHHHHHHHHHHHHHH
 H          !#!      H
@@ -81,7 +61,7 @@ H   #   #   #   #  !H
 HHHHHHHHHHHHHHHHHHHHH
 """,
 
-    # map 4
+    # map 3
     """
 HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH
 H##################################H
@@ -100,7 +80,7 @@ H##################################H
 HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH
 """,
 
-    # map 5
+    # map 4
     """
 HHHHHHHHHHHHHHHHHHHHHHHHH
 H #####  #  ####.$     .H
@@ -117,7 +97,7 @@ H!     !   #   !   #  ! H
 HHHHHHHHHHHHHHHHHHHHHHHHH
 """,
 
-    # map 6
+    # map 5
     """
 HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH
 H@     ##   #      #    # # # #     H
@@ -134,7 +114,7 @@ H      #      #     #      #   #.   H
 HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH
 """,
 
-    # map 7
+    # map 6
     """
 HHHHHHHHHHHHHHHHHHHHHHHHH
 H! ##  #! ##  !        !H
@@ -153,7 +133,7 @@ H    !      ##         !H
 HHHHHHHHHHHHHHHHHHHHHHHHH
 """,
 
-    # map 8
+    # map 7
     """
 HHHHHHHHHHHHHHHHHHHHHHH
 H.... #@###    # !   %H
@@ -173,7 +153,7 @@ H!         #!     #!  H
 HHHHHHHHHHHHHHHHHHHHHHH
 """,
 
-    # map 9
+    # map 8
     """
 HHHHHHHHHHHHHHHHHHHHHHH
 H!            !     !#H
@@ -192,7 +172,7 @@ H##########  !   #   @H
 HHHHHHHHHHHHHHHHHHHHHHH
 """,
 
-    # map 10
+    # map 9
     """
 HHHHHHHHHHHHHHHHHHHHHHHH
 H###...########  ######H
@@ -218,10 +198,12 @@ HHHHHHHHHHHHHHHHHHHHHHHH
 # 扣掉第0關
 __count = len(__maps) - 1
 
-TUTORIAL = 1
+TUTORIAL = 0
 
 # 取得第index關，超出範圍或<0則回傳第零關
 def get_map(index: int) -> str:
+    if index >1000:
+        return 
     if index < 0 or index > __count:
         logging.warning(f"map index out of range({index}), set to default map (map 0)")
         return __maps[0]
