@@ -65,6 +65,8 @@ img_explosion=pygame.image.load('data/img/menu/Explosion2.png')
 img_explosion = pygame.transform.scale(img_explosion, (320, 320))
 img_treasure=pygame.image.load('data/img/menu/Treasure2.png')
 img_treasure = pygame.transform.scale(img_treasure, (160, 160))
+img_spike=pygame.image.load('data/img/spike/spike_2.png')
+img_spike = pygame.transform.scale(img_spike, (100, 100))
 # where BTNs and texts at
 x_title = width/2-200
 x_start_btn = width/2-150
@@ -213,7 +215,7 @@ while True:
                          x_tut_btn, y_tut_btn, width_tut_btn, height_tut_btn])
         pygame.draw.rect(screen, color_dark, [
                          x_quit_btn, y_quit_btn, width_quit_btn, height_quit_btn])
-                      
+                    
         # draw title
         #pygame.draw.rect(screen, color_dark, [
                    #      x_title, y_title, width_title, height_title])
@@ -227,7 +229,7 @@ while True:
     screen.blit(img_player, (x_title+260, y_title+300))
     screen.blit(img_explosion, (x_title-200, y_title+300))
     screen.blit(img_treasure, (x_title+400, y_title+300))
-
+    #screen.blit(img_spike, (x_title+100, y_title+250))
     # updates the frames of the game
     pygame.display.update()
 
