@@ -41,10 +41,10 @@ def transferToGameState(layout):
         for icol in range(len(layout[irow])):
             if layout[irow][icol] == ' ': layout[irow][icol] = 0   # free space
             elif layout[irow][icol] == '#': layout[irow][icol] = 1 # wall
-            elif layout[irow][icol] == '&': layout[irow][icol] = 2 # player
-            elif layout[irow][icol] == 'B': layout[irow][icol] = 3 # box
+            elif layout[irow][icol] == '@': layout[irow][icol] = 2 # player
+            elif layout[irow][icol] == '$': layout[irow][icol] = 3 # box
             elif layout[irow][icol] == '.': layout[irow][icol] = 4 # goal
-            elif layout[irow][icol] == 'X': layout[irow][icol] = 5 # box on goal
+            elif layout[irow][icol] == '%': layout[irow][icol] = 5 # box on goal
         colsNum = len(layout[irow])
         if colsNum < maxColsNum:
             layout[irow].extend([1 for _ in range(maxColsNum-colsNum)]) 
@@ -293,12 +293,12 @@ def generateRandomLevel6X6():
     map_raw[character_pos[0]] ='#'
     map_raw[character_pos[1]]='.'
     map_raw[character_pos[2]]='.'
-    map_raw[character_pos[3]]='B'
-    map_raw[character_pos[4]]='B'
+    map_raw[character_pos[3]]='$'
+    map_raw[character_pos[4]]='$'
     map_raw[character_pos[5]]='#'
     map_raw[character_pos[6]]='#'
     map_raw[character_pos[7]]='#'
-    map_raw[character_pos[8]]='&'
+    map_raw[character_pos[8]]='@'
     map_raw_1=["#","#","#","#","#","#"]
     map_raw_1.append("#")
     for i in range(0,4):
@@ -340,7 +340,7 @@ def generateRandomLevel8X8():
     map_raw[character_pos[1]]='.'
     map_raw[character_pos[2]]=' '
     map_raw[character_pos[3]]=' '
-    map_raw[character_pos[4]]='B'
+    map_raw[character_pos[4]]='$'
     map_raw[character_pos[5]]='#'
     map_raw[character_pos[6]]='#'
     map_raw[character_pos[7]]='#'
@@ -348,10 +348,10 @@ def generateRandomLevel8X8():
     map_raw[character_pos[9]] ='#'
     map_raw[character_pos[10]]='.'
     map_raw[character_pos[12]]='.'
-    map_raw[character_pos[13]]='B'
-    map_raw[character_pos[14]]='B'
+    map_raw[character_pos[13]]='$'
+    map_raw[character_pos[14]]='$'
     map_raw[character_pos[15]]='#'
-    map_raw[character_pos[16]]='&'
+    map_raw[character_pos[16]]='@'
     map_raw_1=["#","#","#","#","#","#",'#','#']
     #ROW 1
     map_raw_1.append("#")
