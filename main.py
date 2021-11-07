@@ -3,7 +3,7 @@ import pygame
 from pygame import image
 logging.basicConfig(format="%(levelname)s: %(message)s", level=logging.DEBUG)
 
-pygame.init()
+
 pygame.font.init()
 
 from game import Game
@@ -43,6 +43,7 @@ bigfont = pygame.font.SysFont('Corbel', 50)
 # rendering a text written in
 # this font
 text_quit = smallfont.render('quit', True, color)
+text_back_2_menu = smallfont.render('back to menu', True, color)
 text_start = smallfont.render('start game', True, color)
 text_help = smallfont.render('tutorial', True, color)
 text_level_1 = smallfont.render('Level 1', True, color)
@@ -74,7 +75,7 @@ img_spike = pygame.transform.scale(img_spike, (100, 100))
 x_title = width/2-200
 x_start_btn = width/2-150
 x_quit_btn = width/2-150
-x_quit_btn_2 = width/2-150
+x_back_2_menu = width/2-150
 x_tut_btn = width/2-150
 
 x_random_level_6x6=width/2-350
@@ -96,7 +97,7 @@ y_title = height/3-70
 y_start_btn = height/3+20
 y_tut_btn = height/3+70
 y_quit_btn = height/3+120
-y_quit_btn_2 = height/3+320
+y_back_2_menu = height/3+320
 
 y_random_level_6x6=height/3+170
 y_random_level_7x7=height/3+220
@@ -114,7 +115,7 @@ y_level_9_btn=height/3+120
 
 width_start_btn = 200
 width_quit_btn = 140
-width_quit_btn_2 = 140
+width_back_2_menu = 250
 width_tut_btn = 180
 width_title = 400
 width_random_level_6x6=600
@@ -134,7 +135,7 @@ width_level_9_btn=200
 
 height_start_btn = 40
 height_quit_btn = 40
-height_quit_btn_2 = 40
+height_back_2_menu = 40
 height_tut_btn = 40
 height_title = 40
 
@@ -161,9 +162,10 @@ game_mask = False
 
 def mainLoop():
     #flags for menu
-    tutorial_level=1
+    
+    tutorial_level=0
     first_quit_pressed=False
-    second_quit_pressed=False
+    back_2_menu=False
     start_tutorial_pressed=False
     first_start_game_pressed = False
     start_game=False
@@ -176,7 +178,7 @@ def mainLoop():
         for ev in pygame.event.get():
 
             if ev.type == pygame.QUIT:
-                pygame.quit()
+                return "game_quit"
                 first_quit_pressed=True
             # checks if a mouse is clicked
             if ev.type == pygame.MOUSEBUTTONDOWN:
@@ -187,6 +189,7 @@ def mainLoop():
                     pygame.quit()
                     first_quit_pressed=True
                     breakflag = True
+                    return "first_quit"
                     break
                 elif x_start_btn <= mouse[0] <= x_start_btn+width_start_btn and y_start_btn <= mouse[1] <= y_start_btn+height_start_btn:
                     first_start_game_pressed=True
@@ -254,12 +257,13 @@ def mainLoop():
 
 
     #level select menu
-    if(first_quit_pressed):
-        pygame.quit()
-    elif start_tutorial_pressed:
+        #pygame.quit()
+    if start_tutorial_pressed:
         game = Game(level=tutorial_level, random_level_size=random_level_size,debug=False)
-        game.run_game()
-        pygame.quit()
+        return game.run_game()
+        game=null
+        return "tutorial"
+        #pygame.quit()
     #else continue towards level select
         
 
@@ -281,9 +285,9 @@ def mainLoop():
 
                 # if the mouse is clicked on the
                 # button the game is terminated
-                if x_quit_btn_2 <= mouse[0] <= x_quit_btn_2 + width_quit_btn_2 and y_quit_btn_2 <= mouse[1] <= y_quit_btn_2+height_quit_btn_2:
-                    pygame.quit()
-                    second_quit_pressed=True
+                if x_back_2_menu <= mouse[0] <= x_back_2_menu + width_back_2_menu and y_back_2_menu <= mouse[1] <= y_back_2_menu+height_back_2_menu:
+                    #pygame.quit()
+                    back_2_menu=True
                     breakflag = True
                     break
                 elif x_level_1_btn <= mouse[0] <= x_level_1_btn+ width_level_1_btn and y_level_1_btn <= mouse[1] <= y_level_1_btn+height_level_1_btn:
@@ -382,7 +386,7 @@ def mainLoop():
         pygame.draw.rect(screen, color_dark, [
                             x_level_9_btn, y_level_9_btn, width_level_9_btn, height_level_9_btn])                 
         pygame.draw.rect(screen, color_dark, [
-                            x_quit_btn_2, y_quit_btn_2, width_quit_btn_2, height_quit_btn_2])
+                            x_back_2_menu, y_back_2_menu, width_back_2_menu, height_back_2_menu])
         pygame.draw.rect(screen, color_dark, [
                             x_random_level_6x6, y_random_level_6x6, width_random_level_6x6, height_random_level_6x6])
         pygame.draw.rect(screen, color_dark, [
@@ -429,16 +433,16 @@ def mainLoop():
         elif x_random_level_8x8 <= mouse[0] <= x_random_level_8x8+width_random_level_8x8 and y_random_level_8x8 <= mouse[1] <= y_random_level_8x8+height_random_level_8x8:
             pygame.draw.rect(screen, color_light, [
                             x_random_level_8x8, y_random_level_8x8, width_random_level_8x8, height_random_level_8x8])                  
-        # quit_btn
-        elif x_quit_btn_2 <= mouse[0] <= x_quit_btn_2+width_quit_btn_2 and y_quit_btn_2 <= mouse[1] <= y_quit_btn_2+height_quit_btn_2:
+        # back 2 menu
+        elif x_back_2_menu <= mouse[0] <= x_back_2_menu+width_back_2_menu and y_back_2_menu <= mouse[1] <= y_back_2_menu+height_back_2_menu:
             pygame.draw.rect(screen, color_light, [
-                            x_quit_btn_2, y_quit_btn_2, width_quit_btn_2, height_quit_btn_2])
+                            x_back_2_menu, y_back_2_menu, width_back_2_menu, height_back_2_menu])
        
        
                
            
         # superimposing the text onto our button
-        screen.blit(text_quit, (x_quit_btn_2+50, y_quit_btn_2))
+        screen.blit(text_back_2_menu, (x_back_2_menu+50, y_back_2_menu))
         
         #levels
         screen.blit(text_level_1, (x_level_1_btn+50, y_level_1_btn))
@@ -463,20 +467,28 @@ def mainLoop():
         # updates the frames of the game
         pygame.display.update()
 
-    if(second_quit_pressed):
-        pygame.quit()
+    if(back_2_menu):
+        #pygame.quit()
+        return 'back'
     elif(start_game):
         if(level_selected>999):
             screen.fill((200, 200,    0))
             screen.blit(text_random_level_in_progress, (x_level_1_btn-150, y_level_1_btn))
             pygame.display.update()
             game = Game(level=level_selected, random_level_size=random_level_size,debug=False)
-            game.run_game()
+            return game.run_game()
         else:#normal level 1 to 9
             game = Game(level=level_selected, random_level_size=random_level_size,debug=False)
-            game.run_game()
-        pygame.quit()
-    pygame.quit()
+            return game.run_game()
+            
+        
 mainLoop
 if __name__ == '__main__':
-    mainLoop()
+    pygame.init()
+    while True:
+        exit_code=mainLoop()
+        if exit_code=='first_quit':break
+        elif exit_code=='second_quit':break
+        elif exit_code=='game_quit':break
+        else:pygame.init()
+    pygame.quit()

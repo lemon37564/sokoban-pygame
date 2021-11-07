@@ -231,7 +231,7 @@ def uniformCostSearch(gameState,posGoals,posWalls):
                 actions.push(node_action + [action[-1]], Cost)
     
 
-def aStarSearch(gameState,posGoals,posWalls):
+def aStarSearch(gameState,posGoals,posWalls,solution):
     """Implement aStarSearch approach"""
     beginBox = PosOfBoxes(gameState)
     beginPlayer = PosOfPlayer(gameState)
@@ -250,6 +250,7 @@ def aStarSearch(gameState,posGoals,posWalls):
         
         if isEndState(node[-1][-1],posGoals):
             print(','.join(node_action[1:]).replace(',',''))
+            solution[:]=node_action[1:]
             return "solvable"
             break
         if node[-1] not in exploredSet:
@@ -482,12 +483,12 @@ def generate(map_size:int):#6 for 6x6,8 for 8x8
         with open('sokobanLevels/'+'randomlevel.txt',"r") as f: 
             layout = f.readlines()
         print(layout)
-       
+        solution=[]
         gameState = transferToGameState(layout)
         posWalls = PosOfWalls(gameState)
         posGoals = PosOfGoals(gameState)
         if method == 'astar':
-            result=aStarSearch(gameState,posGoals,posWalls)
+            result=aStarSearch(gameState,posGoals,posWalls,solution)
         elif method == 'dfs':
             depthFirstSearch(gameState)
         elif method == 'bfs':
@@ -498,10 +499,19 @@ def generate(map_size:int):#6 for 6x6,8 for 8x8
             raise ValueError('Invalid method.')
 
         print(result)
-        if(result=='solvable'):break
+        if(result=='solvable'):
+            if map_size==6:
+                if len(solution)>5:
+                    break
+            if map_size==7:
+                if len(solution)>15:
+                    break
+            if map_size==8:
+                if len(solution)>14:
+                    break
     time_end=time.time()
 
     #print('Runtime of %s: %.2f second.' %(method, time_end-time_start))
 generate
 if __name__ == '__main__':
-    generate(7)
+    generate(8)

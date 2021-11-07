@@ -43,6 +43,7 @@ class Game():
     """
 
     def __init__(self, level, random_level_size=5,debug=False):
+        self.to_menu =False
         self.ticker = pygame.time.Clock()  # 控制fps的物件
         self.background = (230, 230, 200)  # 背景顏色
         self.level = level
@@ -98,12 +99,17 @@ class Game():
             elif self.state == GameState.LOSS:
                 self.Timer.pause()
                 self.loss()
+            elif self.state == GameState.TOMENU:
+                self.Timer.pause()
+                pygame.quit()
+                return"game_to_menu"
 
             self.info_show() # 印出畫面資訊
             pygame.display.update()
             self.ticker.tick(60)  # 60 fps
 
         pygame.quit()
+        return"game_quit"
 
     def pause(self):
         # 背景色
@@ -118,6 +124,8 @@ class Game():
             self.state = GameState.PLAYING
         elif selection == frame.Option.EXIT:
             self.in_game = False
+        elif selection == frame.Option.TOMENU:
+            self.state = GameState.TOMENU
 
     def victory(self):
         # 背景色
