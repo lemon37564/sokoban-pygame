@@ -77,9 +77,9 @@ x_quit_btn = width/2-150
 x_quit_btn_2 = width/2-150
 x_tut_btn = width/2-150
 
-x_random_level_6x6=width/2-400
-x_random_level_7x7=width/2-400
-x_random_level_8x8=width/2-400
+x_random_level_6x6=width/2-350
+x_random_level_7x7=width/2-350
+x_random_level_8x8=width/2-350
 #level select
 x_level_1_btn=width/2-350
 x_level_2_btn=width/2-350
@@ -167,6 +167,7 @@ def mainLoop():
     start_tutorial_pressed=False
     first_start_game_pressed = False
     start_game=False
+    random_level_size=5
     #page 1
     while True:
         breakflag = False
@@ -209,6 +210,13 @@ def mainLoop():
 
         # if mouse is hovered on a button it
         # changes to lighter shade
+        # otherwise its a dark color
+        pygame.draw.rect(screen, color_dark, [
+                            x_start_btn, y_start_btn, width_start_btn, height_start_btn])
+        pygame.draw.rect(screen, color_dark, [
+                            x_tut_btn, y_tut_btn, width_tut_btn, height_tut_btn])
+        pygame.draw.rect(screen, color_dark, [
+                            x_quit_btn, y_quit_btn, width_quit_btn, height_quit_btn])
         # start btn
         if x_start_btn <= mouse[0] <= x_start_btn+width_start_btn and y_start_btn <= mouse[1] <= y_start_btn+height_start_btn:
             pygame.draw.rect(screen, color_light, [
@@ -222,14 +230,9 @@ def mainLoop():
             pygame.draw.rect(screen, color_light, [
                             x_quit_btn, y_quit_btn, width_quit_btn, height_quit_btn])
     
-        # not hovered above
-        else:
-            pygame.draw.rect(screen, color_dark, [
-                            x_start_btn, y_start_btn, width_start_btn, height_start_btn])
-            pygame.draw.rect(screen, color_dark, [
-                            x_tut_btn, y_tut_btn, width_tut_btn, height_tut_btn])
-            pygame.draw.rect(screen, color_dark, [
-                            x_quit_btn, y_quit_btn, width_quit_btn, height_quit_btn])
+        
+        
+            
                         
             # draw title
             #pygame.draw.rect(screen, color_dark, [
@@ -254,7 +257,7 @@ def mainLoop():
     if(first_quit_pressed):
         pygame.quit()
     elif start_tutorial_pressed:
-        game = Game(level=tutorial_level, debug=False)
+        game = Game(level=tutorial_level, random_level_size=random_level_size,debug=False)
         game.run_game()
         pygame.quit()
     #else continue towards level select
@@ -331,16 +334,19 @@ def mainLoop():
                 elif x_random_level_6x6 <= mouse[0] <= x_random_level_6x6+width_random_level_6x6 and y_random_level_6x6 <= mouse[1] <= y_random_level_6x6+height_random_level_6x6:
                     start_game=True
                     level_selected=1000
+                    random_level_size=6
                     breakflag = True
                     break
                 elif x_random_level_7x7 <= mouse[0] <= x_random_level_7x7+width_random_level_7x7 and y_random_level_7x7 <= mouse[1] <= y_random_level_7x7+height_random_level_7x7:
                     start_game=True
                     level_selected=1000
+                    random_level_size=7
                     breakflag = True
                     break
                 elif x_random_level_8x8 <= mouse[0] <= x_random_level_8x8+width_random_level_8x8 and y_random_level_8x8 <= mouse[1] <= y_random_level_8x8+height_random_level_8x8:
                     start_game=True
                     level_selected=1000
+                    random_level_size=8
                     breakflag = True
                     break
             
@@ -356,6 +362,33 @@ def mainLoop():
 
         # if mouse is hovered on a button it
         # changes to lighter shade
+        #otherwise the color is dark
+        pygame.draw.rect(screen, color_dark, [
+                            x_level_1_btn, y_level_1_btn, width_level_1_btn, height_level_1_btn])
+        pygame.draw.rect(screen, color_dark, [
+                            x_level_2_btn, y_level_2_btn, width_level_2_btn, height_level_2_btn])
+        pygame.draw.rect(screen, color_dark, [
+                            x_level_3_btn, y_level_3_btn, width_level_3_btn, height_level_3_btn])
+        pygame.draw.rect(screen, color_dark, [
+                            x_level_4_btn, y_level_4_btn, width_level_4_btn, height_level_4_btn])
+        pygame.draw.rect(screen, color_dark, [
+                            x_level_5_btn, y_level_5_btn, width_level_5_btn, height_level_5_btn])
+        pygame.draw.rect(screen, color_dark, [
+                            x_level_6_btn, y_level_6_btn, width_level_6_btn, height_level_6_btn])
+        pygame.draw.rect(screen, color_dark, [
+                            x_level_7_btn, y_level_7_btn, width_level_7_btn, height_level_7_btn])
+        pygame.draw.rect(screen, color_dark, [
+                            x_level_8_btn, y_level_8_btn, width_level_8_btn, height_level_8_btn])
+        pygame.draw.rect(screen, color_dark, [
+                            x_level_9_btn, y_level_9_btn, width_level_9_btn, height_level_9_btn])                 
+        pygame.draw.rect(screen, color_dark, [
+                            x_quit_btn_2, y_quit_btn_2, width_quit_btn_2, height_quit_btn_2])
+        pygame.draw.rect(screen, color_dark, [
+                            x_random_level_6x6, y_random_level_6x6, width_random_level_6x6, height_random_level_6x6])
+        pygame.draw.rect(screen, color_dark, [
+                        x_random_level_7x7, y_random_level_7x7, width_random_level_7x7, height_random_level_7x7])
+        pygame.draw.rect(screen, color_dark, [
+                            x_random_level_8x8, y_random_level_8x8, width_random_level_8x8, height_random_level_8x8])
         # levels
         if x_level_1_btn <= mouse[0] <= x_level_1_btn+width_level_1_btn and y_level_1_btn <= mouse[1] <= y_level_1_btn+height_level_1_btn:
             pygame.draw.rect(screen, color_light, [
@@ -400,34 +433,9 @@ def mainLoop():
         elif x_quit_btn_2 <= mouse[0] <= x_quit_btn_2+width_quit_btn_2 and y_quit_btn_2 <= mouse[1] <= y_quit_btn_2+height_quit_btn_2:
             pygame.draw.rect(screen, color_light, [
                             x_quit_btn_2, y_quit_btn_2, width_quit_btn_2, height_quit_btn_2])
-        # not hovered above
-        else:
-            pygame.draw.rect(screen, color_dark, [
-                            x_level_1_btn, y_level_1_btn, width_level_1_btn, height_level_1_btn])
-            pygame.draw.rect(screen, color_dark, [
-                            x_level_2_btn, y_level_2_btn, width_level_2_btn, height_level_2_btn])
-            pygame.draw.rect(screen, color_dark, [
-                            x_level_3_btn, y_level_3_btn, width_level_3_btn, height_level_3_btn])
-            pygame.draw.rect(screen, color_dark, [
-                            x_level_4_btn, y_level_4_btn, width_level_4_btn, height_level_4_btn])
-            pygame.draw.rect(screen, color_dark, [
-                            x_level_5_btn, y_level_5_btn, width_level_5_btn, height_level_5_btn])
-            pygame.draw.rect(screen, color_dark, [
-                            x_level_6_btn, y_level_6_btn, width_level_6_btn, height_level_6_btn])
-            pygame.draw.rect(screen, color_dark, [
-                            x_level_7_btn, y_level_7_btn, width_level_7_btn, height_level_7_btn])
-            pygame.draw.rect(screen, color_dark, [
-                            x_level_8_btn, y_level_8_btn, width_level_8_btn, height_level_8_btn])
-            pygame.draw.rect(screen, color_dark, [
-                            x_level_9_btn, y_level_9_btn, width_level_9_btn, height_level_9_btn])                 
-            pygame.draw.rect(screen, color_dark, [
-                            x_quit_btn_2, y_quit_btn_2, width_quit_btn_2, height_quit_btn_2])
-            pygame.draw.rect(screen, color_dark, [
-                            x_random_level_6x6, y_random_level_6x6, width_random_level_6x6, height_random_level_6x6])
-            pygame.draw.rect(screen, color_dark, [
-                            x_random_level_7x7, y_random_level_7x7, width_random_level_7x7, height_random_level_7x7])
-            pygame.draw.rect(screen, color_dark, [
-                            x_random_level_8x8, y_random_level_8x8, width_random_level_8x8, height_random_level_8x8])   
+       
+       
+               
            
         # superimposing the text onto our button
         screen.blit(text_quit, (x_quit_btn_2+50, y_quit_btn_2))
@@ -460,10 +468,13 @@ def mainLoop():
     elif(start_game):
         if(level_selected>999):
             screen.fill((200, 200,    0))
-            screen.blit(text_random_level_in_progress, (x_level_1_btn+50, y_level_1_btn))
+            screen.blit(text_random_level_in_progress, (x_level_1_btn-150, y_level_1_btn))
             pygame.display.update()
-        game = Game(level=level_selected, debug=False)
-        game.run_game()
+            game = Game(level=level_selected, random_level_size=random_level_size,debug=False)
+            game.run_game()
+        else:#normal level 1 to 9
+            game = Game(level=level_selected, random_level_size=random_level_size,debug=False)
+            game.run_game()
         pygame.quit()
     pygame.quit()
 mainLoop

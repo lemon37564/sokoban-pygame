@@ -42,10 +42,11 @@ class Game():
     debug時不啟用mask
     """
 
-    def __init__(self, level, debug=False):
+    def __init__(self, level, random_level_size=5,debug=False):
         self.ticker = pygame.time.Clock()  # 控制fps的物件
         self.background = (230, 230, 200)  # 背景顏色
         self.level = level
+        self.random_level_size=random_level_size#variable to control random level generation
         self.build_world()
         self.key_cooldown = time.time()
         self.state = GameState.PLAYING # 初始狀態為playing
@@ -56,7 +57,7 @@ class Game():
         self.game_pause = frame.Pause()  # pause frame
         self.game_victory = frame.Victory()
         self.game_loss = frame.Loss()  # 死亡後的選單
-
+        
         self.display_font = pygame.font.Font(parameter.FONT, 24)
 
         self.debug = debug
@@ -194,7 +195,7 @@ class Game():
         self.portals = pygame.sprite.Group()
         self.walls = pygame.sprite.Group()
         self.portals = pygame.sprite.Group()
-        self.map_ = maps.get_map(self.level)
+        self.map_ = maps.get_map(self.level,self.random_level_size)
 
         initialList =  self.CountInitialPoint()
         x , y = initialList[0] , initialList[1]
@@ -370,5 +371,5 @@ class Game():
 
 
 if __name__ == "__main__":
-    game = Game(level=0, debug=True)
+    game = Game(level=0, random_level_size=6, debug=True)
     game.run_game()

@@ -264,25 +264,8 @@ def aStarSearch(gameState,posGoals,posWalls):
                 actions.push(node_action + [action[-1]], Heuristic + Cost)
         
 
-"""Read command
-def readCommand(argv):
-    from optparse import OptionParser
-    
-    parser = OptionParser()
-    parser.add_option('-l', '--level', dest='sokobanLevels',
-                      help='level of game to play', default='level1.txt')
-    parser.add_option('-m', '--method', dest='agentMethod',
-                      help='research method', default='bfs')
-    args = dict()
-    options, _ = parser.parse_args(argv)
-    with open('sokobanLevels/'+options.sokobanLevels,"r") as f: 
-        layout = f.readlines()
-    args['layout'] = layout
-    args['method'] = options.agentMethod
-    return args
-"""
 def generateRandomLevel6X6():
-    character_pos=random.sample(range(16), 9)
+    character_pos=random.sample(range(16), 13)
     map_raw=[
              ' ',' ',' ',' ',
             ' ', ' ',' ',' ',
@@ -299,6 +282,11 @@ def generateRandomLevel6X6():
     map_raw[character_pos[6]]='#'
     map_raw[character_pos[7]]='#'
     map_raw[character_pos[8]]='&'
+    map_raw[character_pos[9]]='#'
+    map_raw[character_pos[10]]=' '
+    map_raw[character_pos[11]]=' '
+    map_raw[character_pos[12]]='#'
+
     map_raw_1=["#","#","#","#","#","#"]
     map_raw_1.append("#")
     for i in range(0,4):
@@ -332,7 +320,7 @@ def generateRandomLevel6X6():
 
 def generateRandomLevel7X7():
     
-    character_pos=random.sample(range(25), 10)
+    character_pos=random.sample(range(25), 15)
   
     map_raw=[' ',' ']
     for i in range(0,23):
@@ -347,6 +335,12 @@ def generateRandomLevel7X7():
     map_raw[character_pos[7]]='&'
     map_raw[character_pos[8]]='#'
     map_raw[character_pos[9]] ='#'
+    map_raw[character_pos[10]]='#'
+    map_raw[character_pos[11]] ='#'
+    map_raw[character_pos[12]]='#'
+    map_raw[character_pos[13]] ='#'
+    map_raw[character_pos[14]]='#'
+
    
     map_raw_1=["#","#","#","#","#","#",'#']
     #ROW 1

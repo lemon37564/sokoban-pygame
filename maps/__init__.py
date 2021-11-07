@@ -211,9 +211,9 @@ def convertRandomLevel():
     s='\n'+s
     return s
 # 取得第index關，超出範圍或<0則回傳第零關
-def get_map(index: int) -> str:
+def get_map(index: int,random_level_size:int) -> str:
     if index > 999:
-        generate(6)
+        generate(random_level_size)
         return convertRandomLevel()
         
     if index < 0 or index > __count:
