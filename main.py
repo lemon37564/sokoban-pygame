@@ -1,4 +1,5 @@
-from game import Game
+import time
+import game
 import logging
 import pygame
 import sounds
@@ -58,18 +59,38 @@ def page_2():
     exit_btn.hide()
     window.set_background_color((200, 200, 0))
 
-def start_game(level_selected, random_level_size):
-    page_1()
+def hide_everything():
+    level_1_btn.hide()
+    level_2_btn.hide()
+    level_3_btn.hide()
+    level_4_btn.hide()
+    level_5_btn.hide()
+    level_6_btn.hide()
+    level_7_btn.hide()
+    level_8_btn.hide()
+    level_9_btn.hide()
+    random_6x6_btn.hide()
+    random_7x7_btn.hide()
+    random_8x8_btn.hide()
+    start_btn.hide()
+    tutorial_btn.hide()
+    exit_btn.hide()
+    window.set_background_color((200, 200, 0))
 
+def start_game(level_selected, random_level_size):
+    hide_everything()
+    screen.fill((210, 200, 200))
+    
     if(level_selected > 999):
         screen.blit(text_random_level_in_progress, (width/2-500, height/3+20))
         pygame.display.update()
-        game = Game(level=level_selected, random_level_size=random_level_size, debug=False)
-        game.run_game()
+        g = game.Game(level=level_selected, random_level_size=random_level_size, debug=False)
+        g.run_game()
     else:  # normal level 1 to 9
-        game = Game(level=level_selected, random_level_size=random_level_size, debug=False)
-        game.run_game()
-    
+        g = game.Game(level=level_selected, random_level_size=random_level_size, debug=False)
+        g.run_game()
+   
+    page_1()
     sounds.stop_everything()
 
 
