@@ -1,0 +1,17 @@
+import pygame.image
+from element.obj import Object
+
+img = pygame.image.load("data/img/ground.png").convert_alpha()
+
+
+class Ground(Object):
+    def __init__(self, x, y):
+        super().__init__()
+        self.set_img(img)
+        self.rect = self.image.get_rect()
+        self.rect.center = (x, y)
+
+
+if __name__ == "__main__":
+    g = Ground(10, 10)
+    print(g.pos())

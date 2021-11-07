@@ -44,6 +44,7 @@ class ObjectID(enum.Enum):
     GUARD = 7
     MASK = 8
     WALL = 9
+    GROUND = 10
 
 
 if __name__ == "__main__":
