@@ -1,5 +1,5 @@
 import logging
-
+from sokobanSolver import generate
 __maps = [
     
 # map 0 TUTORIAL
@@ -199,11 +199,23 @@ HHHHHHHHHHHHHHHHHHHHHHHH
 __count = len(__maps) - 1
 
 TUTORIAL = 0
-
+def convertRandomLevel():
+    with open('sokobanLevels/'+'randomlevel.txt',"r") as f: 
+        level = f.readlines()
+    s=''
+    for row in level:
+        s+=(row) 
+    s=s.replace('&','@')
+    
+    s=s.replace('B','$')
+    s='\n'+s
+    return s
 # 取得第index關，超出範圍或<0則回傳第零關
-def get_map(index: int) -> str:
-    if index >1000:
-        return 
+def get_map(index: int,random_level_size:int) -> str:
+    if index > 999:
+        generate(random_level_size)
+        return convertRandomLevel()
+        
     if index < 0 or index > __count:
         logging.warning(f"map index out of range({index}), set to default map (map 0)")
         return __maps[0]
@@ -212,3 +224,7 @@ def get_map(index: int) -> str:
 # 關卡總數
 def level_count() -> int:
     return __count
+if __name__ == '__main__':
+    generate()
+    convertRandomLevel()
+    get_map(1)

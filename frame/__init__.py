@@ -11,6 +11,7 @@ class Option(enum.Enum):
     RESTART = 1
     EXIT = 2
     NEXTLEVEL = 3
+    TOMENU = 4
 
 
 pygame.font.init()
@@ -111,8 +112,8 @@ class Pause(Frame):
     def __init__(self):
         super().__init__(
             "Pause",
-            ["Resume", "Restart", "Exit"],
-            [Option.RESUME, Option.RESTART, Option.EXIT],
+            ["Resume", "Restart", "Exit","TO Menu"],
+            [Option.RESUME, Option.RESTART, Option.EXIT,Option.TOMENU],
         )
 
 

@@ -231,7 +231,7 @@ def uniformCostSearch(gameState,posGoals,posWalls):
                 actions.push(node_action + [action[-1]], Cost)
     
 
-def aStarSearch(gameState,posGoals,posWalls):
+def aStarSearch(gameState,posGoals,posWalls,solution):
     """Implement aStarSearch approach"""
     beginBox = PosOfBoxes(gameState)
     beginPlayer = PosOfPlayer(gameState)
@@ -250,6 +250,7 @@ def aStarSearch(gameState,posGoals,posWalls):
         
         if isEndState(node[-1][-1],posGoals):
             print(','.join(node_action[1:]).replace(',',''))
+            solution[:]=node_action[1:]
             return "solvable"
             break
         if node[-1] not in exploredSet:
@@ -264,25 +265,8 @@ def aStarSearch(gameState,posGoals,posWalls):
                 actions.push(node_action + [action[-1]], Heuristic + Cost)
         
 
-"""Read command
-def readCommand(argv):
-    from optparse import OptionParser
-    
-    parser = OptionParser()
-    parser.add_option('-l', '--level', dest='sokobanLevels',
-                      help='level of game to play', default='level1.txt')
-    parser.add_option('-m', '--method', dest='agentMethod',
-                      help='research method', default='bfs')
-    args = dict()
-    options, _ = parser.parse_args(argv)
-    with open('sokobanLevels/'+options.sokobanLevels,"r") as f: 
-        layout = f.readlines()
-    args['layout'] = layout
-    args['method'] = options.agentMethod
-    return args
-"""
 def generateRandomLevel6X6():
-    character_pos=random.sample(range(16), 9)
+    character_pos=random.sample(range(16), 13)
     map_raw=[
              ' ',' ',' ',' ',
             ' ', ' ',' ',' ',
@@ -298,7 +282,16 @@ def generateRandomLevel6X6():
     map_raw[character_pos[5]]='#'
     map_raw[character_pos[6]]='#'
     map_raw[character_pos[7]]='#'
+<<<<<<< HEAD:sokoban_solver.py
     map_raw[character_pos[8]]='@'
+=======
+    map_raw[character_pos[8]]='&'
+    map_raw[character_pos[9]]='#'
+    map_raw[character_pos[10]]=' '
+    map_raw[character_pos[11]]=' '
+    map_raw[character_pos[12]]='#'
+
+>>>>>>> menu:sokobanSolver/__init__.py
     map_raw_1=["#","#","#","#","#","#"]
     map_raw_1.append("#")
     for i in range(0,4):
@@ -328,6 +321,78 @@ def generateRandomLevel6X6():
         for j in range(6):
             f.write(map_raw_1[i*6+j])
         if(i<5):f.write('\n')
+    f.close()
+
+def generateRandomLevel7X7():
+    
+    character_pos=random.sample(range(25), 15)
+  
+    map_raw=[' ',' ']
+    for i in range(0,23):
+        map_raw.append(' ')
+    map_raw[character_pos[0]] ='#'
+    map_raw[character_pos[1]]='.'
+    map_raw[character_pos[2]]='.'
+    map_raw[character_pos[3]]='B'
+    map_raw[character_pos[4]]='B'
+    map_raw[character_pos[5]]=' '
+    map_raw[character_pos[6]]=' '
+    map_raw[character_pos[7]]='&'
+    map_raw[character_pos[8]]='#'
+    map_raw[character_pos[9]] ='#'
+    map_raw[character_pos[10]]='#'
+    map_raw[character_pos[11]] ='#'
+    map_raw[character_pos[12]]='#'
+    map_raw[character_pos[13]] ='#'
+    map_raw[character_pos[14]]='#'
+
+   
+    map_raw_1=["#","#","#","#","#","#",'#']
+    #ROW 1
+    map_raw_1.append("#")
+    for i in range(0,5):
+        map_raw_1.append(map_raw[i])
+    map_raw_1.append("#")
+    #ROW 2
+    map_raw_1.append("#")
+    for i in range(0,5):
+        map_raw_1.append(map_raw[i+5])
+    map_raw_1.append("#")
+    
+    #ROW 3
+    map_raw_1.append("#")
+    for i in range(0,5):
+        map_raw_1.append(map_raw[i+10])
+    map_raw_1.append("#")
+
+    #ROW 4
+    map_raw_1.append("#")
+    for i in range(0,5):
+        map_raw_1.append(map_raw[i+15])
+    map_raw_1.append("#")
+    #ROW 5
+    map_raw_1.append("#")
+    for i in range(0,5):
+        map_raw_1.append(map_raw[i+20])
+    map_raw_1.append("#")
+   
+
+    map_raw_1.append("#")
+    map_raw_1.append("#")
+    map_raw_1.append("#")
+    map_raw_1.append("#")
+    map_raw_1.append("#")
+    map_raw_1.append("#")
+    map_raw_1.append("#")
+    
+    #WRTIE
+    f = open('sokobanLevels/'+'randomlevel.txt', 'w')
+    for i in range(7):
+        for j in range(7):
+
+            f.write(map_raw_1[i*7+j])
+        if(i<6):f.write('\n')
+    
     f.close()
 def generateRandomLevel8X8():
     
@@ -403,12 +468,17 @@ def generateRandomLevel8X8():
         if(i<7):f.write('\n')
     
     f.close()
-def generate():
-
+def generate(map_size:int):#6 for 6x6,8 for 8x8
+    if map_size==6:
+        generate_function=generateRandomLevel6X6
+    elif  map_size==7:
+        generate_function=generateRandomLevel7X7
+    elif  map_size==8:
+        generate_function=generateRandomLevel8X8
     solvable=False
     method='astar'
     while not solvable:
-        generateRandomLevel8X8()
+        generate_function()
         time_start = time.time()
         #layout, method = readCommand(sys.argv[1:]).values()
         #print(type(layout[0]))
@@ -417,12 +487,12 @@ def generate():
         with open('sokobanLevels/'+'randomlevel.txt',"r") as f: 
             layout = f.readlines()
         print(layout)
-       
+        solution=[]
         gameState = transferToGameState(layout)
         posWalls = PosOfWalls(gameState)
         posGoals = PosOfGoals(gameState)
         if method == 'astar':
-            result=aStarSearch(gameState,posGoals,posWalls)
+            result=aStarSearch(gameState,posGoals,posWalls,solution)
         elif method == 'dfs':
             depthFirstSearch(gameState)
         elif method == 'bfs':
@@ -433,10 +503,19 @@ def generate():
             raise ValueError('Invalid method.')
 
         print(result)
-        if(result=='solvable'):break
+        if(result=='solvable'):
+            if map_size==6:
+                if len(solution)>5:
+                    break
+            if map_size==7:
+                if len(solution)>15:
+                    break
+            if map_size==8:
+                if len(solution)>14:
+                    break
     time_end=time.time()
 
     #print('Runtime of %s: %.2f second.' %(method, time_end-time_start))
 generate
 if __name__ == '__main__':
-    generate()
+    generate(8)
