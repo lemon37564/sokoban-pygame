@@ -10,3 +10,4 @@ from element.mask import Mask
 from element.wall import Wall
 from element.obj import ObjectID
 from element import direction
+from element.ground import Ground
