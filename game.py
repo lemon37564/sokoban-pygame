@@ -204,6 +204,7 @@ class Game():
         self.portals = pygame.sprite.Group()
         self.walls = pygame.sprite.Group()
         self.portals = pygame.sprite.Group()
+        self.grounds = pygame.sprite.Group()
         self.map_ = maps.get_map(self.level,self.random_level_size)
 
         initialList =  self.CountInitialPoint()
@@ -219,19 +220,24 @@ class Game():
                 self.walls.add(element.Wall(x, y))
             elif char == ".":  # 終點
                 self.goals.add(element.Goal(x, y))
+                self.grounds.add(element.Ground(x,y))
             elif char == "$":  # 箱子
                 self.boxes.add(element.Box(x, y))
+                self.grounds.add(element.Ground(x,y))
             elif char == "%":  # 終點上有箱子
                 self.goals.add(element.Goal(x, y))
                 self.boxes.add(element.Box(x, y))
+                self.grounds.add(element.Ground(x,y))
             elif char == "!":  # 警衛
                 self.guards.add(element.Guard(x, y))
+                self.grounds.add(element.Ground(x,y))
             elif char == "P":
                 self.portals.add(element.Portal(x, y))
             elif char == "@":  # 玩家（初始）位置
                 self.player = element.Player(x, y)
+                self.grounds.add(element.Ground(x,y))
             elif char == " ":
-                pass
+                self.grounds.add(element.Ground(x,y))
             else:
                 logging.warning(f"unknow idetifier {char} in map {self.level}, ignored.")
             x += parameter.IMG_SIZE
@@ -247,6 +253,7 @@ class Game():
             element.ObjectID.WALL: self.walls,
             element.ObjectID.PLAYER: self.player,
             element.ObjectID.PORTAL: self.portals,
+            element.ObjectID.GROUND: self.grounds,
         }
 
     # 遊戲邏輯處理，更新遊戲狀態
@@ -275,7 +282,7 @@ class Game():
     def draw_world(self):
         # 背景色
         screen.fill(self.background)
-
+        self.grounds.draw(screen)
         self.borders.draw(screen)
         self.walls.draw(screen)
         self.goals.draw(screen)
@@ -284,6 +291,7 @@ class Game():
         self.boxes.draw(screen)
         self.bullets.draw(screen)
         self.player.draw(screen)
+        
 
         # 如果mask啟用(非debug模式)，畫在player身邊
         if not self.debug:
