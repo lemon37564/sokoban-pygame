@@ -160,7 +160,7 @@ game_mask = False
 
 
 
-def mainLoop():
+def mainLoop(clear_event:bool):
     #flags for menu
     
     tutorial_level=0
@@ -170,6 +170,7 @@ def mainLoop():
     first_start_game_pressed = False
     start_game=False
     random_level_size=5
+    if clear_event:pygame.event.clear() 
     #page 1
     while True:
         breakflag = False
@@ -479,16 +480,21 @@ def mainLoop():
             return game.run_game()
         else:#normal level 1 to 9
             game = Game(level=level_selected, random_level_size=random_level_size,debug=False)
-            return game.run_game()
+            result=game.run_game()
+           
+            return result
             
         
 mainLoop
 if __name__ == '__main__':
     pygame.init()
+    clear_event=False
     while True:
-        exit_code=mainLoop()
+        exit_code=mainLoop(clear_event)
         if exit_code=='first_quit':break
         elif exit_code=='second_quit':break
         elif exit_code=='game_quit':break
-        else:pygame.init()
+        elif exit_code=='game_to_menu':
+            pygame.init()
+            clear_event=True
     pygame.quit()

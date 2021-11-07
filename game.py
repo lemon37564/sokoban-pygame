@@ -33,6 +33,7 @@ class GameState(enum.Enum):
     VICTORY = 2
     LOSING = 3
     LOSS = 4
+    TOMENU=5
 
 
 class Game():
@@ -101,7 +102,7 @@ class Game():
                 self.loss()
             elif self.state == GameState.TOMENU:
                 self.Timer.pause()
-                pygame.quit()
+                #pygame.quit()
                 return"game_to_menu"
 
             self.info_show() # 印出畫面資訊
