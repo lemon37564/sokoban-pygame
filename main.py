@@ -316,7 +316,8 @@ def mainLoop():
                     break
                 elif x_random_level <= mouse[0] <= x_random_level+width_random_level and y_random_level <= mouse[1] <= y_random_level+height_random_level:
                     start_game=True
-                    level_selected=8
+                    level_selected=100
+                    generate()
                     breakflag = True
                     break
             

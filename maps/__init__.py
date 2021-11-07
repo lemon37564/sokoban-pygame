@@ -1,5 +1,5 @@
 import logging
-
+from sokobanLevels.getAImap import getmapbyAI
 __maps = [
     
 # map 0 TUTORIAL
@@ -204,9 +204,12 @@ TUTORIAL = 0
 def get_map(index: int) -> str:
     if index >1000:
         return 
-    if index < 0 or index > __count:
+    if index == 100:
+        return getmapbyAI()
+    elif index < 0 or index > __count:
         logging.warning(f"map index out of range({index}), set to default map (map 0)")
         return __maps[0]
+    print(__maps[index])
     return __maps[index]
 
 # 關卡總數
