@@ -16,7 +16,7 @@ class Option(enum.Enum):
 
 pygame.font.init()
 title_font = pygame.font.Font(parameter.TITLE_FONT, 200)
-button_font = pygame.font.Font(parameter.BTN_FONT, 48)
+button_font = pygame.font.Font(parameter.INFO_FONT, 48)
 
 color_black = (0, 0, 0)
 color_gray = (50, 50, 50)

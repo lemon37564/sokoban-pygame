@@ -2,6 +2,7 @@ import time
 import game
 import logging
 import pygame
+import parameter
 import sounds
 
 import window
@@ -16,11 +17,11 @@ width = screen.get_width()
 height = screen.get_height()
 
 # defining fonts
-smallfont = pygame.font.SysFont('Corbel', 35)
-bigfont = pygame.font.SysFont('Corbel', 50)
+smallfont = pygame.font.Font(parameter.INFO_FONT, 35)
+bigfont = pygame.font.Font(parameter.INFO_FONT, 50)
 
-text_random_level_in_progress = smallfont.render(
-    'Level generation in progress, for 8x8 maps this may take up to a minute...', True, (0, 0, 0))
+text_random_level_in_progress = bigfont.render('Level generation in progress... ', True, (0, 0, 0))
+text_2 = bigfont.render("for 8x8 maps this may take up to a minute", True, (0, 0, 0))
 
 
 def page_1():
@@ -82,7 +83,8 @@ def start_game(level_selected, random_level_size):
     screen.fill((210, 200, 200))
     
     if(level_selected > 999):
-        screen.blit(text_random_level_in_progress, (width/2-500, height/3+20))
+        screen.blit(text_random_level_in_progress, (width/2-350, height/3+20))
+        screen.blit(text_2, (width/2-450, height/3+90))
         pygame.display.update()
         g = game.Game(level=level_selected, random_level_size=random_level_size, debug=False)
         g.run_game()
