@@ -34,10 +34,8 @@ def remove(widget):
 def run():
     while True:
         screen.fill(__bg_color)
-        print(__bg_color)
 
         for img, pos in __show_imgs.items():
-            print(img, pos)
             screen.blit(img, pos)
         
         events = pygame.event.get()
@@ -65,7 +63,9 @@ def set_background_color(color):
     __bg_color = color
 
 def show_image(img: pygame.Surface, position: tuple):
-    __show_imgs[img] = position
+    width, height = img.get_size()
+    pos_x, pos_y = position
+    __show_imgs[img] = (pos_x - width/2, pos_y - height/2)
 
 
 class Button():

@@ -102,8 +102,7 @@ class Game():
                 self.loss()
             elif self.state == GameState.TOMENU:
                 self.Timer.pause()
-                #pygame.quit()
-                return"game_to_menu"
+                return
 
             self.info_show() # 印出畫面資訊
             pygame.display.update()
