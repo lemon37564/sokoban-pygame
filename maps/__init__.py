@@ -199,22 +199,29 @@ HHHHHHHHHHHHHHHHHHHHHHHH
 __count = len(__maps) - 1
 
 TUTORIAL = 0
-def convertRandomLevel():
+def convertRandomLevel(size):
     with open('sokobanLevels/'+'randomlevel.txt',"r") as f: 
         level = f.readlines()
     s=''
+    rowcount = 0
     for row in level:
-        s+=(row) 
+        if(rowcount == 0 or rowcount == size - 1):
+            s += "H" * (size+1) + '\n'
+        else:
+            s+= ("H" + row[1:size] + "H\n")
+            print(rowcount)
+        rowcount += 1
     s=s.replace('&','@')
     
     s=s.replace('B','$')
     s='\n'+s
+    print(s)
     return s
 # 取得第index關，超出範圍或<0則回傳第零關
 def get_map(index: int,random_level_size:int) -> str:
     if index > 999:
         generate(random_level_size)
-        return convertRandomLevel()
+        return convertRandomLevel(random_level_size)
         
     if index < 0 or index > __count:
         logging.warning(f"map index out of range({index}), set to default map (map 0)")
