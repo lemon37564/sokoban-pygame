@@ -46,7 +46,7 @@ def run():
         pygame.display.update()
         time.sleep(0.025)
 
-# threading.Thread(target=run).start()
+threading.Thread(target=run).start()
 
 
 class Button():
@@ -200,4 +200,4 @@ if __name__ == "__main__":
     quit = Button(font, "quit", position=(400, 500), size=(200, 80))
     quit.connect(exit)
 
-    run()
+    # run()
