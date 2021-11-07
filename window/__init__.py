@@ -16,11 +16,14 @@ BUTTON_FLOAT_BIAS = 5
 
 BUTTON_COOL_DOWN_SEC = 0.5
 
-
 screen = pygame.display.set_mode((800, 600))
 
 global __widgets
 __widgets = list()
+global __bg_color
+__bg_color = (0, 0, 0)
+global __show_imgs
+__show_imgs = dict()
 
 def add(widget):
     __widgets.append(widget)
@@ -30,7 +33,15 @@ def remove(widget):
 
 def run():
     while True:
-        for event in pygame.event.get():
+        screen.fill(__bg_color)
+        print(__bg_color)
+
+        for img, pos in __show_imgs.items():
+            print(img, pos)
+            screen.blit(img, pos)
+        
+        events = pygame.event.get()
+        for event in events:
             if event.type == pygame.QUIT:
                 pygame.quit()
                 return
@@ -39,10 +50,22 @@ def run():
                 cursor_pos = pygame.mouse.get_pos()
                 widget.event_handle(cursor_pos, event.type == pygame.MOUSEBUTTONDOWN)
 
+        if len(events) == 0:
+            for widget in __widgets:
+                cursor_pos = pygame.mouse.get_pos()
+                widget.event_handle(cursor_pos, False)
+
         pygame.display.update()
         time.sleep(0.025)
 
 threading.Thread(target=run).start()
+
+def set_background_color(color):
+    global __bg_color
+    __bg_color = color
+
+def show_image(img: pygame.Surface, position: tuple):
+    __show_imgs[img] = position
 
 
 class Button():
@@ -62,6 +85,7 @@ class Button():
         self.__bind_func = None
         self.__args = None
         self.__enabled = True
+        self.__hide = False
         self.__last_click = time.time()
 
         add(self)
@@ -83,6 +107,12 @@ class Button():
         '''make the button not sensitive'''
         self.__enabled = False
 
+    def hide(self):
+        self.__hide = True
+
+    def unhide(self):
+        self.__hide = False
+
     def set_position(self, position: tuple):
         '''set the center position of the button'''
         center_x, center_y = position
@@ -102,6 +132,8 @@ class Button():
         del self
 
     def event_handle(self, cursor_pos: list, mouse_clicked: bool):
+        if not self.__enabled or self.__hide:
+            return
         if self.__is_hover(cursor_pos):
             self.__render(selected=True)
             if mouse_clicked and self.__enabled and (time.time() - self.__last_click > BUTTON_COOL_DOWN_SEC):
@@ -123,9 +155,6 @@ class Button():
             self.__draw(BTN_COLOR, float_=False)
 
     def __is_hover(self, cursor_pos: list) -> bool:
-        if not self.__enabled:
-            return False
-
         cursor_x, cursor_y = cursor_pos[0], cursor_pos[1]
         return self.__pos_x <= cursor_x and cursor_x <= self.__pos_x + self.__width and \
             self.__pos_y <= cursor_y and cursor_y <= self.__pos_y + self.__height
