@@ -30,18 +30,14 @@ def remove(widget):
 
 def run():
     while True:
-        for widget in __widgets:
-            mouse_clicked = False
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    pygame.quit()
-                    return
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                return
 
-                mouse_clicked = mouse_clicked or (event.type == pygame.MOUSEBUTTONDOWN)
-            cursor_pos = pygame.mouse.get_pos()
-            if mouse_clicked:
-                print("clicked")
-            widget.event_handle(cursor_pos, mouse_clicked)
+            for widget in __widgets:
+                cursor_pos = pygame.mouse.get_pos()
+                widget.event_handle(cursor_pos, event.type == pygame.MOUSEBUTTONDOWN)
 
         pygame.display.update()
         time.sleep(0.025)
@@ -106,15 +102,9 @@ class Button():
         del self
 
     def event_handle(self, cursor_pos: list, mouse_clicked: bool):
-        h = self.__is_hover(cursor_pos)
-        if mouse_clicked:
-            print("clicked3", h, cursor_pos)
-        if h :
+        if self.__is_hover(cursor_pos):
             self.__render(selected=True)
-            if mouse_clicked:
-                print("clicked2")
-            if mouse_clicked and self.__enabled:# and (time.time() - self.__last_click > BUTTON_COOL_DOWN_SEC):
-                print("yes")
+            if mouse_clicked and self.__enabled and (time.time() - self.__last_click > BUTTON_COOL_DOWN_SEC):
                 self.__last_click = time.time()
                 if len(self.__args) == 0:
                     self.__bind_func()
@@ -137,8 +127,8 @@ class Button():
             return False
 
         cursor_x, cursor_y = cursor_pos[0], cursor_pos[1]
-        return self.__pos_x <= cursor_x <= self.__pos_x + self.__width and \
-            self.__pos_y <= cursor_y <= self.__pos_y + self.__height
+        return self.__pos_x <= cursor_x and cursor_x <= self.__pos_x + self.__width and \
+            self.__pos_y <= cursor_y and cursor_y <= self.__pos_y + self.__height
 
     def __draw(self, button_color, float_: bool):
         if float_:
@@ -199,5 +189,3 @@ if __name__ == "__main__":
 
     quit = Button(font, "quit", position=(400, 500), size=(200, 80))
     quit.connect(exit)
-
-    # run()
