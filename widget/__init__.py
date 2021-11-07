@@ -1,19 +1,8 @@
 import time
+import threading
 
 import pygame
 import pygame.event, pygame.mouse, pygame.display
-
-def init(pygame_screen):
-    '''call after pygame.init() and pass pygame.screen into this function'''
-    global screen
-    screen = pygame_screen
-    
-    global global_listener
-    global_listener = EventListener()
-
-def main_loop():
-    '''after created all the buttons, call this function'''
-    global_listener.start()
 
 
 BTN_COLOR = (167, 147, 0) # 按鈕背景顏色
@@ -28,43 +17,36 @@ BUTTON_FLOAT_BIAS = 5
 BUTTON_COOL_DOWN_SEC = 0.5
 
 
-class EventListener():
-    """
-    自動管理，不須操作此物件
-    """
-    def __init__(self):
-        self.__widgets = list()
-        self.__running = False
+screen = pygame.display.set_mode((800, 600))
 
-    def add(self, widget):
-        self.__widgets.append(widget)
+global __widgets
+__widgets = list()
 
-    def remove(self, widget):
-        self.__widgets.remove(widget)
+def add(widget):
+    __widgets.append(widget)
 
-    def start(self):
-        self.__running = True
-        self.__main_loop()
+def remove(widget):
+    __widgets.remove(widget)
 
-    def stop(self):
-        self.__running = False
+def run():
+    while True:
+        for widget in __widgets:
+            mouse_clicked = False
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    pygame.quit()
+                    return
 
-    def __main_loop(self):
-        while self.__running:
-            
-            screen.fill((200, 200, 200))
-            for widget in self.__widgets:
-                for event in pygame.event.get():
-                    if event.type == pygame.QUIT:
-                        pygame.quit()
-                        return
+                mouse_clicked = mouse_clicked or (event.type == pygame.MOUSEBUTTONDOWN)
+            cursor_pos = pygame.mouse.get_pos()
+            if mouse_clicked:
+                print("clicked")
+            widget.event_handle(cursor_pos, mouse_clicked)
 
-                    mouse_clicked = (event.type == pygame.MOUSEBUTTONDOWN)
-                cursor_pos = pygame.mouse.get_pos()
-                widget.event_handle(cursor_pos, mouse_clicked)
+        pygame.display.update()
+        time.sleep(0.025)
 
-            pygame.display.update()
-            time.sleep(0.025)
+# threading.Thread(target=run).start()
 
 
 class Button():
@@ -86,7 +68,7 @@ class Button():
         self.__enabled = True
         self.__last_click = time.time()
 
-        global_listener.add(self)
+        add(self)
 
     def connect(self, func, args=()):
         '''
@@ -120,13 +102,19 @@ class Button():
         return self.__text
 
     def delete(self):
-        global_listener.remove(self)
+        remove(self)
         del self
 
     def event_handle(self, cursor_pos: list, mouse_clicked: bool):
-        if self.__is_hover(cursor_pos):
+        h = self.__is_hover(cursor_pos)
+        if mouse_clicked:
+            print("clicked3", h, cursor_pos)
+        if h :
             self.__render(selected=True)
-            if mouse_clicked and self.__enabled and (time.time() - self.__last_click > BUTTON_COOL_DOWN_SEC):
+            if mouse_clicked:
+                print("clicked2")
+            if mouse_clicked and self.__enabled:# and (time.time() - self.__last_click > BUTTON_COOL_DOWN_SEC):
+                print("yes")
                 self.__last_click = time.time()
                 if len(self.__args) == 0:
                     self.__bind_func()
@@ -181,8 +169,6 @@ if __name__ == "__main__":
     # 初始化
     pygame.init()
     pygame.font.init()
-    screen = pygame.display.set_mode((800, 600))
-    init(screen)
     font = pygame.font.SysFont('Corbel', 35)
 
     # 以下為範例
@@ -214,4 +200,4 @@ if __name__ == "__main__":
     quit = Button(font, "quit", position=(400, 500), size=(200, 80))
     quit.connect(exit)
 
-    main_loop()
+    run()
