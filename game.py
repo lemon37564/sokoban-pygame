@@ -291,8 +291,11 @@ class Game():
         text = f"Score: {self.score}" 
         info_font.render_to(screen,(600 , 4) , text , (255,255,255) , None, size= 30)
 
-        text = f"Box_In_Goal: {self.player.Numberofbox_in_goal(self.all_objects)}" 
+        text = f"Box_In_Goal: {self.player.Numberofbox_in_goal(self.all_objects)}/{len(self.goals)}" 
         info_font.render_to(screen,(900 , 4) , text , (255,255,255) , None, size= 30)
+
+        text = f"Level: {self.level}" 
+        info_font.render_to(screen,(1200 , 4) , text , (255,255,255) , None, size= 30)
 
         
 
