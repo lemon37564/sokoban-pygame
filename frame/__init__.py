@@ -112,7 +112,7 @@ class Pause(Frame):
     def __init__(self):
         super().__init__(
             "Pause",
-            ["Resume", "Restart", "Exit", "Main Menu"],
+            ["Resume", "Restart", "Main Menu", "Exit"],
             [Option.RESUME, Option.RESTART, Option.TOMENU, Option.EXIT],
         )
 

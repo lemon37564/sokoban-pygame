@@ -44,7 +44,6 @@ class Game():
     """
 
     def __init__(self, level, debug=False):
-        self.to_menu =False
         self.ticker = pygame.time.Clock()  # 控制fps的物件
         self.background = (230, 230, 200)  # 背景顏色
         self.level = level

@@ -6,9 +6,8 @@ import parameter
 import sounds
 
 import window
+
 logging.basicConfig(format="%(levelname)s: %(message)s", level=logging.DEBUG)
-
-
 pygame.font.init()
 
 screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
@@ -113,7 +112,7 @@ start_btn = window.Button(font=bigfont, text="start game", position=(width/2, he
 start_btn.connect(submenu)
 
 tutorial_btn = window.Button(font=bigfont, text="tutorial", position=(width/2, height/3+220), size=(400, 80))
-tutorial_btn.connect(start_game, args=(0,))
+tutorial_btn.connect(start_game, args=(maps.TUTORIAL,))
 
 exit_btn = window.Button(font=bigfont, text="quit", position=(width/2, height/3+340), size=(400, 80))
 exit_btn.connect(pygame.quit)
