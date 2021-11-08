@@ -1,5 +1,4 @@
 import time
-import threading
 
 import pygame
 import pygame.event, pygame.mouse, pygame.display
@@ -54,8 +53,6 @@ def run():
 
         pygame.display.update()
         time.sleep(0.025)
-
-threading.Thread(target=run).start()
 
 def set_background_color(color):
     global __bg_color

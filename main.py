@@ -94,16 +94,16 @@ level_8_btn.connect(start_game, args=(8,))
 level_9_btn = window.Button(font=smallfont, text="Level 9", position=(H3, V3), size=LEVEL_BTN_SIZE)
 level_9_btn.connect(start_game, args=(9,))
 
-random_6x6_btn = window.Button(font=smallfont, text="6x6 random level", position=(H2, V3+120), size=(width/2, 60))
+random_6x6_btn = window.Button(font=smallfont, text="6x6 random level", position=(H2, V3+100), size=(width/2, 60))
 random_6x6_btn.connect(start_game, args=(maps.RANDOM_6X6,))
 
-random_7x7_btn = window.Button(font=smallfont, text="7x7 random level", position=(H2, V3+200), size=(width/2, 60))
+random_7x7_btn = window.Button(font=smallfont, text="7x7 random level", position=(H2, V3+180), size=(width/2, 60))
 random_7x7_btn.connect(start_game, args=(maps.RANDOM7X7,))
 
-random_8x8_btn = window.Button(font=smallfont, text="8x8 random level", position=(H2, V3+280), size=(width/2, 60))
+random_8x8_btn = window.Button(font=smallfont, text="8x8 random level", position=(H2, V3+260), size=(width/2, 60))
 random_8x8_btn.connect(start_game, args=(maps.RANDOM8X8,))
 
-back_menu_btn = window.Button(font=smallfont, text="back", position=(H2, V3+400), size=(width/2, 60))
+back_menu_btn = window.Button(font=smallfont, text="back", position=(H2, V3+340), size=(width/2, 60))
 back_menu_btn.connect(menu)
 
 sub_menu_btns = [level_1_btn, level_2_btn, level_3_btn, level_4_btn, level_5_btn, level_6_btn,
@@ -113,7 +113,7 @@ start_btn = window.Button(font=bigfont, text="start game", position=(width/2, he
 start_btn.connect(submenu)
 
 tutorial_btn = window.Button(font=bigfont, text="tutorial", position=(width/2, height/3+220), size=(400, 80))
-tutorial_btn.connect(start_game, args=(0, 0))
+tutorial_btn.connect(start_game, args=(0,))
 
 exit_btn = window.Button(font=bigfont, text="quit", position=(width/2, height/3+340), size=(400, 80))
 exit_btn.connect(pygame.quit)
@@ -127,5 +127,6 @@ img_player = pygame.image.load('data/img/menu/PlayerThreeRight.png')
 img_player = pygame.transform.scale(img_player, (140, 140))
 window.show_image(img_player, (400, 500))
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     menu()
+    window.run()
