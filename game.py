@@ -333,15 +333,15 @@ class Game():
         # tutorial SS
         if self.level == maps.TUTORIAL:
             tutorial_text_0 = "<遊戲教學>"
-            tutorial_text_1 = "這是一個密室逃脫"
+            tutorial_text_1 = "這是一個密室逃脫遊戲"
             tutorial_text_2 = "要逃離這個房間必須把箱子推進格子"
             tutorial_text_4 = "這個藍藍的裝置是傳送器"
             tutorial_text_5 =" 踏進去能跳躍到別的房間"
             tutorial_text_6 = "要小心警衛！被摸到就完了!"
             tutorial_text_7 = "但別擔心，你並非手無寸鐵"
-            tutorial_text_8 = "按下空白鍵能開槍"
+            tutorial_text_8 = "按下空白鍵能射出手裡劍"
             tutorial_text_9 = "只要推進一個箱子就能補充彈藥"
-            tutorial_text_10 = "遇上警衛就請他吃子彈吧!"
+            tutorial_text_10 = "遇上警衛就請他吃手裡劍吧!"
             tutorial_text_11 = "牆的隔壁就是警衛"
             tutorial_text_12="準備好就傳送吧"
             tutorial_text_13 = "一共有9道謎題"
@@ -349,38 +349,38 @@ class Game():
             tutorial_text_15 = "祝你好運:D"
 
             tutorial_text_0 = self.display_font.render(tutorial_text_0, True, (0, 0, 0))
-            screen.blit(tutorial_text_0, (WIN_WIDTH/2 - 700, WIN_HEIGHT/3 -220))
+            screen.blit(tutorial_text_0, (WIN_WIDTH/2 - 500, WIN_HEIGHT/3 -220))
             tutorial_text_1 = self.display_font.render(tutorial_text_1, True, (0, 0, 0))
-            screen.blit(tutorial_text_1, (WIN_WIDTH/2 - 500, WIN_HEIGHT/3 -195))
+            screen.blit(tutorial_text_1, (WIN_WIDTH/2 - 300, WIN_HEIGHT/3 -220))
             tutorial_text_2 = self.display_font.render(tutorial_text_2, True, (0, 0, 0))
-            screen.blit(tutorial_text_2, (WIN_WIDTH/2 - 200, WIN_HEIGHT/3 -220))
+            screen.blit(tutorial_text_2, (WIN_WIDTH/2 - 140, WIN_HEIGHT/3 -280))
             tutorial_text_4 = self.display_font.render(tutorial_text_4, True, (0, 0, 0))
-            screen.blit(tutorial_text_4, (WIN_WIDTH/2 - 120, WIN_HEIGHT/3  -100))
+            screen.blit(tutorial_text_4, (WIN_WIDTH/2 +120 , WIN_HEIGHT/3  -180))
             tutorial_text_5 = self.display_font.render(tutorial_text_5, True, (0, 0, 0))
-            screen.blit(tutorial_text_5, (WIN_WIDTH/2 - 550, WIN_HEIGHT/3  -70))
+            screen.blit(tutorial_text_5, (WIN_WIDTH/2 - 350, WIN_HEIGHT/3  -130))
 
             tutorial_text_6 = self.display_font.render(tutorial_text_6, True, (0, 0, 0))
-            screen.blit(tutorial_text_6, (WIN_WIDTH/2 - 650, WIN_HEIGHT/3 +10 ))
+            screen.blit(tutorial_text_6, (WIN_WIDTH/2 - 450, WIN_HEIGHT/3 +10 ))
             tutorial_text_7 = self.display_font.render(tutorial_text_7, True, (0, 0, 0))
-            screen.blit(tutorial_text_7, (WIN_WIDTH/2 - 650, WIN_HEIGHT/3 +50 ))
+            screen.blit(tutorial_text_7, (WIN_WIDTH/2 - 450, WIN_HEIGHT/3 +50 ))
             tutorial_text_8 = self.display_font.render(tutorial_text_8, True, (0, 0, 0))
-            screen.blit(tutorial_text_8, (WIN_WIDTH/2 - 650, WIN_HEIGHT/3 +75 ))
+            screen.blit(tutorial_text_8, (WIN_WIDTH/2 - 450, WIN_HEIGHT/3 +75 ))
             tutorial_text_9 = self.display_font.render(tutorial_text_9, True, (0, 0, 0))
-            screen.blit(tutorial_text_9, (WIN_WIDTH/2 - 650, WIN_HEIGHT/3 +100 ))
+            screen.blit(tutorial_text_9, (WIN_WIDTH/2 - 450, WIN_HEIGHT/3 +100 ))
 
             tutorial_text_10 = self.display_font.render(tutorial_text_10, True, (0, 0, 0))
-            screen.blit(tutorial_text_10, (WIN_WIDTH/2 - 50, WIN_HEIGHT/3 +10 ))
+            screen.blit(tutorial_text_10, (WIN_WIDTH/2 + 150, WIN_HEIGHT/3 +10 ))
             tutorial_text_11 = self.display_font.render(tutorial_text_11, True, (0, 0, 0))
-            screen.blit(tutorial_text_11, (WIN_WIDTH/2 - 50, WIN_HEIGHT/3 +50 ))
+            screen.blit(tutorial_text_11, (WIN_WIDTH/2 + 150, WIN_HEIGHT/3 +50 ))
             tutorial_text_12 = self.display_font.render(tutorial_text_12, True, (0, 0, 0))
-            screen.blit(tutorial_text_12, (WIN_WIDTH/2 -50, WIN_HEIGHT/3 +100 ))
+            screen.blit(tutorial_text_12, (WIN_WIDTH/2 +150, WIN_HEIGHT/3 +100 ))
 
             tutorial_text_13 = self.display_font.render(tutorial_text_13, True, (0, 0, 0))
-            screen.blit(tutorial_text_13, (WIN_WIDTH/2 -450, WIN_HEIGHT/3 +350 ))
+            screen.blit(tutorial_text_13, (WIN_WIDTH/2 -450, WIN_HEIGHT/3 +380 ))
             tutorial_text_14 = self.display_font.render(tutorial_text_14, True, (0, 0, 0))
-            screen.blit(tutorial_text_14, (WIN_WIDTH/2 -350, WIN_HEIGHT/3 +410 ))
+            screen.blit(tutorial_text_14, (WIN_WIDTH/2 -300, WIN_HEIGHT/3 +470 ))
             tutorial_text_15 = self.display_font.render(tutorial_text_15, True, (0, 0, 0))
-            screen.blit(tutorial_text_15, (WIN_WIDTH/2 -50, WIN_HEIGHT/3 +340 ))
+            screen.blit(tutorial_text_15, (WIN_WIDTH/2 +150, WIN_HEIGHT/3 +380 ))
 
     def restart(self):
         self.Timer.__init__()
