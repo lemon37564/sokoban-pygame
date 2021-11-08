@@ -1,15 +1,25 @@
 import pygame.image
 import pygame.transform
 import pygame.sprite
+import element
 
 from element.obj import Object, ObjectID
 from element import direction
 import parameter
 
-imgs = []
+imgs = list()
+left_imgs = list()
+idle = list()
+left_idle_imgs = list()
 for i in range(8):
-    img = pygame.image.load(f"data/img/spike/spike_{i}.png").convert_alpha()
+    img = pygame.image.load(f"data/img/enemy/enemy_right_{i}.png").convert_alpha()
     imgs.append(img)
+    left_imgs.append(pygame.transform.flip(img , True ,False))
+
+    img = pygame.image.load(f"data/img/enemy/enemy_idle_{i}.png").convert_alpha()
+    idle.append(img)
+    left_idle_imgs.append(pygame.transform.flip(img , True ,False))
+    
 
 class Guard(Object):
     def __init__(self, x, y):
@@ -25,6 +35,7 @@ class Guard(Object):
 
         current = direction.random_dir()
         self.set_dir(current)
+
 
     def set_dir(self, dir):
         self.__dir = dir
@@ -95,7 +106,10 @@ class Guard(Object):
         return False
 
     def __img(self):
-        return imgs[self.__anime_index]
+        if self.__dir == direction.LEFT:
+            return left_imgs[int(self.__anime_index)]
+        else:
+            return imgs[int(self.__anime_index)]
 
 
 if __name__ == "__main__":
