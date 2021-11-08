@@ -46,13 +46,14 @@ def run():
                 return
 
             mouse_clicked = mouse_clicked or (event.type == pygame.MOUSEBUTTONDOWN)
+        try:
+            for widget in __widgets:
+                cursor_pos = pygame.mouse.get_pos()
+                widget.event_handle(cursor_pos, mouse_clicked)
 
-        for widget in __widgets:
-            cursor_pos = pygame.mouse.get_pos()
-            widget.event_handle(cursor_pos, mouse_clicked)
-
-        pygame.display.update()
-        time.sleep(0.015)
+            pygame.display.update()
+            time.sleep(0.015)
+        except:break
 
 def set_background_color(color):
     global __bg_color
