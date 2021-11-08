@@ -3,18 +3,6 @@ import time
 import pygame
 import pygame.event, pygame.mouse, pygame.display
 
-def init(pygame_screen):
-    '''call after pygame.init() and pass pygame.screen into this function'''
-    global screen
-    screen = pygame_screen
-    
-    global global_listener
-    global_listener = EventListener()
-
-def main_loop():
-    '''after created all the buttons, call this function'''
-    global_listener.start()
-
 
 BTN_COLOR = (167, 147, 0) # 按鈕背景顏色
 BTN_SELECTED_COLOR = (255, 255, 20) # 選中的按鈕的顏色
@@ -23,48 +11,57 @@ BTN_DISABLED_COLOR = (80, 80, 80)
 COLOR_BLACK = (0, 0, 0)
 COLOR_GRAY = (50, 50, 50)
 
-BUTTON_FLOAT_BIAS = 5
+MAX_BIAS = 6
+BIAS_MOVE = 2
 
 BUTTON_COOL_DOWN_SEC = 0.5
 
+screen = pygame.display.set_mode((800, 600))
 
-class EventListener():
-    """
-    自動管理，不須操作此物件
-    """
-    def __init__(self):
-        self.__widgets = list()
-        self.__running = False
+global __widgets
+__widgets = list()
+global __bg_color
+__bg_color = (0, 0, 0)
+global __show_imgs
+__show_imgs = dict()
 
-    def add(self, widget):
-        self.__widgets.append(widget)
+def add(widget):
+    __widgets.append(widget)
 
-    def remove(self, widget):
-        self.__widgets.remove(widget)
+def remove(widget):
+    __widgets.remove(widget)
 
-    def start(self):
-        self.__running = True
-        self.__main_loop()
+def run():
+    while True:
+        screen.fill(__bg_color)
 
-    def stop(self):
-        self.__running = False
+        for img, pos in __show_imgs.items():
+            screen.blit(img, pos)
 
-    def __main_loop(self):
-        while self.__running:
-            
-            screen.fill((200, 200, 200))
-            for widget in self.__widgets:
-                for event in pygame.event.get():
-                    if event.type == pygame.QUIT:
-                        pygame.quit()
-                        return
+        mouse_clicked = False
+        events = pygame.event.get()
+        for event in events:
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                return
 
-                    mouse_clicked = (event.type == pygame.MOUSEBUTTONDOWN)
-                cursor_pos = pygame.mouse.get_pos()
-                widget.event_handle(cursor_pos, mouse_clicked)
+            mouse_clicked = mouse_clicked or (event.type == pygame.MOUSEBUTTONDOWN)
 
-            pygame.display.update()
-            time.sleep(0.025)
+        for widget in __widgets:
+            cursor_pos = pygame.mouse.get_pos()
+            widget.event_handle(cursor_pos, mouse_clicked)
+
+        pygame.display.update()
+        time.sleep(0.025)
+
+def set_background_color(color):
+    global __bg_color
+    __bg_color = color
+
+def show_image(img: pygame.Surface, position: tuple):
+    width, height = img.get_size()
+    pos_x, pos_y = position
+    __show_imgs[img] = (pos_x - width/2, pos_y - height/2)
 
 
 class Button():
@@ -84,9 +81,11 @@ class Button():
         self.__bind_func = None
         self.__args = None
         self.__enabled = True
+        self.__hide = False
         self.__last_click = time.time()
+        self.__bias = 0
 
-        global_listener.add(self)
+        add(self)
 
     def connect(self, func, args=()):
         '''
@@ -105,6 +104,12 @@ class Button():
         '''make the button not sensitive'''
         self.__enabled = False
 
+    def hide(self):
+        self.__hide = True
+
+    def unhide(self):
+        self.__hide = False
+
     def set_position(self, position: tuple):
         '''set the center position of the button'''
         center_x, center_y = position
@@ -120,12 +125,17 @@ class Button():
         return self.__text
 
     def delete(self):
-        global_listener.remove(self)
+        remove(self)
         del self
 
     def event_handle(self, cursor_pos: list, mouse_clicked: bool):
+        if self.__hide:
+            return
         if self.__is_hover(cursor_pos):
             self.__render(selected=True)
+            self.__bias += BIAS_MOVE # 模擬動畫效果，以逐漸的方式移動
+            if self.__bias > MAX_BIAS:
+                self.__bias = MAX_BIAS
             if mouse_clicked and self.__enabled and (time.time() - self.__last_click > BUTTON_COOL_DOWN_SEC):
                 self.__last_click = time.time()
                 if len(self.__args) == 0:
@@ -134,6 +144,9 @@ class Button():
                     self.__bind_func(*self.__args)
         else:
             self.__render(selected=False)
+            self.__bias -= BIAS_MOVE # 模擬動畫效果，以逐漸的方式移動
+            if self.__bias < 0:
+                self.__bias = 0
         
     def __render(self, selected: bool):
         if not self.__enabled:
@@ -146,16 +159,15 @@ class Button():
 
     def __is_hover(self, cursor_pos: list) -> bool:
         if not self.__enabled:
-            return False
-
+            return False 
         cursor_x, cursor_y = cursor_pos[0], cursor_pos[1]
-        return self.__pos_x <= cursor_x <= self.__pos_x + self.__width and \
-            self.__pos_y <= cursor_y <= self.__pos_y + self.__height
+        return self.__pos_x <= cursor_x and cursor_x <= self.__pos_x + self.__width and \
+            self.__pos_y <= cursor_y and cursor_y <= self.__pos_y + self.__height
 
     def __draw(self, button_color, float_: bool):
         if float_:
             center_x, center_y = self.__center
-            center = (center_x - BUTTON_FLOAT_BIAS, center_y - BUTTON_FLOAT_BIAS)
+            center = (center_x - self.__bias, center_y - self.__bias)
         else:
             center = self.__center
 
@@ -181,8 +193,6 @@ if __name__ == "__main__":
     # 初始化
     pygame.init()
     pygame.font.init()
-    screen = pygame.display.set_mode((800, 600))
-    init(screen)
     font = pygame.font.SysFont('Corbel', 35)
 
     # 以下為範例
@@ -213,5 +223,4 @@ if __name__ == "__main__":
 
     quit = Button(font, "quit", position=(400, 500), size=(200, 80))
     quit.connect(exit)
-
-    main_loop()
+    run()

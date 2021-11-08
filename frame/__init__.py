@@ -16,7 +16,7 @@ class Option(enum.Enum):
 
 pygame.font.init()
 title_font = pygame.font.Font(parameter.TITLE_FONT, 200)
-button_font = pygame.font.Font(parameter.BTN_FONT, 48)
+button_font = pygame.font.Font(parameter.INFO_FONT, 48)
 
 color_black = (0, 0, 0)
 color_gray = (50, 50, 50)
@@ -102,8 +102,8 @@ class Loss(Frame):
     def __init__(self):
         super().__init__(
             "Failed",
-            ["Retry", "Exit"],
-            [Option.RESTART, Option.EXIT],
+            ["Retry", "Main Menu", "Exit"],
+            [Option.RESTART, Option.TOMENU, Option.EXIT],
         )
 
 
@@ -112,8 +112,8 @@ class Pause(Frame):
     def __init__(self):
         super().__init__(
             "Pause",
-            ["Resume", "Restart", "Exit","TO Menu"],
-            [Option.RESUME, Option.RESTART, Option.EXIT,Option.TOMENU],
+            ["Resume", "Restart", "Main Menu", "Exit"],
+            [Option.RESUME, Option.RESTART, Option.TOMENU, Option.EXIT],
         )
 
 
@@ -122,6 +122,6 @@ class Victory(Frame):
     def __init__(self):
         super().__init__(
             "Victory",
-            ["Next  Level", "Restart", "Exit"],
-            [Option.NEXTLEVEL, Option.RESTART, Option.EXIT],
+            ["Next  Level", "Restart", "Main Menu", "Exit"],
+            [Option.NEXTLEVEL, Option.RESTART, Option.TOMENU, Option.EXIT],
         )

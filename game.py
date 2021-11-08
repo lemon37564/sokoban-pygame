@@ -43,12 +43,10 @@ class Game():
     debug時不啟用mask
     """
 
-    def __init__(self, level, random_level_size=5,debug=False):
-        self.to_menu =False
+    def __init__(self, level, debug=False):
         self.ticker = pygame.time.Clock()  # 控制fps的物件
         self.background = (230, 230, 200)  # 背景顏色
         self.level = level
-        self.random_level_size=random_level_size#variable to control random level generation
         self.build_world()
         self.key_cooldown = time.time()
         self.state = GameState.PLAYING # 初始狀態為playing
@@ -102,15 +100,14 @@ class Game():
                 self.loss()
             elif self.state == GameState.TOMENU:
                 self.Timer.pause()
-                #pygame.quit()
-                return"game_to_menu"
+                return
 
             self.info_show() # 印出畫面資訊
             pygame.display.update()
             self.ticker.tick(60)  # 60 fps
 
         pygame.quit()
-        return"game_quit"
+        return
 
     def pause(self):
         # 背景色
@@ -205,7 +202,7 @@ class Game():
         self.walls = pygame.sprite.Group()
         self.portals = pygame.sprite.Group()
         self.grounds = pygame.sprite.Group()
-        self.map_ = maps.get_map(self.level,self.random_level_size)
+        self.map_ = maps.get_map(self.level)
 
         initialList =  self.CountInitialPoint()
         x , y = initialList[0] , initialList[1]
@@ -391,5 +388,5 @@ class Game():
 
 
 if __name__ == "__main__":
-    game = Game(level=0, random_level_size=6, debug=True)
+    game = Game(level=0, debug=True)
     game.run_game()

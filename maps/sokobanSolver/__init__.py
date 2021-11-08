@@ -312,12 +312,16 @@ def generateRandomLevel6X6():
     map_raw_1.append("#")
     map_raw_1.append("#")
     #WRITE FILE
-    f = open('sokobanLevels/'+'randomlevel.txt', 'w')
+
+    s = []
     for i in range(6):
+        line = ""
         for j in range(6):
-            f.write(map_raw_1[i*6+j])
-        if(i<5):f.write('\n')
-    f.close()
+            line += map_raw_1[i*6+j]
+        if i < 5:
+            line += "\n"
+        s.append(line)
+    return s
 
 def generateRandomLevel7X7():
     
@@ -382,14 +386,16 @@ def generateRandomLevel7X7():
     map_raw_1.append("#")
     
     #WRTIE
-    f = open('sokobanLevels/'+'randomlevel.txt', 'w')
+    s = []
     for i in range(7):
+        line = ""
         for j in range(7):
+            line += map_raw_1[i*7+j]
+        if i < 6:
+            line += "\n"
+        s.append(line)
+    return s
 
-            f.write(map_raw_1[i*7+j])
-        if(i<6):f.write('\n')
-    
-    f.close()
 def generateRandomLevel8X8():
     
     character_pos=random.sample(range(36), 17)
@@ -456,15 +462,17 @@ def generateRandomLevel8X8():
     map_raw_1.append("#")
     map_raw_1.append("#")
     #WRTIE
-    f = open('sokobanLevels/'+'randomlevel.txt', 'w')
+    s = []
     for i in range(8):
+        line = ""
         for j in range(8):
+            line += map_raw_1[i*8+j]
+        if i < 7:
+            line += "\n"
+        s.append(line)
+    return s
 
-            f.write(map_raw_1[i*8+j])
-        if(i<7):f.write('\n')
-    
-    f.close()
-def generate(map_size:int):#6 for 6x6,8 for 8x8
+def generate(map_size: int):#6 for 6x6,8 for 8x8
     if map_size==6:
         generate_function=generateRandomLevel6X6
     elif  map_size==7:
@@ -474,14 +482,12 @@ def generate(map_size:int):#6 for 6x6,8 for 8x8
     solvable=False
     method='astar'
     while not solvable:
-        generate_function()
+        layout = generate_function()
         time_start = time.time()
         #layout, method = readCommand(sys.argv[1:]).values()
         #print(type(layout[0]))
         #print(method)
     
-        with open('sokobanLevels/'+'randomlevel.txt',"r") as f: 
-            layout = f.readlines()
         print(layout)
         solution=[]
         gameState = transferToGameState(layout)
@@ -510,8 +516,9 @@ def generate(map_size:int):#6 for 6x6,8 for 8x8
                 if len(solution)>14:
                     break
     time_end=time.time()
+    return layout
 
     #print('Runtime of %s: %.2f second.' %(method, time_end-time_start))
-generate
+
 if __name__ == '__main__':
     generate(8)
