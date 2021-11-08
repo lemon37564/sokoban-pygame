@@ -12,7 +12,7 @@ COLOR_BLACK = (0, 0, 0)
 COLOR_GRAY = (50, 50, 50)
 
 MAX_BIAS = 6
-BIAS_MOVE = 2
+BIAS_MOVE = 1
 
 BUTTON_COOL_DOWN_SEC = 0.5
 
@@ -46,15 +46,13 @@ def run():
                 return
 
             mouse_clicked = mouse_clicked or (event.type == pygame.MOUSEBUTTONDOWN)
-        try:
-            for widget in __widgets:
 
-                cursor_pos = pygame.mouse.get_pos()
-                widget.event_handle(cursor_pos, mouse_clicked)
-            pygame.display.update()
-            time.sleep(0.025)
-        except:break
-        
+        for widget in __widgets:
+            cursor_pos = pygame.mouse.get_pos()
+            widget.event_handle(cursor_pos, mouse_clicked)
+
+        pygame.display.update()
+        time.sleep(0.015)
 
 def set_background_color(color):
     global __bg_color
