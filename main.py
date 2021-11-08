@@ -21,7 +21,7 @@ smallfont = pygame.font.Font(parameter.INFO_FONT, 35)
 bigfont = pygame.font.Font(parameter.INFO_FONT, 55)
 
 text_random_level_in_progress = bigfont.render('Level generation in progress... ', True, (0, 0, 0))
-text_2 = bigfont.render("for 8x8 maps this may take up to a minute", True, (0, 0, 0))
+text_2 = bigfont.render("this may take up to a minute", True, (0, 0, 0))
 
 
 def menu():
@@ -51,7 +51,7 @@ def start_game(level_selected):
     
     if maps.level_is_random(level_selected):
         screen.blit(text_random_level_in_progress, (width/2-350, height/3+20))
-        screen.blit(text_2, (width/2-450, height/3+90))
+        screen.blit(text_2, (width/2-350, height/3+90))
         pygame.display.update()
 
     g = game.Game(level=level_selected, debug=False)
