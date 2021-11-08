@@ -102,8 +102,8 @@ class Loss(Frame):
     def __init__(self):
         super().__init__(
             "Failed",
-            ["Retry", "Exit"],
-            [Option.RESTART, Option.EXIT],
+            ["Retry", "Main Menu", "Exit"],
+            [Option.RESTART, Option.TOMENU, Option.EXIT],
         )
 
 
@@ -112,8 +112,8 @@ class Pause(Frame):
     def __init__(self):
         super().__init__(
             "Pause",
-            ["Resume", "Restart", "Exit","Main Menu"],
-            [Option.RESUME, Option.RESTART, Option.EXIT,Option.TOMENU],
+            ["Resume", "Restart", "Exit", "Main Menu"],
+            [Option.RESUME, Option.RESTART, Option.TOMENU, Option.EXIT],
         )
 
 
@@ -122,6 +122,6 @@ class Victory(Frame):
     def __init__(self):
         super().__init__(
             "Victory",
-            ["Next  Level", "Restart", "Exit"],
-            [Option.NEXTLEVEL, Option.RESTART, Option.EXIT],
+            ["Next  Level", "Restart", "Main Menu", "Exit"],
+            [Option.NEXTLEVEL, Option.RESTART, Option.TOMENU, Option.EXIT],
         )

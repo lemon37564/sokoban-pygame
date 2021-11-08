@@ -1,7 +1,7 @@
-import time
 import game
 import logging
 import pygame
+import maps
 import parameter
 import sounds
 
@@ -45,19 +45,17 @@ def hide_everything():
         btn.hide()
     window.set_background_color((200, 200, 0))
 
-def start_game(level_selected, random_level_size):
+def start_game(level_selected):
     hide_everything()
     screen.fill((210, 200, 200))
     
-    if(level_selected > 999):
+    if maps.level_is_random(level_selected):
         screen.blit(text_random_level_in_progress, (width/2-350, height/3+20))
         screen.blit(text_2, (width/2-450, height/3+90))
         pygame.display.update()
-        g = game.Game(level=level_selected, random_level_size=random_level_size, debug=False)
-        g.run_game()
-    else:  # normal level 1 to 9
-        g = game.Game(level=level_selected, random_level_size=random_level_size, debug=False)
-        g.run_game()
+
+    g = game.Game(level=level_selected, debug=False)
+    g.run_game()
    
     menu()
     sounds.stop_everything()
@@ -69,41 +67,41 @@ V1, V2, V3 = height/3, height/3+80, height/3+160
 H1, H2, H3 = width/2-350, width/2, width/2+350
 
 level_1_btn = window.Button(font=smallfont, text="Level 1", position=(H1, V1), size=LEVEL_BTN_SIZE)
-level_1_btn.connect(start_game, args=(1, 0))
+level_1_btn.connect(start_game, args=(1,))
 
 level_2_btn = window.Button(font=smallfont, text="Level 2", position=(H1, V2), size=LEVEL_BTN_SIZE)
-level_2_btn.connect(start_game, args=(2, 0))
+level_2_btn.connect(start_game, args=(2,))
 
 level_3_btn = window.Button(font=smallfont, text="Level 3", position=(H1, V3), size=LEVEL_BTN_SIZE)
-level_3_btn.connect(start_game, args=(3, 0))
+level_3_btn.connect(start_game, args=(3,))
 
 level_4_btn = window.Button(font=smallfont, text="Level 4", position=(H2, V1), size=LEVEL_BTN_SIZE)
-level_4_btn.connect(start_game, args=(4, 0))
+level_4_btn.connect(start_game, args=(4,))
 
 level_5_btn = window.Button(font=smallfont, text="Level 5", position=(H2, V2), size=LEVEL_BTN_SIZE)
-level_5_btn.connect(start_game, args=(5, 0))
+level_5_btn.connect(start_game, args=(5,))
 level_5_btn.hide()
 
 level_6_btn = window.Button(font=smallfont, text="Level 6", position=(H2, V3), size=LEVEL_BTN_SIZE)
-level_6_btn.connect(start_game, args=(6, 0))
+level_6_btn.connect(start_game, args=(6,))
 
 level_7_btn = window.Button(font=smallfont, text="Level 7", position=(H3, V1), size=LEVEL_BTN_SIZE)
-level_7_btn.connect(start_game, args=(7, 0))
+level_7_btn.connect(start_game, args=(7,))
 
 level_8_btn = window.Button(font=smallfont, text="Level 8", position=(H3, V2), size=LEVEL_BTN_SIZE)
-level_8_btn.connect(start_game, args=(8, 0))
+level_8_btn.connect(start_game, args=(8,))
 
 level_9_btn = window.Button(font=smallfont, text="Level 9", position=(H3, V3), size=LEVEL_BTN_SIZE)
-level_9_btn.connect(start_game, args=(9, 0))
+level_9_btn.connect(start_game, args=(9,))
 
 random_6x6_btn = window.Button(font=smallfont, text="6x6 random level", position=(H2, V3+120), size=(width/2, 60))
-random_6x6_btn.connect(start_game, args=(1000, 6))
+random_6x6_btn.connect(start_game, args=(maps.RANDOM_6X6,))
 
 random_7x7_btn = window.Button(font=smallfont, text="7x7 random level", position=(H2, V3+200), size=(width/2, 60))
-random_7x7_btn.connect(start_game, args=(1000, 7))
+random_7x7_btn.connect(start_game, args=(maps.RANDOM7X7,))
 
 random_8x8_btn = window.Button(font=smallfont, text="8x8 random level", position=(H2, V3+280), size=(width/2, 60))
-random_8x8_btn.connect(start_game, args=(1000, 8))
+random_8x8_btn.connect(start_game, args=(maps.RANDOM8X8,))
 
 back_menu_btn = window.Button(font=smallfont, text="back", position=(H2, V3+400), size=(width/2, 60))
 back_menu_btn.connect(menu)
