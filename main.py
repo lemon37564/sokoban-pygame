@@ -24,40 +24,18 @@ text_random_level_in_progress = bigfont.render('Level generation in progress... 
 text_2 = bigfont.render("for 8x8 maps this may take up to a minute", True, (0, 0, 0))
 
 
-def page_1():
-    level_1_btn.hide()
-    level_2_btn.hide()
-    level_3_btn.hide()
-    level_4_btn.hide()
-    level_5_btn.hide()
-    level_6_btn.hide()
-    level_7_btn.hide()
-    level_8_btn.hide()
-    level_9_btn.hide()
-    random_6x6_btn.hide()
-    random_7x7_btn.hide()
-    random_8x8_btn.hide()
-    start_btn.unhide()
-    tutorial_btn.unhide()
-    exit_btn.unhide()
+def menu():
+    for btn in level_btns:
+        btn.hide()
+    for btn in home_page_btn:
+        btn.unhide()
     window.set_background_color((210, 200, 200))
 
-def page_2():
-    level_1_btn.unhide()
-    level_2_btn.unhide()
-    level_3_btn.unhide()
-    level_4_btn.unhide()
-    level_5_btn.unhide()
-    level_6_btn.unhide()
-    level_7_btn.unhide()
-    level_8_btn.unhide()
-    level_9_btn.unhide()
-    random_6x6_btn.unhide()
-    random_7x7_btn.unhide()
-    random_8x8_btn.unhide()
-    start_btn.hide()
-    tutorial_btn.hide()
-    exit_btn.hide()
+def submenu():
+    for btn in level_btns:
+        btn.unhide()
+    for btn in home_page_btn:
+        btn.hide()
     window.set_background_color((200, 200, 0))
 
 def hide_everything():
@@ -92,7 +70,7 @@ def start_game(level_selected, random_level_size):
         g = game.Game(level=level_selected, random_level_size=random_level_size, debug=False)
         g.run_game()
    
-    page_1()
+    menu()
     sounds.stop_everything()
 
 
@@ -149,8 +127,11 @@ random_8x8_btn = window.Button(font=smallfont, text="8x8 random level", position
 random_8x8_btn.connect(start_game, args=(1000, 8))
 random_8x8_btn.hide()
 
+level_btns = [level_1_btn, level_2_btn, level_3_btn, level_4_btn, level_5_btn,
+    level_6_btn, level_7_btn, level_8_btn, level_9_btn, random_6x6_btn, random_7x7_btn, random_8x8_btn]
+
 start_btn = window.Button(font=bigfont, text="start game", position=(width/2, height/3+100), size=(400, 80))
-start_btn.connect(page_2)
+start_btn.connect(submenu)
 start_btn.hide()
 
 tutorial_btn = window.Button(font=bigfont, text="tutorial", position=(width/2, height/3+220), size=(400, 80))
@@ -161,6 +142,8 @@ exit_btn = window.Button(font=bigfont, text="quit", position=(width/2, height/3+
 exit_btn.connect(pygame.quit)
 exit_btn.hide()
 
+home_page_btn = [start_btn, tutorial_btn, exit_btn]
+
 img_title = pygame.image.load('data/img/menu/gameTitle2.png')
 window.show_image(img_title, (width/2, height/5))
 
@@ -169,4 +152,4 @@ img_player = pygame.transform.scale(img_player, (140, 140))
 window.show_image(img_player, (400, 500))
 
 if __name__ == '__main__':
-    page_1()
+    menu()

@@ -109,7 +109,7 @@ class Game():
             self.ticker.tick(60)  # 60 fps
 
         pygame.quit()
-        return"game_quit"
+        return
 
     def pause(self):
         # 背景色
