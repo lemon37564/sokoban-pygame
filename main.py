@@ -53,7 +53,7 @@ def start_game(level_selected):
         screen.blit(text_2, (width/2-350, height/3+90))
         pygame.display.update()
 
-    g = game.Game(level=level_selected, debug=False)
+    g = game.Game(level=level_selected, debug=True)
     g.run_game()
    
     menu()
