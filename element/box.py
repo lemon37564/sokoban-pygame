@@ -26,6 +26,14 @@ class Box(Object):
 
     def move(self, delta_x: int, delta_y: int, all_objects: dict) -> bool:
         """回傳bool表示是否有移動"""
+        if delta_x > 0:
+            delta_x = parameter.IMG_SIZE
+        elif delta_x < 0:
+            delta_x = -parameter.IMG_SIZE
+        if delta_y > 0:
+            delta_y = parameter.IMG_SIZE
+        elif delta_y < 0:
+            delta_y = -parameter.IMG_SIZE
         super().move(delta_x, delta_y)
         if self.__is_collide(all_objects):
             super().move(-delta_x, -delta_y)

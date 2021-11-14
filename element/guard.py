@@ -43,7 +43,7 @@ class Guard(Object):
 
     def update(self, all_objects: dict):
         """更新"""
-        self.__anime_index = (self.__anime_index + 1) % len(imgs)
+        self.__anime_index = self.__anime_index + 0.3
         super().set_img(self.__img())
 
         if self.__sleep < parameter.GUARD_SLEEP:
@@ -107,9 +107,9 @@ class Guard(Object):
 
     def __img(self):
         if self.__dir == direction.LEFT:
-            return left_imgs[int(self.__anime_index)]
+            return left_imgs[int(self.__anime_index) % len(left_imgs)]
         else:
-            return imgs[int(self.__anime_index)]
+            return imgs[int(self.__anime_index) % len(imgs)]
 
 
 if __name__ == "__main__":
