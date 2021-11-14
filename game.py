@@ -230,6 +230,7 @@ class Game():
                 self.grounds.add(element.Ground(x,y))
             elif char == "P":
                 self.portals.add(element.Portal(x, y))
+                self.grounds.add(element.Ground(x,y))
             elif char == "@":  # 玩家（初始）位置
                 self.player = element.Player(x, y)
                 self.grounds.add(element.Ground(x,y))
