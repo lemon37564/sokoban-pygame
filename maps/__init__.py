@@ -24,8 +24,21 @@ HHHHH                  HHH
 HHHHHHHHHHHHHHHHHHHH !HHHH
 HHHHHHHHHHHHHHHHHHHHHHHHHH
  """,
-
-    # map 1
+  # map 1 Portal required 
+ """
+HH#####H
+###   #H
+#.  $ #H
+### $@#H
+#.##$ #H
+#$#P. ##
+# $. $.#
+#P$ . .#
+##  ####
+HHHHHHHH
+"""
+    ,
+   # map 2
     """
 HHHHHHHHHHHHHHHHHHHHHHHHHH
 H########################H
@@ -42,7 +55,7 @@ H########################H
 HHHHHHHHHHHHHHHHHHHHHHHHHH
 """,
 
-    # map 2
+      # map 3
     """
 HHHHHHHHHHHHHHHHHHHHH
 H          !#!      H
@@ -61,7 +74,7 @@ H   #   #   #   #  !H
 HHHHHHHHHHHHHHHHHHHHH
 """,
 
-    # map 3
+    # map 4
     """
 HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH
 H##################################H
@@ -80,7 +93,7 @@ H##################################H
 HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH
 """,
 
-    # map 4
+  # map 5
     """
 HHHHHHHHHHHHHHHHHHHHHHHHH
 H #####  #  ####.$     .H
@@ -97,7 +110,7 @@ H!     !   #   !   #  ! H
 HHHHHHHHHHHHHHHHHHHHHHHHH
 """,
 
-    # map 5
+    # map 6
     """
 HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH
 H@     ##   #      #    # # # #     H
@@ -114,7 +127,7 @@ H      #      #     #      #   #.   H
 HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH
 """,
 
-    # map 6
+       # map 7
     """
 HHHHHHHHHHHHHHHHHHHHHHHHH
 H! ##  #! ##  !        !H
@@ -133,7 +146,7 @@ H    !      ##         !H
 HHHHHHHHHHHHHHHHHHHHHHHHH
 """,
 
-    # map 7
+ # map 8
     """
 HHHHHHHHHHHHHHHHHHHHHHH
 H.... #@###    # !   %H
@@ -153,7 +166,7 @@ H!         #!     #!  H
 HHHHHHHHHHHHHHHHHHHHHHH
 """,
 
-    # map 8
+    # map 9
     """
 HHHHHHHHHHHHHHHHHHHHHHH
 H!            !     !#H
@@ -172,7 +185,7 @@ H##########  !   #   @H
 HHHHHHHHHHHHHHHHHHHHHHH
 """,
 
-    # map 9
+    # map 10
     """
 HHHHHHHHHHHHHHHHHHHHHHHH
 H###...########  ######H
