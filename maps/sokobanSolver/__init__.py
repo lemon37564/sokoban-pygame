@@ -136,7 +136,7 @@ def isFailed(posBox,posGoals,posWalls):
 
 """Implement all approcahes"""
 
-def breadthFirstSearch(gameState):
+def breadthFirstSearch(gameState,posGoals,posWalls,solution):
     """Implement breadthFirstSearch approach"""
     beginBox = PosOfBoxes(gameState)
     beginPlayer = PosOfPlayer(gameState)
@@ -147,18 +147,24 @@ def breadthFirstSearch(gameState):
     exploredSet = set()
     while frontier:
         node = frontier.popleft()
-        node_action = actions.popleft() 
-        if isEndState(node[-1][-1]):
+        
+        node_action = actions.popleft()
+        if(type(node)==bool):
+            return "not solvable" 
+        if isEndState(node[-1][-1],posGoals):
             print(','.join(node_action[1:]).replace(',',''))
+            solution[:]=node_action[1:]
+            return "solvable"
             break
         if node[-1] not in exploredSet:
             exploredSet.add(node[-1])
-            for action in legalActions(node[-1][0], node[-1][1]):
+            for action in legalActions(node[-1][0], node[-1][1],posWalls):
                 newPosPlayer, newPosBox = updateState(node[-1][0], node[-1][1], action)
-                if isFailed(newPosBox):
+                if isFailed(newPosBox,posGoals,posWalls):
                     continue
                 frontier.append(node + [(newPosPlayer, newPosBox)])
                 actions.append(node_action + [action[-1]])
+    return "not solvable" 
 
 def depthFirstSearch(gameState):
     """Implement depthFirstSearch approach"""
@@ -263,6 +269,7 @@ def aStarSearch(gameState,posGoals,posWalls,solution):
                 Heuristic = heuristic(newPosPlayer, newPosBox,posGoals)
                 frontier.push(node + [(newPosPlayer, newPosBox)], Heuristic + Cost) 
                 actions.push(node_action + [action[-1]], Heuristic + Cost)
+    return "not solvable" 
         
 
 def generateRandomLevel6X6():
@@ -515,10 +522,68 @@ def generate(map_size: int):#6 for 6x6,8 for 8x8
             if map_size==8:
                 if len(solution)>14:
                     break
-    time_end=time.time()
+        time_end=time.time()
+        print('Runtime of %s: %.2f second.' %(method, time_end-time_start))
     return layout
 
-    #print('Runtime of %s: %.2f second.' %(method, time_end-time_start))
+
+def evaluate_different_methods(map_size: int):#6 for 6x6,8 for 8x8
+    if map_size==6:
+        generate_function=generateRandomLevel6X6
+    elif  map_size==7:
+        generate_function=generateRandomLevel7X7
+    elif  map_size==8:
+        generate_function=generateRandomLevel8X8
+    solvable=False
+   
+    while not solvable:
+        layout = generate_function()
+        #astar search
+        time_start = time.time()
+      
+    
+        print(layout)
+        solution=[]
+        gameState = transferToGameState(layout)
+        posWalls = PosOfWalls(gameState)
+        posGoals = PosOfGoals(gameState)
+        
+        result=aStarSearch(gameState,posGoals,posWalls,solution)
+       
+        #depthFirstSearch(gameState)
+        
+        #breadthFirstSearch(gameState)
+        
+        #result=uniformCostSearch(gameState,posGoals,posWalls)
+        
+
+        print(result)
+        time_end=time.time()
+        print('Runtime of %s: %.2f second.' %('astar', time_end-time_start))
+
+        #bfs
+        time_start = time.time()
+        solution=[]
+        gameState = transferToGameState(layout)
+        posWalls = PosOfWalls(gameState)
+        posGoals = PosOfGoals(gameState)
+        result=breadthFirstSearch(gameState,posGoals,posWalls,solution)
+        print(result)
+        time_end=time.time()
+        print('Runtime of %s: %.2f second.' %('bfs', time_end-time_start))
+
+        if(result=='solvable'):
+            if map_size==6:
+                if len(solution)>5:
+                    break
+            if map_size==7:
+                if len(solution)>15:
+                    break
+            if map_size==8:
+                if len(solution)>14:
+                    break
+        
+    return layout
 
 if __name__ == '__main__':
-    generate(8)
+    evaluate_different_methods(8)
