@@ -205,7 +205,18 @@ H#### $.###  $$$    ...H
 H####   .## $       ...H
 HHHHHHHHHHHHHHHHHHHHHHHH
 """
-
+,
+#map 11, random 8x8 map 
+"""
+HHHHHHHHH
+H  #   #H
+H @ $ ##H
+H$    ##H
+H.# ##.#H
+H     $#H
+H. #   #H
+HHHHHHHHH
+"""
 ]
 
 # 扣掉第0關

@@ -487,7 +487,7 @@ def generate(map_size: int):#6 for 6x6,8 for 8x8
     elif  map_size==8:
         generate_function=generateRandomLevel8X8
     solvable=False
-    method='astar'
+    method='bfs'
     while not solvable:
         layout = generate_function()
         time_start = time.time()
@@ -505,7 +505,7 @@ def generate(map_size: int):#6 for 6x6,8 for 8x8
         elif method == 'dfs':
             depthFirstSearch(gameState)
         elif method == 'bfs':
-            breadthFirstSearch(gameState)
+            result=breadthFirstSearch(gameState,posGoals,posWalls,solution)
         elif method == 'ucs':
             result=uniformCostSearch(gameState,posGoals,posWalls)
         else:
