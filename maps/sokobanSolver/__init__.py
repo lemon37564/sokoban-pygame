@@ -272,7 +272,7 @@ def aStarSearch(gameState,posGoals,posWalls,solution):
     return "not solvable" 
         
 
-def generateRandomLevel6X6():
+def generateRandomLevel6X6():#2 goals
     character_pos=random.sample(range(16), 13)
     map_raw=[
              ' ',' ',' ',' ',
@@ -330,7 +330,7 @@ def generateRandomLevel6X6():
         s.append(line)
     return s
 
-def generateRandomLevel7X7():
+def generateRandomLevel7X7():#2 goals 
     
     character_pos=random.sample(range(25), 15)
   
@@ -403,7 +403,7 @@ def generateRandomLevel7X7():
         s.append(line)
     return s
 
-def generateRandomLevel8X8():
+def generateRandomLevel8X8():#3 goals
     
     character_pos=random.sample(range(36), 17)
   
@@ -480,16 +480,26 @@ def generateRandomLevel8X8():
     return s
 
 def generate(map_size: int):#6 for 6x6,8 for 8x8
+    overall_time_start=time.time()
+    number_of_goals=-1
+    size=-1
     if map_size==6:
         generate_function=generateRandomLevel6X6
+        number_of_goals=2
+        size=6
     elif  map_size==7:
         generate_function=generateRandomLevel7X7
+        number_of_goals=2
+        size=7
     elif  map_size==8:
         generate_function=generateRandomLevel8X8
+        number_of_goals=3
+        size=8
     solvable=False
     method='bfs'
     while not solvable:
         layout = generate_function()
+        if(not check_unreachable_goal(layout,number_of_goals,size)):continue
         time_start = time.time()
         #layout, method = readCommand(sys.argv[1:]).values()
         #print(type(layout[0]))
@@ -524,10 +534,61 @@ def generate(map_size: int):#6 for 6x6,8 for 8x8
                     break
         time_end=time.time()
         print('Runtime of %s: %.2f second.' %(method, time_end-time_start))
+    overall_time_end=time.time()
+    print('Overall run time for %dx%d map generation: %.2f seconds.' %(map_size,map_size, overall_time_end-overall_time_start))
+    
     return layout
 
-
+def check_unreachable_goal(s:[],number_of_goals:int,size:int):
+    
+    for i in range(size):
+        for j in range(size):
+                if (s[i][j]=='.'):
+                    #surrounded by 4 walls 
+                    if(
+                        s[i][j-1]=='#'
+                    and s[i][j+1]=='#'
+                    and s[i-1][j]=='#'
+                    and s[i+1][j]=='#'
+                    ):
+                        return False
+                    #surrounded by 3 walls
+                    elif(s[i][j-1]=='#'
+                    and s[i][j+1]=='#'
+                    and s[i-1][j]=='#'):
+                        return False
+                    elif(s[i][j-1]=='#'
+                    and s[i][j+1]=='#'
+                    and s[i+1][j]=='#'):
+                        return False
+                    elif( s[i][j-1]=='#'
+                    and s[i-1][j]=='#'
+                    and s[i+1][j]=='#'):
+                        return False
+                    elif( s[i][j+1]=='#'
+                    and s[i-1][j]=='#'
+                    and s[i+1][j]=='#'):
+                        return False
+                    
+                    #in a corner
+                    elif( s[i][j-1]=='#'
+                    and s[i-1][j]=='#'):
+                        return False
+                    
+                    elif( s[i-1][j]=='#'
+                    and s[i][j+1]=='#'):
+                        return False
+                    
+                    elif( s[i][j+1]=='#'
+                    and s[i+1][j]=='#'):
+                        return False
+                    
+                    elif( s[i+1][j]=='#'
+                    and s[i][j-1]=='#'):
+                        return False
+    return True
 def evaluate_different_methods(map_size: int):#6 for 6x6,8 for 8x8
+    overall_time_start=time.time()
     if map_size==6:
         generate_function=generateRandomLevel6X6
     elif  map_size==7:
@@ -582,8 +643,14 @@ def evaluate_different_methods(map_size: int):#6 for 6x6,8 for 8x8
             if map_size==8:
                 if len(solution)>14:
                     break
-        
+    overall_time_end=time.time()
+    print('Overall run time for %dx%d map generation: %.2f seconds.' %(map_size,map_size, overall_time_end-overall_time_start))
+    
     return layout
 
 if __name__ == '__main__':
-    evaluate_different_methods(8)
+    generate(8)
+    #test map with an unreachable goal
+
+    
+    #print(check_unreachable_goal(s,3,8))

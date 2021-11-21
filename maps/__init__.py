@@ -228,6 +228,17 @@ H   .###H
 H. $  ##H
 HHHHHHHHH
 """
+,#map 13 random 8x8 map 
+"""
+HHHHHHHHH
+H@ # # #H
+H..$   #H
+H  $   #H
+H  #  ##H
+H$  ####H
+H  .   #H
+HHHHHHHHH
+"""
 ]
 
 # 扣掉第0關

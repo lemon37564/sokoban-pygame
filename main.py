@@ -66,10 +66,10 @@ V1, V2, V3 = height/3, height/3+80, height/3+160
 H1, H2, H3 = width/2-350, width/2, width/2+350
 
 level_1_btn = window.Button(font=smallfont, text="Level 1", position=(H1, V1), size=LEVEL_BTN_SIZE)
-level_1_btn.connect(start_game, args=(11,))
+level_1_btn.connect(start_game, args=(1,))
 
 level_2_btn = window.Button(font=smallfont, text="Level 2", position=(H1, V2), size=LEVEL_BTN_SIZE)
-level_2_btn.connect(start_game, args=(2,))
+level_2_btn.connect(start_game, args=(13,))
 
 level_3_btn = window.Button(font=smallfont, text="Level 3", position=(H1, V3), size=LEVEL_BTN_SIZE)
 level_3_btn.connect(start_game, args=(3,))
