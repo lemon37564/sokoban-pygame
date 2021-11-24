@@ -543,7 +543,7 @@ def check_unreachable_goal(s:[],number_of_goals:int,size:int):
     
     for i in range(size):
         for j in range(size):
-                if (s[i][j]=='.'):
+                if (s[i][j]=='B'):
                     #surrounded by 4 walls 
                     if(
                         s[i][j-1]=='#'
@@ -649,8 +649,20 @@ def evaluate_different_methods(map_size: int):#6 for 6x6,8 for 8x8
     return layout
 
 if __name__ == '__main__':
-    generate(8)
+    generate(6)
     #test map with an unreachable goal
-
-    
-    #print(check_unreachable_goal(s,3,8))
+    '''
+    s=['######\n',
+ '#### #\n',
+ '#B  ##\n',
+ '##.&##\n',
+ '# . B#\n',
+ '######']
+ '''
+    s=['######\n',
+    '##B ##\n',
+    '##.# #\n', 
+    '## . #\n',
+    '# B#&#\n',
+    '######']
+    #print(check_unreachable_goal(s,3,6))
