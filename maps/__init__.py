@@ -239,6 +239,17 @@ H$  ####H
 H  .   #H
 HHHHHHHHH
 """
+,#map 14 random 8x8 map
+"""
+HHHHHHHH
+H ##   H
+H      H
+HH.  H.H
+H @ $$ H
+H   $  H
+H #. # H
+HHHHHHHH
+"""
 ]
 
 # 扣掉第0關

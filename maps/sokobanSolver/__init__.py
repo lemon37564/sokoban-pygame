@@ -412,19 +412,19 @@ def generateRandomLevel8X8():#3 goals
         map_raw.append(' ')
     map_raw[character_pos[0]] ='#'
     map_raw[character_pos[1]]='.'
-    map_raw[character_pos[2]]=' '
-    map_raw[character_pos[3]]=' '
+    map_raw[character_pos[2]]='#'
+    map_raw[character_pos[3]]='#'
     map_raw[character_pos[4]]='B'
     map_raw[character_pos[5]]='#'
     map_raw[character_pos[6]]='#'
-    map_raw[character_pos[7]]='#'
-    map_raw[character_pos[8]]='#'
+    map_raw[character_pos[7]]=' '
+    map_raw[character_pos[8]]=' '
     map_raw[character_pos[9]] ='#'
     map_raw[character_pos[10]]='.'
     map_raw[character_pos[12]]='.'
     map_raw[character_pos[13]]='B'
     map_raw[character_pos[14]]='B'
-    map_raw[character_pos[15]]='#'
+    map_raw[character_pos[15]]=' '
     map_raw[character_pos[16]]='&'
     map_raw_1=["#","#","#","#","#","#",'#','#']
     #ROW 1
@@ -586,6 +586,14 @@ def check_unreachable_goal(s:[],number_of_goals:int,size:int):
                     elif( s[i+1][j]=='#'
                     and s[i][j-1]=='#'):
                         return False
+                elif (s[i][j]=='.'):
+                    #surrounded by 4 walls 
+                    if(
+                        s[i][j-1]=='#'
+                    and s[i][j+1]=='#'
+                    and s[i-1][j]=='#'
+                    and s[i+1][j]=='#'):
+                        return False
     return True
 def evaluate_different_methods(map_size: int):#6 for 6x6,8 for 8x8
     overall_time_start=time.time()
@@ -649,7 +657,7 @@ def evaluate_different_methods(map_size: int):#6 for 6x6,8 for 8x8
     return layout
 
 if __name__ == '__main__':
-    generate(6)
+    generate(8)
     #test map with an unreachable goal
     '''
     s=['######\n',
