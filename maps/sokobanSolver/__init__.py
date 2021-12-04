@@ -543,49 +543,49 @@ def check_unreachable_goal(s:[],number_of_goals:int,size:int):
     
     for i in range(size):
         for j in range(size):
-                if (s[i][j]=='B'):
+            if (s[i][j]=='B'):
                     #surrounded by 4 walls 
-                    if(
+                if(
                         s[i][j-1]=='#'
                     and s[i][j+1]=='#'
                     and s[i-1][j]=='#'
                     and s[i+1][j]=='#'
-                    ):
-                        return False
+                ):
+                    return False
                     #surrounded by 3 walls
-                    elif(s[i][j-1]=='#'
+                elif(s[i][j-1]=='#'
                     and s[i][j+1]=='#'
                     and s[i-1][j]=='#'):
-                        return False
-                    elif(s[i][j-1]=='#'
+                    return False
+                elif(s[i][j-1]=='#'
                     and s[i][j+1]=='#'
                     and s[i+1][j]=='#'):
-                        return False
-                    elif( s[i][j-1]=='#'
+                    return False
+                elif( s[i][j-1]=='#'
                     and s[i-1][j]=='#'
                     and s[i+1][j]=='#'):
-                        return False
-                    elif( s[i][j+1]=='#'
+                    return False
+                elif( s[i][j+1]=='#'
                     and s[i-1][j]=='#'
                     and s[i+1][j]=='#'):
-                        return False
+                    return False
                     
                     #in a corner
-                    elif( s[i][j-1]=='#'
+                elif( s[i][j-1]=='#'
                     and s[i-1][j]=='#'):
-                        return False
+                    return False
                     
-                    elif( s[i-1][j]=='#'
+                elif( s[i-1][j]=='#'
                     and s[i][j+1]=='#'):
-                        return False
+                    return False
                     
-                    elif( s[i][j+1]=='#'
+                elif( s[i][j+1]=='#'
                     and s[i+1][j]=='#'):
-                        return False
+                    return False
                     
-                    elif( s[i+1][j]=='#'
+                elif( s[i+1][j]=='#'
                     and s[i][j-1]=='#'):
-                        return False
+                    return False
                 elif (s[i][j]=='.'):
                     #surrounded by 4 walls 
                     if(

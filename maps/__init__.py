@@ -249,6 +249,38 @@ H @ $$ H
 H   $  H
 H #. # H
 HHHHHHHH
+""",
+#map 15 random 8x8
+"""
+HHHHHHHHH
+H # .  #H
+H  $$ @#H
+H  $.  #H
+H  #   #H
+H  #  ##H
+H ##  .#H
+HHHHHHHHH
+""",
+#map 16 easy demo map
+"""
+HHHHHHHH
+H  .  #H
+H@$####H
+H#   ##H
+H# # ##H
+H.$   #H
+HHHHHHHH
+""",
+#map 17 not solvable map for demo 
+"""
+HHHHHHHH
+H    ##H
+H      H
+H.$ $  H
+H#  $ #H
+H. #   H
+HHH .@ H
+HHHHHHHH
 """
 ]
 

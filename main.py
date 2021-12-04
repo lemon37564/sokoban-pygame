@@ -53,7 +53,7 @@ def start_game(level_selected):
         screen.blit(text_2, (width/2-350, height/3+90))
         pygame.display.update()
 
-    g = game.Game(level=level_selected, debug=False)
+    g = game.Game(level=level_selected, debug=True)
     g.run_game()
    
     menu()
@@ -78,20 +78,20 @@ level_4_btn = window.Button(font=smallfont, text="Level 4", position=(H2, V1), s
 level_4_btn.connect(start_game, args=(14,))
 
 level_5_btn = window.Button(font=smallfont, text="Level 5", position=(H2, V2), size=LEVEL_BTN_SIZE)
-level_5_btn.connect(start_game, args=(5,))
+level_5_btn.connect(start_game, args=(2,))
 level_5_btn.hide()
 
 level_6_btn = window.Button(font=smallfont, text="Level 6", position=(H2, V3), size=LEVEL_BTN_SIZE)
 level_6_btn.connect(start_game, args=(6,))
 
 level_7_btn = window.Button(font=smallfont, text="Level 7", position=(H3, V1), size=LEVEL_BTN_SIZE)
-level_7_btn.connect(start_game, args=(7,))
+level_7_btn.connect(start_game, args=(17,))#not solvable demo
 
 level_8_btn = window.Button(font=smallfont, text="Level 8", position=(H3, V2), size=LEVEL_BTN_SIZE)
-level_8_btn.connect(start_game, args=(8,))
+level_8_btn.connect(start_game, args=(15,))#hard 8x8
 
 level_9_btn = window.Button(font=smallfont, text="Level 9", position=(H3, V3), size=LEVEL_BTN_SIZE)
-level_9_btn.connect(start_game, args=(9,))
+level_9_btn.connect(start_game, args=(16,))#easy 8x8
 
 random_6x6_btn = window.Button(font=smallfont, text="6x6 random level", position=(H2, V3+100), size=(width/2, 60))
 random_6x6_btn.connect(start_game, args=(maps.RANDOM_6X6,))
