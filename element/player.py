@@ -56,7 +56,11 @@ class Player(Object):
         self.set_img(self.__img())
         self.rect = self.image.get_rect()
         self.rect.center = (x, y)
-
+        
+        self.__last_movement_time=time.time()
+        self.__moving=False
+        self.__ticker=0
+        self.__movement_direction=direction.LEFT
     def set_img_dir(self, direction):
         self.__img_dir = direction
         self.set_img(self.__img())
@@ -65,6 +69,7 @@ class Player(Object):
         return self.__real_dir
 
     def update(self, all_objects) -> PlayerState:
+
         self.__anime_index += 0.25
 
         if self.isdead():
@@ -75,11 +80,11 @@ class Player(Object):
         elif self.is_won(all_objects):
             return PlayerState.WON
 
+        
         keys = pygame.key.get_pressed()
+        
         self.handle_keys(keys, all_objects)
-
         return PlayerState.IN_GAME
-
     def Numberofbox_in_goal(self , all_objects): #檢查在終點的箱子數量
         self.__goal_box = 0
         for box in all_objects[ObjectID.BOX]:
@@ -90,36 +95,67 @@ class Player(Object):
 
     def handle_keys(self, keys, all_objects: dict) -> None:
         # movement
+        time_since_last_movement=time.time()- self.__last_movement_time
+        if(time_since_last_movement<0.8 and self.__moving):
+            if(self.__ticker<10):
+                # movement
+                if (self.__movement_direction==direction.UP):
+                    self.move(0, -parameter.PLAYER_VELOCITY/10, all_objects)
+                    self.set_img(self.__img())
+                    self.__real_dir = direction.UP
+                elif (self.__movement_direction==direction.DOWN):
+                    self.move(0, parameter.PLAYER_VELOCITY/10, all_objects)
+                    self.set_img(self.__img())
+                    self.__real_dir = direction.DOWN
+                elif(self.__movement_direction==direction.LEFT):
+                    self.move(-parameter.PLAYER_VELOCITY/10, 0, all_objects)
+                    self.set_img_dir(direction.LEFT)
+                    self.__real_dir = direction.LEFT
+                elif (self.__movement_direction==direction.RIGHT):
+                    self.move(parameter.PLAYER_VELOCITY/10, 0, all_objects)
+                    self.set_img_dir(direction.RIGHT)
+                    self.__real_dir = direction.RIGHT
+                else:
+                    if self.__img_dir == direction.LEFT:
+                        self.set_img(idle_left_imgs[int(self.__anime_index) % 10])
+                    else:
+                        self.set_img(idle_right_imgs[int(self.__anime_index) % 10])
+                self.__ticker+=1
+                 
+            else:
+                self.__ticker=0
+                self.__moving=False
+            return
+        
+        # assign movement direction
         if keys[pygame.K_UP]:
-            self.move(0, -parameter.PLAYER_VELOCITY, all_objects)
-            self.set_img(self.__img())
-            self.__real_dir = direction.UP
+            self.__movement_direction=direction.UP
+            self.__last_movement_time=time.time()
+            self.__moving=True
         elif keys[pygame.K_DOWN]:
-            self.move(0, parameter.PLAYER_VELOCITY, all_objects)
-            self.set_img(self.__img())
-            self.__real_dir = direction.DOWN
+            self.__movement_direction=direction.DOWN
+            self.__last_movement_time=time.time()
+            self.__moving=True
         elif keys[pygame.K_LEFT]:
-            self.move(-parameter.PLAYER_VELOCITY, 0, all_objects)
-            self.set_img_dir(direction.LEFT)
-            self.__real_dir = direction.LEFT
+            self.__movement_direction=direction.LEFT
+            self.__last_movement_time=time.time()
+            self.__moving=True
         elif keys[pygame.K_RIGHT]:
-            self.move(parameter.PLAYER_VELOCITY, 0, all_objects)
-            self.set_img_dir(direction.RIGHT)
-            self.__real_dir = direction.RIGHT
+            self.__movement_direction=direction.RIGHT
+            self.__last_movement_time=time.time()
+            self.__moving=True
         else:
             if self.__img_dir == direction.LEFT:
                 self.set_img(idle_left_imgs[int(self.__anime_index) % 10])
             else:
                 self.set_img(idle_right_imgs[int(self.__anime_index) % 10])
-
         # attack
         if keys[pygame.K_SPACE]:
             if self.shoot():
                 sounds.shoot.play(sounds.LOOP_ONCE)
                 player_x, player_y = self.rect.center
                 all_objects[ObjectID.BULLET].add(
-                    element.bullet.Bullet(player_x, player_y, self.__real_dir))
-
+                    element.bullet.Bullet(player_x, player_y, self.__real_dir))    
     def isdead(self):
         return self.__isdead
 

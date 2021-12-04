@@ -72,6 +72,7 @@ class Game():
         self.Timer.start()
         self.in_game = True
         while self.in_game:
+            #pygame.key.set_repeat(5000,5000)
             # 基礎事件
             events = pygame.event.get()
             for event in events:

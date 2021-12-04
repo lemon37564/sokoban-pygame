@@ -20,7 +20,7 @@ INIT_BULLET_NUM = 10
 
 # 物體移動速度
 BULLET_VELOCITY = 10  # pixel
-PLAYER_VELOCITY = 4  # pixel
+PLAYER_VELOCITY = 50  # pixel
 GUARD_VELOCITY = 4
 GUARD_INERTIA = 45  # 警衛朝同一方向移動的時間（單位:frame）
 GUARD_SLEEP = 20  # 警衛變換方向時留在原地的時間（單位:frame）
