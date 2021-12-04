@@ -7,12 +7,12 @@ WIN_WIDTH, WIN_HEIGHT = pygame.display.Info().current_w, pygame.display.Info().c
 IMG_SIZE = 50  # pixel
 
 # 箱子
-BOX_SIZE = 28  # 箱子圖片大小
+BOX_SIZE =50  # 箱子圖片大小
 BOX_GAP = 50 # 箱子碰撞偵測距離
 BOX_OFFSET = (IMG_SIZE - BOX_SIZE) // 2  # 箱子顯示的偏移量
 
 # 傳送門
-PORTAL_SIZE = 45
+PORTAL_SIZE = 50
 PORTAL_DELAY = 4  # (frame)
 
 # 玩家

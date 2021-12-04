@@ -57,10 +57,10 @@ class Player(Object):
         self.rect = self.image.get_rect()
         self.rect.center = (x, y)
         
-        self.__last_movement_time=time.time()
-        self.__moving=False
-        self.__ticker=0
-        self.__movement_direction=direction.LEFT
+        self.__last_movement_time=time.time()#the last time that player has moved
+        self.__moving=False#is the player under a shifting animation?
+        self.__ticker=0#ticker that allows 10 frames of shifting animation
+        self.__movement_direction=direction.LEFT#direction to shift
     def set_img_dir(self, direction):
         self.__img_dir = direction
         self.set_img(self.__img())
@@ -94,10 +94,10 @@ class Player(Object):
         return self.__goal_box
 
     def handle_keys(self, keys, all_objects: dict) -> None:
-        # movement
+        #we only want the player to shift by a block no less than every .8 seconds
         time_since_last_movement=time.time()- self.__last_movement_time
         if(time_since_last_movement<0.8 and self.__moving):
-            if(self.__ticker<10):
+            if(self.__ticker<10):#we utilize a ticker, that allows to 10 frames of shifting movement
                 # movement
                 if (self.__movement_direction==direction.UP):
                     self.move(0, -parameter.PLAYER_VELOCITY/10, all_objects)
