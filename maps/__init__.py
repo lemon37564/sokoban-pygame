@@ -29,7 +29,7 @@ HHHHHHHHHHHHHHHHHHHHHHHHHH
 HH#####H
 ###   #H
 #.  $ #H
-###@$ #H
+### $@#H
 #.##$ #H
 #$#P. ##
 # $. $.#
