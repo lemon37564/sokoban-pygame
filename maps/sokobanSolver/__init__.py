@@ -111,31 +111,31 @@ def updateState(posPlayer, posBox, action):
 def isFailed(posBox,posGoals,posWalls):
     """This function used to observe if the state is potentially failed, then prune the search"""
     rotatePattern = [[0,1,2,3,4,5,6,7,8],
-    """
-    258
-    147
-    036
-    """
+    
+    #258
+    #147
+    #036
+    
                     [2,5,8,1,4,7,0,3,6],#rotate +90degrees from the x axis
-    """
-    876
-    543
-    210
-    """
+    
+    #876
+    #543
+    #210
+    
                     [0,1,2,3,4,5,6,7,8][::-1],#[::-1] 顺序相反操作
                     [2,5,8,1,4,7,0,3,6][::-1]]#[3::-1] 从下标为3（从0开始）的元素开始翻转读取
     flipPattern = [[2,1,0,5,4,3,8,7,6],#flipped upside down
-    """
-    036
-    147
-    258
-    """
+    
+    #036
+    #147
+    #258
+    
                     [0,3,6,1,4,7,2,5,8],
-    """
-    678
-    345
-    012
-    """
+
+    #678
+    #345
+    #012
+    
                     [2,1,0,5,4,3,8,7,6][::-1],
                     [0,3,6,1,4,7,2,5,8][::-1]]
     allPattern = rotatePattern + flipPattern
@@ -145,11 +145,7 @@ def isFailed(posBox,posGoals,posWalls):
             board = [(box[0] - 1, box[1] - 1), (box[0] - 1, box[1]), (box[0] - 1, box[1] + 1), #3*3=9
                     (box[0], box[1] - 1), (box[0], box[1]), (box[0], box[1] + 1), #original pos + 8 moves=9
                     (box[0] + 1, box[1] - 1), (box[0] + 1, box[1]), (box[0] + 1, box[1] + 1)]
-            """
-            258
-            147
-            036
-            """
+            
             for pattern in allPattern:
                 newBoard = [board[i] for i in pattern]
                 if newBoard[1] in posWalls and newBoard[5] in posWalls: return True
@@ -198,7 +194,7 @@ def breadthFirstSearch(gameState,posGoals,posWalls,solution):
         if(type(node)==bool):
             return "not solvable" 
         if isEndState(node[-1][-1],posGoals):
-            print(','.join(node_action[1:]).replace(',',''))
+            #print(','.join(node_action[1:]).replace(',',''))
             solution[:]=node_action[1:]
             return "solvable"
             break
@@ -463,14 +459,14 @@ def generateRandomLevel8X8():#3 goals
     map_raw[character_pos[4]]='B'
     map_raw[character_pos[5]]='#'
     map_raw[character_pos[6]]='#'
-    map_raw[character_pos[7]]=' '
-    map_raw[character_pos[8]]=' '
+    map_raw[character_pos[7]]='#'
+    map_raw[character_pos[8]]='#'
     map_raw[character_pos[9]] ='#'
     map_raw[character_pos[10]]='.'
     map_raw[character_pos[12]]='.'
     map_raw[character_pos[13]]='B'
     map_raw[character_pos[14]]='B'
-    map_raw[character_pos[15]]=' '
+    map_raw[character_pos[15]]='#'
     map_raw[character_pos[16]]='&'
     map_raw_1=["#","#","#","#","#","#",'#','#']
     #ROW 1
@@ -551,7 +547,7 @@ def generate(map_size: int):#6 for 6x6,8 for 8x8
         #print(type(layout[0]))
         #print(method)
     
-        print(layout)
+        #print(layout)
         solution=[]
         gameState = transferToGameState(layout)
         posWalls = PosOfWalls(gameState)
@@ -567,19 +563,32 @@ def generate(map_size: int):#6 for 6x6,8 for 8x8
         else:
             raise ValueError('Invalid method.')
 
-        print(result)
+        
+        #calculate number detours
+        char_holder='a'
+        detour_len=0
+        
+        
+        for c in solution:
+            if((c=='L'or c=='R' or c=='U' or c=='D')and c!=char_holder ):
+                detour_len+=1
+                char_holder=c
+        #print(detour_len)
         if(result=='solvable'):
             if map_size==6:
-                if len(solution)>5:
+                if len(solution)>5 and detour_len>3:
+                    print(detour_len)
                     break
             if map_size==7:
-                if len(solution)>15:
+                if len(solution)>5 and detour_len>4:
+                    print(detour_len)
                     break
             if map_size==8:
-                if len(solution)>14:
+                if len(solution)>5 and detour_len>4:
+                    print(detour_len)
                     break
         time_end=time.time()
-        print('Runtime of %s: %.2f second.' %(method, time_end-time_start))
+        #print('Runtime of %s: %.2f second.' %(method, time_end-time_start))
     overall_time_end=time.time()
     print('Overall run time for %dx%d map generation: %.2f seconds.' %(map_size,map_size, overall_time_end-overall_time_start))
     
@@ -590,7 +599,7 @@ def check_unreachable_goal(s:[],number_of_goals:int,size:int):
     for i in range(size):
         for j in range(size):
             if (s[i][j]=='B'):
-                    #surrounded by 4 walls 
+                    #box surrounded by 4 walls 
                 if(
                         s[i][j-1]=='#'
                     and s[i][j+1]=='#'
@@ -598,7 +607,7 @@ def check_unreachable_goal(s:[],number_of_goals:int,size:int):
                     and s[i+1][j]=='#'
                 ):
                     return False
-                    #surrounded by 3 walls
+                    #box surrounded by 3 walls
                 elif(s[i][j-1]=='#'
                     and s[i][j+1]=='#'
                     and s[i-1][j]=='#'):
@@ -616,7 +625,7 @@ def check_unreachable_goal(s:[],number_of_goals:int,size:int):
                     and s[i+1][j]=='#'):
                     return False
                     
-                    #in a corner
+                    #box in a corner
                 elif( s[i][j-1]=='#'
                     and s[i-1][j]=='#'):
                     return False
@@ -632,14 +641,23 @@ def check_unreachable_goal(s:[],number_of_goals:int,size:int):
                 elif( s[i+1][j]=='#'
                     and s[i][j-1]=='#'):
                     return False
-                elif (s[i][j]=='.'):
-                    #surrounded by 4 walls 
-                    if(
-                        s[i][j-1]=='#'
+            elif (s[i][j]=='.'):
+                #goal surrounded by 4 walls 
+                if(
+                    s[i][j-1]=='#'
                     and s[i][j+1]=='#'
                     and s[i-1][j]=='#'
                     and s[i+1][j]=='#'):
+                    return False
+            elif (s[i][j]==' '):
+                    #a space surrounded by walls or boxes
+                if(
+                        (s[i][j-1]=='#'or s[i][j-1]=='B')
+                    and (s[i][j+1]=='#'or s[i][j+1]=='B')
+                    and (s[i-1][j]=='#'or s[i-1][j]=='B')
+                    and (s[i+1][j]=='#'or s[i+1][j]=='B')):
                         return False
+
     return True
 def evaluate_different_methods(map_size: int):#6 for 6x6,8 for 8x8
     overall_time_start=time.time()
@@ -703,20 +721,13 @@ def evaluate_different_methods(map_size: int):#6 for 6x6,8 for 8x8
     return layout
 
 if __name__ == '__main__':
-    generate(8)
+    #print(generate(8))
     #test map with an unreachable goal
     '''
     s=['######\n',
- '#### #\n',
- '#B  ##\n',
- '##.&##\n',
- '# . B#\n',
- '######']
- '''
-    s=['######\n',
-    '##B ##\n',
-    '##.# #\n', 
-    '## . #\n',
-    '# B#&#\n',
-    '######']
-    #print(check_unreachable_goal(s,3,6))
+       '###  #\n',
+       '##.# #\n', 
+       '###  #\n',
+       '#  #&#\n',
+       '######']
+    print(check_unreachable_goal(s,3,6))'''
