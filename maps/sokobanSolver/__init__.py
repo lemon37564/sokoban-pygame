@@ -112,8 +112,8 @@ def isFailed(posBox,posGoals,posWalls):
     """This function used to observe if the state is potentially failed, then prune the search"""
     rotatePattern = [[0,1,2,3,4,5,6,7,8],
                     [2,5,8,1,4,7,0,3,6],
-                    [0,1,2,3,4,5,6,7,8][::-1],
-                    [2,5,8,1,4,7,0,3,6][::-1]]
+                    [0,1,2,3,4,5,6,7,8][::-1],#[::-1] 顺序相反操作
+                    [2,5,8,1,4,7,0,3,6][::-1]]#[3::-1] 从下标为3（从0开始）的元素开始翻转读取
     flipPattern = [[2,1,0,5,4,3,8,7,6],
                     [0,3,6,1,4,7,2,5,8],
                     [2,1,0,5,4,3,8,7,6][::-1],
@@ -121,17 +121,43 @@ def isFailed(posBox,posGoals,posWalls):
     allPattern = rotatePattern + flipPattern
 
     for box in posBox:
-        if box not in posGoals:
-            board = [(box[0] - 1, box[1] - 1), (box[0] - 1, box[1]), (box[0] - 1, box[1] + 1), 
-                    (box[0], box[1] - 1), (box[0], box[1]), (box[0], box[1] + 1), 
+        if box not in posGoals:#box is a 2d tuple (x,y)
+            board = [(box[0] - 1, box[1] - 1), (box[0] - 1, box[1]), (box[0] - 1, box[1] + 1), #3*3=9
+                    (box[0], box[1] - 1), (box[0], box[1]), (box[0], box[1] + 1), #original pos + 8 moves=9
                     (box[0] + 1, box[1] - 1), (box[0] + 1, box[1]), (box[0] + 1, box[1] + 1)]
+                    '''
+                    258
+                    147
+                    036
+                    '''
             for pattern in allPattern:
                 newBoard = [board[i] for i in pattern]
                 if newBoard[1] in posWalls and newBoard[5] in posWalls: return True
+                '''
+                 #
+                #! =>dead
+                '''
                 elif newBoard[1] in posBox and newBoard[2] in posWalls and newBoard[5] in posWalls: return True
+                '''
+                ##
+                b! =>dead
+                '''
                 elif newBoard[1] in posBox and newBoard[2] in posWalls and newBoard[5] in posBox: return True
+                '''
+                #b
+                b! =>dead
+                '''
                 elif newBoard[1] in posBox and newBoard[2] in posBox and newBoard[5] in posBox: return True
+                '''
+                bb
+                b! =>dead
+                '''
                 elif newBoard[1] in posBox and newBoard[6] in posBox and newBoard[2] in posWalls and newBoard[3] in posWalls and newBoard[8] in posWalls: return True
+                '''
+                b b
+                b!  =>dead
+                 bb
+                '''
     return False
 
 """Implement all approcahes"""
