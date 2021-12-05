@@ -145,39 +145,39 @@ def isFailed(posBox,posGoals,posWalls):
             board = [(box[0] - 1, box[1] - 1), (box[0] - 1, box[1]), (box[0] - 1, box[1] + 1), #3*3=9
                     (box[0], box[1] - 1), (box[0], box[1]), (box[0], box[1] + 1), #original pos + 8 moves=9
                     (box[0] + 1, box[1] - 1), (box[0] + 1, box[1]), (box[0] + 1, box[1] + 1)]
-                    '''
-                    258
-                    147
-                    036
-                    '''
+            """
+            258
+            147
+            036
+            """
             for pattern in allPattern:
                 newBoard = [board[i] for i in pattern]
                 if newBoard[1] in posWalls and newBoard[5] in posWalls: return True
-                '''
-                 #
-                #! =>dead
-                '''
+                
+                # w
+                #w! =>dead
+                
                 elif newBoard[1] in posBox and newBoard[2] in posWalls and newBoard[5] in posWalls: return True
-                '''
-                ##
-                b! =>dead
-                '''
+                
+                # ww
+                #b! =>dead
+                
                 elif newBoard[1] in posBox and newBoard[2] in posWalls and newBoard[5] in posBox: return True
-                '''
-                #b
-                b! =>dead
-                '''
+                    
+                #wb
+                #b! =>dead
+                
                 elif newBoard[1] in posBox and newBoard[2] in posBox and newBoard[5] in posBox: return True
-                '''
-                bb
-                b! =>dead
-                '''
+                    
+                #bb
+                #b! =>dead
+                    
                 elif newBoard[1] in posBox and newBoard[6] in posBox and newBoard[2] in posWalls and newBoard[3] in posWalls and newBoard[8] in posWalls: return True
-                '''
-                b b
-                b!  =>dead
-                 bb
-                '''
+                    
+                #b b
+                #b!  =>dead
+                #bb
+                  
     return False
 
 """Implement all approcahes"""
