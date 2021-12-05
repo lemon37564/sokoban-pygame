@@ -111,11 +111,31 @@ def updateState(posPlayer, posBox, action):
 def isFailed(posBox,posGoals,posWalls):
     """This function used to observe if the state is potentially failed, then prune the search"""
     rotatePattern = [[0,1,2,3,4,5,6,7,8],
-                    [2,5,8,1,4,7,0,3,6],
+    """
+    258
+    147
+    036
+    """
+                    [2,5,8,1,4,7,0,3,6],#rotate +90degrees from the x axis
+    """
+    876
+    543
+    210
+    """
                     [0,1,2,3,4,5,6,7,8][::-1],#[::-1] 顺序相反操作
                     [2,5,8,1,4,7,0,3,6][::-1]]#[3::-1] 从下标为3（从0开始）的元素开始翻转读取
-    flipPattern = [[2,1,0,5,4,3,8,7,6],
+    flipPattern = [[2,1,0,5,4,3,8,7,6],#flipped upside down
+    """
+    036
+    147
+    258
+    """
                     [0,3,6,1,4,7,2,5,8],
+    """
+    678
+    345
+    012
+    """
                     [2,1,0,5,4,3,8,7,6][::-1],
                     [0,3,6,1,4,7,2,5,8][::-1]]
     allPattern = rotatePattern + flipPattern
