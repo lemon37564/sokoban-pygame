@@ -272,16 +272,17 @@ H.$   #H
 HHHHHHHH
 """,
 #map 17 not solvable map for demo 
-"""
-HHHHHHHH
-H    ##H
-H      H
-H.$ $  H
-H#  $ #H
-H. #   H
-HHH .@ H
-HHHHHHHH
-""",#map 18 random map
+'''
+HHHHHHHHH
+H#     #H
+H   $. #H
+H#.#. ##H
+H @   ##H
+H $$#  #H
+H##   ##H
+HHHHHHHHH
+'''
+,#map 18 random map
 """
 HHHHHHHHH
 H@     #H
@@ -303,6 +304,30 @@ H  # $ #H
 H.   # #H
 HHHHHHHHH
 '''
+,
+#MAP 20 demo unsolvable map
+"""
+HHHHHHHH
+H    ##H
+H      H
+H.$ $  H
+H#  $ #H
+H. #   H
+HHH .@ H
+HHHHHHHH
+"""
+,
+#MAP 21demo unsolvable map 2
+"""
+########
+##   # #
+### $  #
+#@# .# #
+#  $#. #
+## $  ##
+#  .   #
+########
+"""
 ]
 
 # 扣掉第0關

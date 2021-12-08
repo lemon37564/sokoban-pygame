@@ -721,7 +721,7 @@ def evaluate_different_methods(map_size: int):#6 for 6x6,8 for 8x8
     return layout
 
 if __name__ == '__main__':
-    #print(generate(8))
+    print(generate(6))
     #test map with an unreachable goal
     '''
     s=['######\n',

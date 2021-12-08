@@ -85,7 +85,7 @@ level_6_btn = window.Button(font=smallfont, text="Level 6", position=(H2, V3), s
 level_6_btn.connect(start_game, args=(6,))
 
 level_7_btn = window.Button(font=smallfont, text="Level 7", position=(H3, V1), size=LEVEL_BTN_SIZE)
-level_7_btn.connect(start_game, args=(17,))#not solvable demo
+level_7_btn.connect(start_game, args=(21,))#not solvable demo
 
 level_8_btn = window.Button(font=smallfont, text="Level 8", position=(H3, V2), size=LEVEL_BTN_SIZE)
 level_8_btn.connect(start_game, args=(15,))#hard 8x8
