@@ -573,19 +573,21 @@ def generate(map_size: int):#6 for 6x6,8 for 8x8
             if((c=='L'or c=='R' or c=='U' or c=='D')and c!=char_holder ):
                 detour_len+=1
                 char_holder=c
-        #print(detour_len)
+        
         if(result=='solvable'):
+            
             if map_size==6:
                 if len(solution)>5 and detour_len>3:
-                    print(detour_len)
+                    print("detour_len:"+str(detour_len))
+                
                     break
             if map_size==7:
                 if len(solution)>5 and detour_len>4:
-                    print(detour_len)
+                    print("detour_len:"+str(detour_len))
                     break
             if map_size==8:
                 if len(solution)>5 and detour_len>4:
-                    print(detour_len)
+                    print("detour_len:"+str(detour_len))
                     break
         time_end=time.time()
         #print('Runtime of %s: %.2f second.' %(method, time_end-time_start))
@@ -721,7 +723,7 @@ def evaluate_different_methods(map_size: int):#6 for 6x6,8 for 8x8
     return layout
 
 if __name__ == '__main__':
-    print(generate(6))
+    print(generate(8))
     #test map with an unreachable goal
     '''
     s=['######\n',

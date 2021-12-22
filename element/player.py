@@ -10,6 +10,8 @@ import element.bullet
 import parameter
 import sounds
 
+
+
 import time
 
 # 初始化圖片
